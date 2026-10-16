@@ -1,0 +1,454 @@
+﻿TAP version 13
+# Subtest: A01 music waits for interaction and disabled preference prevents context creation
+ok 1 - A01 music waits for interaction and disabled preference prevents context creation
+  ---
+  duration_ms: 6.4774
+  type: 'test'
+  ...
+# Subtest: A02 platform mute dominates preference, and hidden pages stop scheduling
+ok 2 - A02 platform mute dominates preference, and hidden pages stop scheduling
+  ---
+  duration_ms: 8.3065
+  type: 'test'
+  ...
+# Subtest: A03 composition starts on fixed notes and cues never run while muted
+ok 3 - A03 composition starts on fixed notes and cues never run while muted
+  ---
+  duration_ms: 7.7215
+  type: 'test'
+  ...
+# Subtest: A04 pending resume cannot undo a newer mute and unavailable audio cannot crash play
+ok 4 - A04 pending resume cannot undo a newer mute and unavailable audio cannot crash play
+  ---
+  duration_ms: 1.9188
+  type: 'test'
+  ...
+# Subtest: A07 scene scores have distinct fixed melodies and platform mute still stops all arrangements
+ok 5 - A07 scene scores have distinct fixed melodies and platform mute still stops all arrangements
+  ---
+  duration_ms: 2.6506
+  type: 'test'
+  ...
+# Subtest: A08 every configured clue round uses the investigation score
+ok 6 - A08 every configured clue round uses the investigation score
+  ---
+  duration_ms: 1.1216
+  type: 'test'
+  ...
+# Subtest: H01 chat rejects markup links prohibited characters and common obfuscated profanity
+ok 7 - H01 chat rejects markup links prohibited characters and common obfuscated profanity
+  ---
+  duration_ms: 73.6526
+  type: 'test'
+  ...
+# Subtest: H02 each player gets one expiring bubble with exact cooldown and expiry boundaries
+ok 8 - H02 each player gets one expiring bubble with exact cooldown and expiry boundaries
+  ---
+  duration_ms: 6.7777
+  type: 'test'
+  ...
+# Subtest: H03 every active phase blocks player and spectator chat and clears prior messages
+ok 9 - H03 every active phase blocks player and spectator chat and clears prior messages
+  ---
+  duration_ms: 71.9803
+  type: 'test'
+  ...
+# Subtest: H04 chat sender identity comes from the authenticated connection
+ok 10 - H04 chat sender identity comes from the authenticated connection
+  ---
+  duration_ms: 63.4712
+  type: 'test'
+  ...
+# Subtest: E01 exactly one private suspicious role at supported sizes
+ok 11 - E01 exactly one private suspicious role at supported sizes
+  ---
+  duration_ms: 40.9089
+  type: 'test'
+  ...
+# Subtest: E02 exact turn and phase deadlines with two configured clue rounds
+ok 12 - E02 exact turn and phase deadlines with two configured clue rounds
+  ---
+  duration_ms: 1.5947
+  type: 'test'
+  ...
+# Subtest: E03 strict turn deadline and stale phase
+ok 13 - E03 strict turn deadline and stale phase
+  ---
+  duration_ms: 1.3607
+  type: 'test'
+  ...
+# Subtest: E04 each accepted clue is public immediately and cannot be changed
+ok 14 - E04 each accepted clue is public immediately and cannot be changed
+  ---
+  duration_ms: 1.1423
+  type: 'test'
+  ...
+# Subtest: E05 independently specified vote score cases
+ok 15 - E05 independently specified vote score cases
+  ---
+  duration_ms: 7.0414
+  type: 'test'
+  ...
+# Subtest: E06 finalization is idempotent and voting rejects self and spectators
+ok 16 - E06 finalization is idempotent and voting rejects self and spectators
+  ---
+  duration_ms: 0.864
+  type: 'test'
+  ...
+# Subtest: E07 abort awards nothing and rematch clears private inputs
+ok 17 - E07 abort awards nothing and rematch clears private inputs
+  ---
+  duration_ms: 1.2995
+  type: 'test'
+  ...
+# Subtest: E08 empty rounds finish and out of phase submissions fail
+ok 18 - E08 empty rounds finish and out of phase submissions fail
+  ---
+  duration_ms: 2.2092
+  type: 'test'
+  ...
+# Subtest: E09 category shared but private answer and answer IDs are absent
+ok 19 - E09 category shared but private answer and answer IDs are absent
+  ---
+  duration_ms: 1.2582
+  type: 'test'
+  ...
+# Subtest: E10 word aliases, abort reservation, reconnect, and exhaustion
+ok 20 - E10 word aliases, abort reservation, reconnect, and exhaustion
+  ---
+  duration_ms: 2.4747
+  type: 'test'
+  ...
+# Subtest: E11 explicit new session resets history and scores only outside active match
+ok 21 - E11 explicit new session resets history and scores only outside active match
+  ---
+  duration_ms: 4.0019
+  type: 'test'
+  ...
+# Subtest: disconnect grace boundary and host transfer
+ok 22 - disconnect grace boundary and host transfer
+  ---
+  duration_ms: 0.9691
+  type: 'test'
+  ...
+# Subtest: the second clue round reverses order and locks submitted clues
+ok 23 - the second clue round reverses order and locks submitted clues
+  ---
+  duration_ms: 1.6052
+  type: 'test'
+  ...
+# Subtest: E12 three player ballots catch escape and tie with exact individual scores
+ok 24 - E12 three player ballots catch escape and tie with exact individual scores
+  ---
+  duration_ms: 1.9562
+  type: 'test'
+  ...
+# Subtest: E13 duplicate names keep distinct stable numbers and original names
+ok 25 - E13 duplicate names keep distinct stable numbers and original names
+  ---
+  duration_ms: 0.9841
+  type: 'test'
+  ...
+# Subtest: N12 default server shares rooms across addresses and rejects a duplicate startup
+ok 26 - N12 default server shares rooms across addresses and rejects a duplicate startup
+  ---
+  duration_ms: 914.4087
+  type: 'test'
+  ...
+# Subtest: C01 local bypasses SDK and disabled or failed environments stay safe
+ok 27 - C01 local bypasses SDK and disabled or failed environments stay safe
+  ---
+  duration_ms: 12.0413
+  type: 'test'
+  ...
+# Subtest: C02 genuine gameplay lifecycle deduplicates repeated snapshots
+ok 28 - C02 genuine gameplay lifecycle deduplicates repeated snapshots
+  ---
+  duration_ms: 2.9875
+  type: 'test'
+  ...
+# Subtest: C03 guest and platform display metadata changes never establish backend identity
+ok 29 - C03 guest and platform display metadata changes never establish backend identity
+  ---
+  duration_ms: 2.3062
+  type: 'test'
+  ...
+# Subtest: C04 invites, live joins, capacity, disconnection and same room rematch
+ok 30 - C04 invites, live joins, capacity, disconnection and same room rematch
+  ---
+  duration_ms: 58.2027
+  type: 'test'
+  ...
+# Subtest: C05 settings propagation is covered but final clue behavior remains an external gate
+ok 31 - C05 settings propagation is covered but final clue behavior remains an external gate
+  ---
+  duration_ms: 1.2468
+  type: 'test'
+  ...
+# Subtest: C06 Basic makes no ad requests and SDK telemetry errors cannot stop game state
+ok 32 - C06 Basic makes no ad requests and SDK telemetry errors cannot stop game state
+  ---
+  duration_ms: 3.2986
+  type: 'test'
+  ...
+# Subtest: platform preview does not unlock platform publication profiles
+ok 33 - platform preview does not unlock platform publication profiles
+  ---
+  duration_ms: 855.4643
+  type: 'test'
+  ...
+# Subtest: G01 room bounds fit phone and tablet cameras without changing world proportions
+ok 34 - G01 room bounds fit phone and tablet cameras without changing world proportions
+  ---
+  duration_ms: 11.4128
+  type: 'test'
+  ...
+# Subtest: G02 landscape framing reserves the menu area and rotation removes that offset
+ok 35 - G02 landscape framing reserves the menu area and rotation removes that offset
+  ---
+  duration_ms: 1.0957
+  type: 'test'
+  ...
+# Subtest: G03 detailed avatars fit their seats and stay within mesh and triangle budgets
+ok 36 - G03 detailed avatars fit their seats and stay within mesh and triangle budgets
+  ---
+  duration_ms: 615.7315
+  type: 'test'
+  ...
+# Subtest: G04 repeated seats share model resources while animated rigs remain independent
+ok 37 - G04 repeated seats share model resources while animated rigs remain independent
+  ---
+  duration_ms: 4.2702
+  type: 'test'
+  ...
+# Subtest: G05 new hats and articulated poses remain inside phone and tablet camera frames
+ok 38 - G05 new hats and articulated poses remain inside phone and tablet camera frames
+  ---
+  duration_ms: 23.2979
+  type: 'test'
+  ...
+# Subtest: G06 room details have valid geometry and bounded render resources across table sizes
+ok 39 - G06 room details have valid geometry and bounded render resources across table sizes
+  ---
+  duration_ms: 238.3165
+  type: 'test'
+  ...
+# Subtest: G07 room movement freezes with reduced motion and cached table props animate independently
+ok 40 - G07 room movement freezes with reduced motion and cached table props animate independently
+  ---
+  duration_ms: 87.2007
+  type: 'test'
+  ...
+# Subtest: G08 a full window camera fits the table inside a reserved interface area without stretching
+ok 41 - G08 a full window camera fits the table inside a reserved interface area without stretching
+  ---
+  duration_ms: 0.5096
+  type: 'test'
+  ...
+# Subtest: N01 spoofed identity, cross room and spectator actions are rejected
+ok 42 - N01 spoofed identity, cross room and spectator actions are rejected
+  ---
+  duration_ms: 49.3079
+  type: 'test'
+  ...
+# Subtest: N02 transport snapshots hide answers and publish only accepted clues
+ok 43 - N02 transport snapshots hide answers and publish only accepted clues
+  ---
+  duration_ms: 3.6129
+  type: 'test'
+  ...
+# Subtest: N03 duplicate request and stale round delivered out of order are harmless
+ok 44 - N03 duplicate request and stale round delivered out of order are harmless
+  ---
+  duration_ms: 2.7782
+  type: 'test'
+  ...
+# Subtest: N04 forged client timestamp cannot extend a deadline
+ok 45 - N04 forged client timestamp cannot extend a deadline
+  ---
+  duration_ms: 1.81
+  type: 'test'
+  ...
+# Subtest: N05 resume within grace and after grace preserve authorization
+ok 46 - N05 resume within grace and after grace preserve authorization
+  ---
+  duration_ms: 2.2079
+  type: 'test'
+  ...
+# Subtest: N06 host leaves, next host receives control and population abort awards nothing
+ok 47 - N06 host leaves, next host receives control and population abort awards nothing
+  ---
+  duration_ms: 1.1679
+  type: 'test'
+  ...
+# Subtest: N07 stale match IDs cannot modify later rounds and results occur once
+ok 48 - N07 stale match IDs cannot modify later rounds and results occur once
+  ---
+  duration_ms: 3.0766
+  type: 'test'
+  ...
+# Subtest: N08 empty room expires and old credentials cannot revive it
+ok 49 - N08 empty room expires and old credentials cannot revive it
+  ---
+  duration_ms: 1.4012
+  type: 'test'
+  ...
+# Subtest: N09 request flood closes only the offending transport
+ok 50 - N09 request flood closes only the offending transport
+  ---
+  duration_ms: 13.5493
+  type: 'test'
+  ...
+# Subtest: N10 resume and concurrent validation preserve budgets and answer history
+ok 51 - N10 resume and concurrent validation preserve budgets and answer history
+  ---
+  duration_ms: 4.0016
+  type: 'test'
+  ...
+# Subtest: F01 F02 public queue joins oldest room and countdown cancels without enough people
+ok 52 - F01 F02 public queue joins oldest room and countdown cancels without enough people
+  ---
+  duration_ms: 1.0474
+  type: 'test'
+  ...
+# Subtest: F04 F05 late join spectates then joins same group rematch
+ok 53 - F04 F05 late join spectates then joins same group rematch
+  ---
+  duration_ms: 18.0805
+  type: 'test'
+  ...
+# Subtest: real HTTP and WebSocket transport sends authorized room snapshots
+ok 54 - real HTTP and WebSocket transport sends authorized room snapshots
+  ---
+  duration_ms: 181.4678
+  type: 'test'
+  ...
+# Subtest: SDK preview configuration is explicit and never changes the default client profile
+ok 55 - SDK preview configuration is explicit and never changes the default client profile
+  ---
+  duration_ms: 67.4056
+  type: 'test'
+  ...
+# Subtest: N13 room settings use host identity, broadcast to every player and lock on start
+ok 56 - N13 room settings use host identity, broadcast to every player and lock on start
+  ---
+  duration_ms: 6.6238
+  type: 'test'
+  ...
+# Subtest: T01 only the host can save bounded case and per round turn settings in the lobby
+ok 57 - T01 only the host can save bounded case and per round turn settings in the lobby
+  ---
+  duration_ms: 7.448
+  type: 'test'
+  ...
+# Subtest: T02 per player clocks use the configured duration in each clue round
+ok 58 - T02 per player clocks use the configured duration in each clue round
+  ---
+  duration_ms: 4.0336
+  type: 'test'
+  ...
+# Subtest: T03 wrong turn and spectators cannot spend attempts or publish clues
+ok 59 - T03 wrong turn and spectators cannot spend attempts or publish clues
+  ---
+  duration_ms: 4.3369
+  type: 'test'
+  ...
+# Subtest: T04 disconnect grace, reconnect and leaving never stall or duplicate a turn
+ok 60 - T04 disconnect grace, reconnect and leaving never stall or duplicate a turn
+  ---
+  duration_ms: 2.0717
+  type: 'test'
+  ...
+# Subtest: T05 a completed series stops at the case limit and new sessions reset scores
+ok 61 - T05 a completed series stops at the case limit and new sessions reset scores
+  ---
+  duration_ms: 1.8428
+  type: 'test'
+  ...
+# Subtest: T06 repeating any of your earlier clues is rejected in later rounds
+ok 62 - T06 repeating any of your earlier clues is rejected in later rounds
+  ---
+  duration_ms: 1.4618
+  type: 'test'
+  ...
+# Subtest: V01 exact answer and all prepared forbidden words rejected
+ok 63 - V01 exact answer and all prepared forbidden words rejected
+  ---
+  duration_ms: 10.9643
+  type: 'test'
+  ...
+# Subtest: V02 normalization and explicit syntax boundaries
+ok 64 - V02 normalization and explicit syntax boundaries
+  ---
+  duration_ms: 5.6923
+  type: 'test'
+  ...
+# Subtest: V03 allowed clues and moderation regression fixtures
+ok 65 - V03 allowed clues and moderation regression fixtures
+  ---
+  duration_ms: 2.5279
+  type: 'test'
+  ...
+# Subtest: V04 personal repeat blocked but cross player duplicate accepted
+ok 66 - V04 personal repeat blocked but cross player duplicate accepted
+  ---
+  duration_ms: 1.9422
+  type: 'test'
+  ...
+# Subtest: V05 executable markup cannot enter accepted clues
+ok 67 - V05 executable markup cannot enter accepted clues
+  ---
+  duration_ms: 0.3955
+  type: 'test'
+  ...
+# Subtest: V06 fake clock rate boundary and bounded budget
+ok 68 - V06 fake clock rate boundary and bounded budget
+  ---
+  duration_ms: 0.7242
+  type: 'test'
+  ...
+# Subtest: V07 locked submission cannot be overwritten
+ok 69 - V07 locked submission cannot be overwritten
+  ---
+  duration_ms: 1.0504
+  type: 'test'
+  ...
+# Subtest: V08 pack structure, identifiers and references
+ok 70 - V08 pack structure, identifiers and references
+  ---
+  duration_ms: 1.3941
+  type: 'test'
+  ...
+# Subtest: V09 emoji sequences and dash variants with near matches
+ok 71 - V09 emoji sequences and dash variants with near matches
+  ---
+  duration_ms: 0.3619
+  type: 'test'
+  ...
+# Subtest: V10 exact word, obvious clue and moderation rejection have same public result
+ok 72 - V10 exact word, obvious clue and moderation rejection have same public result
+  ---
+  duration_ms: 0.86
+  type: 'test'
+  ...
+# Subtest: V11 concurrent attempts and reconnect cannot reset budget, new round can
+ok 73 - V11 concurrent attempts and reconnect cannot reset budget, new round can
+  ---
+  duration_ms: 0.7688
+  type: 'test'
+  ...
+# Subtest: V12 categories require multiple canonical answers and duplicate aliases rejected
+ok 74 - V12 categories require multiple canonical answers and duplicate aliases rejected
+  ---
+  duration_ms: 0.3376
+  type: 'test'
+  ...
+1..74
+# tests 74
+# suites 0
+# pass 74
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1672.3052

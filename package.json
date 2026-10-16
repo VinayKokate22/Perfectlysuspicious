@@ -1,0 +1,35 @@
+{
+  "name": "perfectly-suspicious",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node server/main.js",
+    "dev": "node --watch server/main.js",
+    "preview:platform": "node server/platform-preview.js",
+    "test": "node --test tests/*.test.js",
+    "test:engine": "node --test tests/engine.test.js",
+    "test:validation": "node --test tests/validation.test.js",
+    "test:server": "node --test tests/server.test.js",
+    "test:ui": "playwright test",
+    "check": "node scripts/check.js",
+    "build": "node scripts/build.js",
+    "build:web": "node scripts/build.js --hosted",
+    "build:covers": "node scripts/covers.js",
+    "test:release": "node scripts/release-check.js",
+    "test:platform": "node --test tests/platform.test.js"
+  },
+  "dependencies": {
+    "emoji-regex": "11.0.0",
+    "three": "0.186.1",
+    "ws": "8.22.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "acorn": "8.19.0",
+    "acorn-walk": "8.3.5"
+  }
+}

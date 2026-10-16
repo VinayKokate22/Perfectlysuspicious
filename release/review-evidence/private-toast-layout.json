@@ -1,0 +1,297 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/fixed-hud.spec.js",
+      "tests/browser/mobile.spec.js",
+      "--grep",
+      "U33|U36|U22|U23",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "fixed-hud.spec.js",
+      "file": "fixed-hud.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U33 floating room toasts stay outside controls without shifting the interface",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2623,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[33m@@ -1,8 +1,8 @@\u001b[39m\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"atomic\": \"true\",\u001b[22m\n\u001b[32m-   \"coversCard\": false,\u001b[39m\n\u001b[31m+   \"coversCard\": true,\u001b[39m\n\u001b[2m    \"cursor\": \"default\",\u001b[22m\n\u001b[2m    \"hit\": false,\u001b[22m\n\u001b[2m    \"inViewport\": true,\u001b[22m\n\u001b[2m    \"interactive\": false,\u001b[22m\n\u001b[2m    \"outsideControls\": true,\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[33m@@ -1,8 +1,8 @@\u001b[39m\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"atomic\": \"true\",\u001b[22m\n\u001b[32m-   \"coversCard\": false,\u001b[39m\n\u001b[31m+   \"coversCard\": true,\u001b[39m\n\u001b[2m    \"cursor\": \"default\",\u001b[22m\n\u001b[2m    \"hit\": false,\u001b[22m\n\u001b[2m    \"inViewport\": true,\u001b[22m\n\u001b[2m    \"interactive\": false,\u001b[22m\n\u001b[2m    \"outsideControls\": true,\u001b[22m\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:181:25",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                      "column": 25,
+                      "line": 181
+                    },
+                    "snippet": "  179 |         return {outsideControls:r.bottom<=p.top||r.right<=p.left||r.left>=p.right,inViewport:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,coversCard,role:n.getAttribute('role'),atomic:n.getAttribute('aria-atomic'),tabIndex:n.tabIndex,interactive:n.matches('button,a,input,[role=button]')||Boolean(n.querySelector('button,a,input,[tabindex]')),pointer:style.pointerEvents,cursor:style.cursor,hit:!!document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('.notification-well')};\n  180 |       });\n> 181 |       expect(placement).toEqual({outsideControls:true,inViewport:true,coversCard:false,role:'status',atomic:'true',tabIndex:-1,interactive:false,pointer:'none',cursor:'default',hit:false});\n      |                         ^\n  182 |       expect(await page.locator('.player-console,.suspect-card').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().toJSON()))).toEqual(before);\n  183 |       await expect(page.locator('.suspect-card:visible')).toHaveCount(8);\n  184 |       if(process.env.CAPTURE_REVIEW==='1'&&[390,568,768].includes(width))await page.screenshot({path:`release/review-evidence/floating-toast-${width}.png`});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                        "column": 25,
+                        "line": 181
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[33m@@ -1,8 +1,8 @@\u001b[39m\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"atomic\": \"true\",\u001b[22m\n\u001b[32m-   \"coversCard\": false,\u001b[39m\n\u001b[31m+   \"coversCard\": true,\u001b[39m\n\u001b[2m    \"cursor\": \"default\",\u001b[22m\n\u001b[2m    \"hit\": false,\u001b[22m\n\u001b[2m    \"inViewport\": true,\u001b[22m\n\u001b[2m    \"interactive\": false,\u001b[22m\n\u001b[2m    \"outsideControls\": true,\u001b[22m\n\n  179 |         return {outsideControls:r.bottom<=p.top||r.right<=p.left||r.left>=p.right,inViewport:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,coversCard,role:n.getAttribute('role'),atomic:n.getAttribute('aria-atomic'),tabIndex:n.tabIndex,interactive:n.matches('button,a,input,[role=button]')||Boolean(n.querySelector('button,a,input,[tabindex]')),pointer:style.pointerEvents,cursor:style.cursor,hit:!!document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('.notification-well')};\n  180 |       });\n> 181 |       expect(placement).toEqual({outsideControls:true,inViewport:true,coversCard:false,role:'status',atomic:'true',tabIndex:-1,interactive:false,pointer:'none',cursor:'default',hit:false});\n      |                         ^\n  182 |       expect(await page.locator('.player-console,.suspect-card').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().toJSON()))).toEqual(before);\n  183 |       await expect(page.locator('.suspect-card:visible')).toHaveCount(8);\n  184 |       if(process.env.CAPTURE_REVIEW==='1'&&[390,568,768].includes(width))await page.screenshot({path:`release/review-evidence/floating-toast-${width}.png`});\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:181:25"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:25:14.181Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U33-floating-roo-c5118-hout-shifting-the-interface\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U33-floating-roo-c5118-hout-shifting-the-interface\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                    "column": 25,
+                    "line": 181
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-9eb987f0a9d879de4785",
+          "file": "fixed-hud.spec.js",
+          "line": 158,
+          "column": 1
+        },
+        {
+          "title": "U36 laptop and monitor toasts stay near the top of the clear room area",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7569,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:25:17.626Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-52df874ac38c37e3c3c7",
+          "file": "fixed-hud.spec.js",
+          "line": 195,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "mobile.spec.js",
+      "file": "mobile.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U22 phone and tablet home menus fit the viewport with undistorted room framing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8184,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:25:25.339Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "abb07b11bbd7ad334584-4f97a06e3e40d63b4781",
+          "file": "mobile.spec.js",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "U23 touch entry and live room camera survive phone and tablet rotation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4020,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:25:33.537Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "abb07b11bbd7ad334584-411a0f0b59a37112056a",
+          "file": "mobile.spec.js",
+          "line": 38,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-16T11:24:00.280Z",
+    "duration": 97570.07,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "verifiedAt": "2026-10-16T04:04:47.434683+00:00",
+  "requestedToastGate": "passed",
+  "broaderInterfaceGate": "open",
+  "report": "toast-regression.json",
+  "passingScenarios": 7,
+  "failingScenarios": 0,
+  "scenarios": [
+    "U30 crowded mobile rooms keep long chat messages controls and notifications readable",
+    "U31 phone and tablet conversation stays in the console in both orientations",
+    "U33 phone and tablet toasts fit above controls without behaving like buttons",
+    "U34 replacement toasts keep focus and expire with reduced motion or a gentle fade",
+    "U26 fixed practice fits phone tablet laptop and rotation through every phase",
+    "U29 a phone keyboard keeps editing controls visible without reframing the room",
+    "U25 case controls use consistent touch targets and notifications stay inside their section"
+  ],
+  "sourceCopyEntries": 441,
+  "buildFiles": 28,
+  "buildBytes": 2714678,
+  "sourceAndManifestHashesVerified": true,
+  "physicalDeviceTested": false,
+  "fullBrowserSuiteRerun": false,
+  "unitSuiteRerun": false,
+  "imageGradingUsed": false,
+  "priorZoomGate": "U13 remains open from console-chat-final.json; not rerun for this toast change"
+}

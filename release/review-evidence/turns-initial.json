@@ -1,0 +1,264 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/turns.spec.js",
+      "tests/browser/game.spec.js",
+      "--grep",
+      "T07|T08|U01"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/browser.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "game.spec.js",
+      "file": "game.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U01 U02 U03 U04 U07 U10 U14 complete sequential match, secrecy, locked clues and refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 40230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T02:57:09.490Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-af2c0818ca7902778127",
+          "file": "game.spec.js",
+          "line": 50,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "turns.spec.js",
+      "file": "turns.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "T07 host settings govern sequential turns, five clue rounds and the final case limit",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19338,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('timer')\nExpected: \u001b[32m\"15\"\u001b[39m\nReceived: \u001b[31m\"8\"\u001b[39m\nTimeout:  7000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('timer') with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('timer')\u001b[22m\n\u001b[2m    6 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">14</div>\u001b[22m\n\u001b[2m      - unexpected value \"14\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">13</div>\u001b[22m\n\u001b[2m      - unexpected value \"13\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">12</div>\u001b[22m\n\u001b[2m      - unexpected value \"12\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">11</div>\u001b[22m\n\u001b[2m      - unexpected value \"11\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">10</div>\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">9</div>\u001b[22m\n\u001b[2m      - unexpected value \"9\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">8</div>\u001b[22m\n\u001b[2m      - unexpected value \"8\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('timer')\nExpected: \u001b[32m\"15\"\u001b[39m\nReceived: \u001b[31m\"8\"\u001b[39m\nTimeout:  7000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('timer') with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('timer')\u001b[22m\n\u001b[2m    6 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">14</div>\u001b[22m\n\u001b[2m      - unexpected value \"14\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">13</div>\u001b[22m\n\u001b[2m      - unexpected value \"13\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">12</div>\u001b[22m\n\u001b[2m      - unexpected value \"12\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">11</div>\u001b[22m\n\u001b[2m      - unexpected value \"11\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">10</div>\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">9</div>\u001b[22m\n\u001b[2m      - unexpected value \"9\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">8</div>\u001b[22m\n\u001b[2m      - unexpected value \"8\"\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\turns.spec.js:35:121",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\turns.spec.js",
+                      "column": 121,
+                      "line": 35
+                    },
+                    "snippet": "  33 |     await guest.getByLabel('Your first clue',{exact:true}).fill('luggage');await guest.getByRole('button',{name:'Submit clue',exact:true}).tap();\n  34 |     await goPhase(request,'reveal1');await expect(host.locator('.clue-grid')).toContainText('No clue');await goPhase(request,'clue2');\n> 35 |     await expect(pages[2].locator('.turn-banner')).toContainText('Your turn');await expect(pages[2].getByRole('timer')).toHaveText('15');\n     |                                                                                                                         ^\n  36 |     await goPhase(request,'clue5');await expect(host.getByRole('timer')).toHaveText('30');await expect(host.locator('.evidence-slip')).toHaveCount(15);\n  37 |     await host.getByLabel('Your clue for round 5',{exact:true}).fill('queue');await host.getByRole('button',{name:'Submit clue',exact:true}).tap();\n  38 |     await expect(host.locator('#notice')).toHaveText('Choose another clue');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\turns.spec.js",
+                        "column": 121,
+                        "line": 35
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('timer')\nExpected: \u001b[32m\"15\"\u001b[39m\nReceived: \u001b[31m\"8\"\u001b[39m\nTimeout:  7000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('timer') with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('timer')\u001b[22m\n\u001b[2m    6 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">14</div>\u001b[22m\n\u001b[2m      - unexpected value \"14\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">13</div>\u001b[22m\n\u001b[2m      - unexpected value \"13\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">12</div>\u001b[22m\n\u001b[2m      - unexpected value \"12\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">11</div>\u001b[22m\n\u001b[2m      - unexpected value \"11\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">10</div>\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">9</div>\u001b[22m\n\u001b[2m      - unexpected value \"9\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"timer\" class=\"timer\" aria-live=\"off\" aria-label=\"Seconds remaining\">8</div>\u001b[22m\n\u001b[2m      - unexpected value \"8\"\u001b[22m\n\n\n  33 |     await guest.getByLabel('Your first clue',{exact:true}).fill('luggage');await guest.getByRole('button',{name:'Submit clue',exact:true}).tap();\n  34 |     await goPhase(request,'reveal1');await expect(host.locator('.clue-grid')).toContainText('No clue');await goPhase(request,'clue2');\n> 35 |     await expect(pages[2].locator('.turn-banner')).toContainText('Your turn');await expect(pages[2].getByRole('timer')).toHaveText('15');\n     |                                                                                                                         ^\n  36 |     await goPhase(request,'clue5');await expect(host.getByRole('timer')).toHaveText('30');await expect(host.locator('.evidence-slip')).toHaveCount(15);\n  37 |     await host.getByLabel('Your clue for round 5',{exact:true}).fill('queue');await host.getByRole('button',{name:'Submit clue',exact:true}).tap();\n  38 |     await expect(host.locator('#notice')).toHaveText('Choose another clue');\n    at D:\\project\\browser_game\\tests\\browser\\turns.spec.js:35:121"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T02:57:55.062Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\turns-T07-host-settings-go-b837a-ds-and-the-final-case-limit\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\turns-T07-host-settings-go-b837a-ds-and-the-final-case-limit\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\turns.spec.js",
+                    "column": 121,
+                    "line": 35
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "08f1ff40c3b2938eab8a-7cd5bd61ceb7cf7e9674",
+          "file": "turns.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "T08 guided practice reveals one clue per turn and reverses the second round",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4804,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T02:58:15.903Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "08f1ff40c3b2938eab8a-8033dea1c5d3c7deec2d",
+          "file": "turns.spec.js",
+          "line": 51,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-13T02:55:55.696Z",
+    "duration": 146094.298,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

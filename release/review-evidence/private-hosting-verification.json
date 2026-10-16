@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-16",
+  "unitCases": {
+    "passed": 81,
+    "failed": 0,
+    "report": "private-hosting-unit.tap"
+  },
+  "browserCases": {
+    "U30": {
+      "title": "U30 crowded mobile rooms keep long chat messages controls and notifications readable",
+      "status": "passed",
+      "report": "private-toast-corrected.json"
+    },
+    "U31": {
+      "title": "U31 phone and tablet conversation stays in the console in both orientations",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U33": {
+      "title": "U33 floating room toasts stay outside controls without shifting the interface",
+      "status": "passed",
+      "report": "private-toast-corrected.json"
+    },
+    "U34": {
+      "title": "U34 replacement toasts keep focus and expire with reduced motion or a gentle fade",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U26": {
+      "title": "U26 fixed practice fits phone tablet laptop and rotation through every phase",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U29": {
+      "title": "U29 a phone keyboard keeps editing controls visible without reframing the room",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U25": {
+      "title": "U25 case controls use consistent touch targets and notifications stay inside their section",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U05": {
+      "title": "U05 U11 keyboard operation and focus survive snapshots",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U20": {
+      "title": "U20 real 3D geometry renders and respects reduced motion without changing input controls",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U21": {
+      "title": "U21 selecting a rendered suspect casts the practice vote and unavailable graphics retain playable controls",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "P01": {
+      "title": "P01 friends can create invite and join while open matchmaking is disabled",
+      "status": "passed",
+      "report": "private-toast-final.json"
+    },
+    "U36": {
+      "title": "U36 laptop and monitor toasts stay near the top of the clear room area",
+      "status": "passed",
+      "report": "private-toast-corrected.json"
+    },
+    "U22": {
+      "title": "U22 phone and tablet home menus fit the viewport with undistorted room framing",
+      "status": "passed",
+      "report": "private-toast-layout.json"
+    },
+    "U23": {
+      "title": "U23 touch entry and live room camera survive phone and tablet rotation",
+      "status": "passed",
+      "report": "private-toast-layout.json"
+    },
+    "U27": {
+      "title": "U27 eight players and five rounds remain reachable without any scrolling",
+      "status": "passed",
+      "report": "private-toast-corrected.json"
+    }
+  },
+  "manifests": [
+    {
+      "build": "0.1.0",
+      "files": 28,
+      "bytes": 2717095,
+      "hashesVerified": true,
+      "sourceMatches": true
+    },
+    {
+      "build": "hosted",
+      "files": 28,
+      "bytes": 2717038,
+      "hashesVerified": true,
+      "sourceMatches": "All except intentionally generated config.js"
+    }
+  ],
+  "copyEntries": 446,
+  "assertions": "Deterministic protocol, DOM geometry, clocks, text ranges, focus and build hashes. No image or model grading.",
+  "limitations": [
+    "Targeted browser runs, not the entire browser suite.",
+    "U13 zoom issue remains open.",
+    "Hosted and physical device checks remain user tasks.",
+    "No GitHub repository, Vercel project or Render service created."
+  ],
+  "preview": "http://localhost:3002",
+  "diagnosticRuns": [
+    "private-toast-initial.json was interrupted by machine sleep for P01.",
+    "private-toast-regression.json failed after machine memory exhaustion.",
+    "private-toast-final.json and private-toast-layout.json retain the corrected U33 overlap failure."
+  ]
+}

@@ -1,0 +1,20 @@
+# Free is selected for setup testing. Review docs/DEPLOYMENT.md before sharing.
+services:
+  - type: web
+    name: perfectly-suspicious-server
+    runtime: node
+    plan: free
+    numInstances: 1
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: PUBLIC_MATCHMAKING
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        sync: false

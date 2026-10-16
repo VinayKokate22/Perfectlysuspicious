@@ -1,0 +1,41 @@
+[
+  {
+    "name": "landscape",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 1028890,
+    "sha256": "acf05c6f2ff7c5fcf61b6eed18c1762691448ac3bfa503ddd520bb2accfa7cc7",
+    "source": "landscape.svg",
+    "theme": "detective",
+    "text": [
+      "Perfectly",
+      "Suspicious"
+    ]
+  },
+  {
+    "name": "portrait",
+    "width": 800,
+    "height": 1200,
+    "bytes": 563919,
+    "sha256": "7e13909e488cd4c1893a806a6acf332715df93db0f9cdcbaaca919d25b429c49",
+    "source": "portrait.svg",
+    "theme": "detective",
+    "text": [
+      "Perfectly",
+      "Suspicious"
+    ]
+  },
+  {
+    "name": "square",
+    "width": 800,
+    "height": 800,
+    "bytes": 377949,
+    "sha256": "3bd988093b0d8020193d20851fd4a3d15a11c1c88192f36e2ebb6f808752b97a",
+    "source": "square.svg",
+    "theme": "detective",
+    "text": [
+      "Perfectly",
+      "Suspicious"
+    ]
+  }
+]

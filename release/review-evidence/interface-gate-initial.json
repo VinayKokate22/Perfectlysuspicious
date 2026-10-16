@@ -1,0 +1,323 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/game.spec.js",
+      "--grep",
+      "U05|U13|responsive 320|responsive 800",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "game.spec.js",
+      "file": "game.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U05 U11 keyboard operation and focus survive snapshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19644,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T03:27:45.310Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-8465cc4885f4a95a18d1",
+          "file": "game.spec.js",
+          "line": 80,
+          "column": 1
+        },
+        {
+          "title": "U06 U08 U09 responsive 320 by 568 with eight players",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 7470,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m28\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m28\u001b[39m\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:50:184)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:97:60",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                      "column": 184,
+                      "line": 50
+                    },
+                    "snippet": "  48 |   expect(overflow.scroll <= overflow.width, JSON.stringify(overflow)).toBe(true);\n  49 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), primary: e.matches('.primary,input,.vote-button') }; }));\n> 50 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right,JSON.stringify(b)).toBeLessThanOrEqual(page.viewportSize().width); expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                                                                                                        ^\n  51 |   const row = page.locator('.clue-row');\n  52 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  53 | }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                        "column": 184,
+                        "line": 50
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m28\u001b[39m\n\n  48 |   expect(overflow.scroll <= overflow.width, JSON.stringify(overflow)).toBe(true);\n  49 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), primary: e.matches('.primary,input,.vote-button') }; }));\n> 50 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right,JSON.stringify(b)).toBeLessThanOrEqual(page.viewportSize().width); expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                                                                                                        ^\n  51 |   const row = page.locator('.clue-row');\n  52 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  53 | }\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:50:184)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:97:60"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T03:28:06.233Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U06-U08-U09-responsive-320-by-568-with-eight-players\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U06-U08-U09-responsive-320-by-568-with-eight-players\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                    "column": 184,
+                    "line": 50
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-f667728128a3b703342b",
+          "file": "game.spec.js",
+          "line": 94,
+          "column": 37
+        },
+        {
+          "title": "U06 U08 U09 responsive 800 by 450 with eight players",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12655,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T03:28:14.682Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-5492dbf459adf1ae7bdf",
+          "file": "game.spec.js",
+          "line": 94,
+          "column": 37
+        },
+        {
+          "title": "U13 actual browser zoom and contrast formula",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 28866,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m28\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m28\u001b[39m\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:50:184)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:121:85",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                      "column": 184,
+                      "line": 50
+                    },
+                    "snippet": "  48 |   expect(overflow.scroll <= overflow.width, JSON.stringify(overflow)).toBe(true);\n  49 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), primary: e.matches('.primary,input,.vote-button') }; }));\n> 50 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right,JSON.stringify(b)).toBeLessThanOrEqual(page.viewportSize().width); expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                                                                                                        ^\n  51 |   const row = page.locator('.clue-row');\n  52 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  53 | }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                        "column": 184,
+                        "line": 50
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m28\u001b[39m\n\n  48 |   expect(overflow.scroll <= overflow.width, JSON.stringify(overflow)).toBe(true);\n  49 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), primary: e.matches('.primary,input,.vote-button') }; }));\n> 50 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right,JSON.stringify(b)).toBeLessThanOrEqual(page.viewportSize().width); expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                                                                                                        ^\n  51 |   const row = page.locator('.clue-row');\n  52 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  53 | }\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:50:184)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:121:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T03:28:27.471Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U13-actual-browser-zoom-and-contrast-formula\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U13-actual-browser-zoom-and-contrast-formula\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                    "column": 184,
+                    "line": 50
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-9740292e10920bf2eb16",
+          "file": "game.spec.js",
+          "line": 109,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-16T03:26:29.775Z",
+    "duration": 147052.662,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-14",
+  "profile": "local",
+  "unitTestsPassed": 74,
+  "authoredCopyEntries": 442,
+  "clientFiles": 28,
+  "clientBytes": 2703980,
+  "allAssetHashesMatchSource": true,
+  "runs": [
+    {
+      "report": "mobile-console-regression.json",
+      "passed": 8,
+      "failed": 5
+    },
+    {
+      "report": "mobile-console-final.json",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "report": "mobile-keyboard-final.json",
+      "passed": 3,
+      "failed": 0
+    }
+  ],
+  "latestPassingBrowserScenarios": 14,
+  "scenarios": {
+    "U30 crowded mobile rooms keep long chat messages controls and notifications readable": "expected",
+    "U26 fixed practice fits phone tablet laptop and rotation through every phase": "expected",
+    "U27 eight players and five rounds remain reachable without any scrolling": "expected",
+    "U28 chat draft and focus survive a snapshot and every case file stays fixed": "expected",
+    "U29 a phone keyboard keeps editing controls visible without reframing the room": "expected",
+    "U25 case controls use consistent touch targets and notifications stay inside their section": "expected",
+    "U05 U11 keyboard operation and focus survive snapshots": "expected",
+    "F02 waiting practice returns to the live match when it starts": "expected",
+    "I01 local invite copies a complete link and joins the same room in another browser": "expected",
+    "I03 blocked copying provides a selectable full invite with mobile layout and keyboard recovery": "expected",
+    "H05 speech bubbles fade expire and cannot carry messages into a live case": "expected",
+    "C13 provisional restricted setting blocks entry and hides active room content": "expected",
+    "T07 host settings govern sequential turns, five clue rounds and the final case limit": "expected",
+    "U21 selecting a rendered suspect casts the practice vote and unavailable graphics retain playable controls": "expected"
+  },
+  "limits": [
+    "Targeted browser checks, not a full suite rerun",
+    "Chromium emulation, not physical phone performance",
+    "No image or model grading",
+    "Portal and platform release gates remain open",
+    "Effective viewports below 320 by 568 are outside this layout gate"
+  ]
+}

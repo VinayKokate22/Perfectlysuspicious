@@ -1,0 +1,825 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "U15|U16|U17|U18|U20|U21|U22|U23|responsive 320|responsive 768|A05|A06|H05|U13|U19|C15"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/browser.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "feel.spec.js",
+      "file": "feel.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U17 full scene has no navigation bar, loaded game fonts and physical action buttons",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4412,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:32:38.049Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "759c7cf90f454c4ea8bf-c1c5b78abf7a7faea869",
+          "file": "feel.spec.js",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "A05 browser sound waits for interaction, can be muted and retains the choice",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8477,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:32:43.407Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "759c7cf90f454c4ea8bf-ec4f9037f17ff8b7bfa9",
+          "file": "feel.spec.js",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "A06 original score renders audible bounded samples through a real audio graph",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1114,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:32:51.904Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "759c7cf90f454c4ea8bf-aed91794aab3dee34228",
+          "file": "feel.spec.js",
+          "line": 30,
+          "column": 1
+        },
+        {
+          "title": "U18 corner settings remain reachable and usable at narrow and embedded sizes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 15969,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m43.99272918701172\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m43.99272918701172\u001b[39m\n    at D:\\project\\browser_game\\tests\\browser\\feel.spec.js:50:139",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\feel.spec.js",
+                      "column": 139,
+                      "line": 50
+                    },
+                    "snippet": "  48 |     const dialog=page.getByRole('dialog',{name:'Game settings'});await expect(dialog).toBeVisible();\n  49 |     const controls=await dialog.locator('button,select').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height};}));\n> 50 |     for(const box of controls){expect(box.left).toBeGreaterThanOrEqual(0);expect(box.right).toBeLessThanOrEqual(width);expect(box.height).toBeGreaterThanOrEqual(44);}\n     |                                                                                                                                           ^\n  51 |     await page.getByRole('button',{name:'Close settings'}).click();\n  52 |     await expect(page.getByRole('button',{name:'Game settings',exact:true})).toBeFocused();\n  53 |   }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\feel.spec.js",
+                        "column": 139,
+                        "line": 50
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m44\u001b[39m\nReceived:    \u001b[31m43.99272918701172\u001b[39m\n\n  48 |     const dialog=page.getByRole('dialog',{name:'Game settings'});await expect(dialog).toBeVisible();\n  49 |     const controls=await dialog.locator('button,select').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height};}));\n> 50 |     for(const box of controls){expect(box.left).toBeGreaterThanOrEqual(0);expect(box.right).toBeLessThanOrEqual(width);expect(box.height).toBeGreaterThanOrEqual(44);}\n     |                                                                                                                                           ^\n  51 |     await page.getByRole('button',{name:'Close settings'}).click();\n  52 |     await expect(page.getByRole('button',{name:'Game settings',exact:true})).toBeFocused();\n  53 |   }\n    at D:\\project\\browser_game\\tests\\browser\\feel.spec.js:50:139"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:32:53.037Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\feel-U18-corner-settings-r-650b0-t-narrow-and-embedded-sizes\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\feel-U18-corner-settings-r-650b0-t-narrow-and-embedded-sizes\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\feel.spec.js",
+                    "column": 139,
+                    "line": 50
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "759c7cf90f454c4ea8bf-28647da718437d8b03be",
+          "file": "feel.spec.js",
+          "line": 44,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "game.spec.js",
+      "file": "game.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U06 U08 U09 responsive 320 by 568 with eight players",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27261,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:33:10.351Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-f667728128a3b703342b",
+          "file": "game.spec.js",
+          "line": 90,
+          "column": 37
+        },
+        {
+          "title": "U06 U08 U09 responsive 768 by 1024 with eight players",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 41402,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:33:38.380Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-86ef032f22416aee4ac6",
+          "file": "game.spec.js",
+          "line": 90,
+          "column": 37
+        },
+        {
+          "title": "U13 actual browser zoom and contrast formula",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 30569,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m320\u001b[39m\nReceived:    \u001b[31m400\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m320\u001b[39m\nReceived:    \u001b[31m400\u001b[39m\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:37:101)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:118:85",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                      "column": 101,
+                      "line": 37
+                    },
+                    "snippet": "  35 |   expect(overflow.scroll <= overflow.width, JSON.stringify(overflow)).toBe(true);\n  36 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), primary: e.matches('.primary,input,.vote-button') }; }));\n> 37 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right).toBeLessThanOrEqual(page.viewportSize().width); expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                     ^\n  38 |   const row = page.locator('.clue-row');\n  39 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  40 | }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                        "column": 101,
+                        "line": 37
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m320\u001b[39m\nReceived:    \u001b[31m400\u001b[39m\n\n  35 |   expect(overflow.scroll <= overflow.width, JSON.stringify(overflow)).toBe(true);\n  36 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), primary: e.matches('.primary,input,.vote-button') }; }));\n> 37 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right).toBeLessThanOrEqual(page.viewportSize().width); expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                     ^\n  38 |   const row = page.locator('.clue-row');\n  39 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  40 | }\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:37:101)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:118:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:34:19.822Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U13-actual-browser-zoom-and-contrast-formula\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U13-actual-browser-zoom-and-contrast-formula\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                    "column": 101,
+                    "line": 37
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-9740292e10920bf2eb16",
+          "file": "game.spec.js",
+          "line": 104,
+          "column": 1
+        },
+        {
+          "title": "U15 game menu keeps forms behind a keyboard accessible entry dialog",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5175,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:34:52.756Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-4866170e3453e30fe5fd",
+          "file": "game.spec.js",
+          "line": 167,
+          "column": 1
+        },
+        {
+          "title": "U16 desktop game frame keeps timer visible and evidence controls reachable",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 47675,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeInViewport\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true })\nExpected: in viewport\nReceived: viewport ratio 0\nTimeout:  7000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeInViewport\" getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true }) with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true })\u001b[22m\n\u001b[2m    17 × locator resolved to <button data-action=\"vote\" class=\"vote-button\" aria-pressed=\"true\" data-target=\"00000000000000000000003d\" aria-label=\"Vote for Christopherabcdefg\">Vote recorded</button>\u001b[22m\n\u001b[2m       - unexpected value \"viewport ratio 0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeInViewport\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true })\nExpected: in viewport\nReceived: viewport ratio 0\nTimeout:  7000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeInViewport\" getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true }) with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true })\u001b[22m\n\u001b[2m    17 × locator resolved to <button data-action=\"vote\" class=\"vote-button\" aria-pressed=\"true\" data-target=\"00000000000000000000003d\" aria-label=\"Vote for Christopherabcdefg\">Vote recorded</button>\u001b[22m\n\u001b[2m       - unexpected value \"viewport ratio 0\"\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:194:180",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                      "column": 180,
+                      "line": 194
+                    },
+                    "snippet": "  192 |   await advance(request,30000);await phase(p,'reveal1');await expect(p.locator('.unsealed')).toHaveCount(8);await expect(p.locator('.sealed')).toHaveCount(8);\n  193 |   await advance(request,46000);await phase(p,'voting');await frame();\n> 194 |   const last=p.getByRole('button',{name:'Vote for Christopherabcdefg',exact:true});await last.click();await expect(last).toHaveAttribute('aria-pressed','true');await expect(last).toBeInViewport();\n      |                                                                                                                                                                                    ^\n  195 |   await advance(request,20000);await phase(p,'results');await frame();await expect(p.locator('.verdict-stamp')).toHaveText('ESCAPED');\n  196 | });\n  197 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                        "column": 180,
+                        "line": 194
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeInViewport\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true })\nExpected: in viewport\nReceived: viewport ratio 0\nTimeout:  7000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeInViewport\" getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true }) with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Vote for Christopherabcdefg', exact: true })\u001b[22m\n\u001b[2m    17 × locator resolved to <button data-action=\"vote\" class=\"vote-button\" aria-pressed=\"true\" data-target=\"00000000000000000000003d\" aria-label=\"Vote for Christopherabcdefg\">Vote recorded</button>\u001b[22m\n\u001b[2m       - unexpected value \"viewport ratio 0\"\u001b[22m\n\n\n  192 |   await advance(request,30000);await phase(p,'reveal1');await expect(p.locator('.unsealed')).toHaveCount(8);await expect(p.locator('.sealed')).toHaveCount(8);\n  193 |   await advance(request,46000);await phase(p,'voting');await frame();\n> 194 |   const last=p.getByRole('button',{name:'Vote for Christopherabcdefg',exact:true});await last.click();await expect(last).toHaveAttribute('aria-pressed','true');await expect(last).toBeInViewport();\n      |                                                                                                                                                                                    ^\n  195 |   await advance(request,20000);await phase(p,'results');await frame();await expect(p.locator('.verdict-stamp')).toHaveText('ESCAPED');\n  196 | });\n  197 |\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:194:180"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:34:58.797Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U16-desktop-game-fram-f62f8-evidence-controls-reachable\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U16-desktop-game-fram-f62f8-evidence-controls-reachable\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                    "column": 180,
+                    "line": 194
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-b71251911224bf92b944",
+          "file": "game.spec.js",
+          "line": 176,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "interaction.spec.js",
+      "file": "interaction.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U19 game scenery rejects selection and drag while name and clue editing remain usable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14762,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:35:49.422Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8e4a9e9ae8078749e311-5cdfdfb9c92887031c6b",
+          "file": "interaction.spec.js",
+          "line": 76,
+          "column": 1
+        },
+        {
+          "title": "U20 real 3D geometry renders and respects reduced motion without changing input controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9759,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:36:05.014Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8e4a9e9ae8078749e311-99c6cc22fad3a3d604f8",
+          "file": "interaction.spec.js",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "U21 selecting a rendered suspect casts the practice vote and unavailable graphics retain playable controls",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 53523,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\interaction.spec.js",
+                        "column": 22,
+                        "line": 152
+                      },
+                      "message": "Error: locator.evaluate: Test timeout of 45000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('canvas.room-canvas')\u001b[22m\n\u001b[2m    - locator resolved to visible <canvas width=\"1366\" height=\"900\" data-frames=\"128\" aria-hidden=\"true\" class=\"room-canvas\" data-characters=\"4\" data-framing=\"table\" data-motion=\"active\" data-renderer=\"ready\" data-draw-calls=\"277\" data-triangles=\"236488\" data-engine=\"three.js r186\" data-character-style=\"block\" data-aspect=\"1.5177777777777777\" data-frame-bounds=\"{\"left\":-0.6332162741438858,\"right\":0.19983413651577464,\"top\":0.3970039347665737,\"bottom\":-0.7484437500000001}\"></canvas>\u001b[22m\n\n\n  150 |     const point={x:box.x+box.width*col/10,y:box.y+box.height*row/10};\n  151 |     await page.mouse.move(point.x,point.y);\n> 152 |     hit=await canvas.evaluate((el,point)=>{const target=document.elementFromPoint(point.x,point.y);return (target===el||target?.matches('.clue-grid'))&&el.style.cursor==='pointer';},point);\n      |                      ^\n  153 |     if(hit)await page.mouse.click(point.x,point.y);\n  154 |   }\n  155 |   expect(hit).toBe(true);await expect(page.locator('.practice-result-title')).toHaveText('Robin was suspicious.');\n    at D:\\project\\browser_game\\tests\\browser\\interaction.spec.js:152:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:36:14.816Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\interaction-U21-selecting--669d0-cs-retain-playable-controls\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\interaction-U21-selecting--669d0-cs-retain-playable-controls\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8e4a9e9ae8078749e311-d3f525b5b85e5e6f4f3b",
+          "file": "interaction.spec.js",
+          "line": 139,
+          "column": 1
+        },
+        {
+          "title": "H05 speech bubbles fade expire and cannot carry messages into a live case",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18107,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:37:11.580Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8e4a9e9ae8078749e311-e819e8055e2ff2df8d07",
+          "file": "interaction.spec.js",
+          "line": 166,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "mobile.spec.js",
+      "file": "mobile.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U22 phone and tablet home menus fit the viewport with undistorted room framing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10069,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:37:30.504Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "abb07b11bbd7ad334584-4f97a06e3e40d63b4781",
+          "file": "mobile.spec.js",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "U23 touch entry and live room camera survive phone and tablet rotation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4790,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:37:40.608Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "abb07b11bbd7ad334584-411a0f0b59a37112056a",
+          "file": "mobile.spec.js",
+          "line": 37,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "platform.spec.js",
+      "file": "platform.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "C15 platform mute overrides the sound preference during play",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T15:37:45.448Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1185f41e8aab7f8405be-450909e0968802917f7c",
+          "file": "platform.spec.js",
+          "line": 167,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-12T15:32:36.808Z",
+    "duration": 311933.358,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

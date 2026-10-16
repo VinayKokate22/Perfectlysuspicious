@@ -1,0 +1,12 @@
+✔ D01 hosted configuration accepts Render addresses and preserves private entry (3.6802ms)
+✔ D02 hosted builds reject missing insecure or mistaken connection settings (88.3597ms)
+✔ D03 Vercel artifact contains the public connection config and verified client assets only (247.6895ms)
+✔ D04 separate frontend origin can create join and start a private room while other origins are rejected (51.1105ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 645.9837

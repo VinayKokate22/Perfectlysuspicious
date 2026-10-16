@@ -1,0 +1,600 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/private-rooms.spec.js",
+      "tests/browser/fixed-hud.spec.js",
+      "tests/browser/interaction.spec.js",
+      "--grep",
+      "P01|U25|U26|U29|U30|U31|U20|U23",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "fixed-hud.spec.js",
+      "file": "fixed-hud.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U30 crowded mobile rooms keep long chat messages controls and notifications readable",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: worker process exited unexpectedly (code=134, signal=null)"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: worker process exited unexpectedly (code=134, signal=null)"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "DQo8LS0tIExhc3QgZmV3IEdDcyAtLS0+DQoNClsyMzk0NDowMDAwMDJDQTVERUFBMDAwXSAgICAgIDQ0OCBtczogTWFyay1Db21wYWN0IDU0LjAgKDc1LjYpIC0+IDQ2LjQgKDgyLjYpIE1CLCBwb29sZWQ6IDAgTUIsIDUuNzAgLyAwLjAwIG1zICAoKyAxLjUgbXMgaW4gNDMgc3RlcHMgc2luY2Ugc3RhcnQgb2YgbWFya2luZywgYmlnZ2VzdCBzdGVwIDAuMSBtcywgd2FsbHRpbWUgc2luY2Ugc3RhcnQgb2YgbWFya2luZyA1OSBtcykgKGF2ZXJhZ2UgbXUgPSAwLjk4NCwgY3VycmVudCBtdSA9IDAuOVsyMzk0NDowMDAwMDJDQTVERUFBMDAwXSAgICAgIDk5MCBtczogU2NhdmVuZ2UgNjkuMCAoOTAuNikgLT4gNjAuNCAoOTAuNikgTUIsIHBvb2xlZDogMiBNQiwgMy4yNSAvIDAuMDQgbXMgIChhdmVyYWdlIG11ID0gMC45ODQsIGN1cnJlbnQgbXUgPSAwLjk4NCkgdGFzazsgDQoNCg=="
+                    },
+                    {
+                      "buffer": "RkFUQUwgRVJST1I6IENvbW1pdHRpbmcgc2VtaSBzcGFjZSBmYWlsZWQuIEFsbG9jYXRpb24gZmFpbGVkIC0gSmF2YVNjcmlwdCBoZWFwIG91dCBvZiBtZW1vcnkNCi0tLS0tIE5hdGl2ZSBzdGFjayB0cmFjZSAtLS0tLQ0KDQo="
+                    },
+                    {
+                      "buffer": "IDE6IDAwMDA3RkY2MkM3MTkwQzYgDQogMjogMDAwMDdGRjYyQzcxOTYwNCANCiAzOiAwMDAwN0ZGNjJCMzIzNjE3IA0KIDQ6IDAwMDA3RkY2MkIxMjNFNTcgDQogNTogMDAwMDdGRjYyQjBCQzQ0QiANCiA2OiAwMDAwN0ZGNjJCMEU0OUNBIA0KIDc6IDAwMDA3RkY2MkIxMjYyMzYgDQogODogMDAwMDdGRjYyQjEyNTg4NiANCiA5OiAwMDAwN0ZGNjJCMTM2N0UyIA0KMTA6IDAwMDA3RkY2MkIxMzYzMEIgDQoxMTogMDAwMDdGRjYyQ0E0M0JBRCANCjEyOiAwMDAwN0ZGNjJCMTIxOTIwIA0KMTM6IDAwMDA3RkY2MkIxQTU3MDkgDQoxNDogMDAwMDdGRjYyQUQxOEY0OCANCjE1OiAwMDAwMDJDQTFGRTc3NUZBIA0K"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:12:42.137Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-f1574264ca20c98eb569",
+          "file": "fixed-hud.spec.js",
+          "line": 91,
+          "column": 1
+        },
+        {
+          "title": "U31 phone and tablet conversation stays in the console in both orientations",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 45129,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:5:6",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                      "column": 6,
+                      "line": 5
+                    },
+                    "snippet": "  3 | import {goPhase,nextPracticeRound,inspectForVote} from './flow.js';\n  4 |\n> 5 | test.beforeEach(async({page,request})=>{\n    |      ^\n  6 |   await request.post('http://127.0.0.1:3912/reset');\n  7 |   await page.addInitScript(()=>{sessionStorage.setItem('sound','off');sessionStorage.setItem('motion','reduce');});\n  8 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                        "column": 6,
+                        "line": 5
+                      },
+                      "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n  3 | import {goPhase,nextPracticeRound,inspectForVote} from './flow.js';\n  4 |\n> 5 | test.beforeEach(async({page,request})=>{\n    |      ^\n  6 |   await request.post('http://127.0.0.1:3912/reset');\n  7 |   await page.addInitScript(()=>{sessionStorage.setItem('sound','off');sessionStorage.setItem('motion','reduce');});\n  8 | });\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:5:6"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:12:43.276Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U31-phone-and-ta-641c1-onsole-in-both-orientations\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U31-phone-and-ta-641c1-onsole-in-both-orientations\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                    "column": 6,
+                    "line": 5
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-625a576700b257c99b8b",
+          "file": "fixed-hud.spec.js",
+          "line": 128,
+          "column": 1
+        },
+        {
+          "title": "U26 fixed practice fits phone tablet laptop and rotation through every phase",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 524,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_RESET at http://127.0.0.1:3911/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3911/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_CONNECTION_RESET at http://127.0.0.1:3911/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3911/\", waiting until \"load\"\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:237:14",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                      "column": 14,
+                      "line": 237
+                    },
+                    "snippet": "  235 | test('U26 fixed practice fits phone tablet laptop and rotation through every phase',async({page})=>{\n  236 |   test.setTimeout(90000);\n> 237 |   await page.goto('/');await page.getByRole('button',{name:'Try a guided practice',exact:true}).click();\n      |              ^\n  238 |   await expect(page.locator('canvas')).toHaveAttribute('data-renderer','ready');\n  239 |   for(const [width,height] of [[320,568],[390,844],[768,1024],[568,320],[844,390],[1366,768]]){\n  240 |     await page.setViewportSize({width,height});await fixed(page);await file(page,'Rules');await everyFilePage(page);await close(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                        "column": 14,
+                        "line": 237
+                      },
+                      "message": "Error: page.goto: net::ERR_CONNECTION_RESET at http://127.0.0.1:3911/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3911/\", waiting until \"load\"\u001b[22m\n\n\n  235 | test('U26 fixed practice fits phone tablet laptop and rotation through every phase',async({page})=>{\n  236 |   test.setTimeout(90000);\n> 237 |   await page.goto('/');await page.getByRole('button',{name:'Try a guided practice',exact:true}).click();\n      |              ^\n  238 |   await expect(page.locator('canvas')).toHaveAttribute('data-renderer','ready');\n  239 |   for(const [width,height] of [[320,568],[390,844],[768,1024],[568,320],[844,390],[1366,768]]){\n  240 |     await page.setViewportSize({width,height});await fixed(page);await file(page,'Rules');await everyFilePage(page);await close(page);\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:237:14"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:13:29.302Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U26-fixed-practi-a74d5-otation-through-every-phase\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U26-fixed-practi-a74d5-otation-through-every-phase\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                    "column": 14,
+                    "line": 237
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-3ab6fd974fd249a96b90",
+          "file": "fixed-hud.spec.js",
+          "line": 235,
+          "column": 1
+        },
+        {
+          "title": "U29 a phone keyboard keeps editing controls visible without reframing the room",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 218,
+                  "error": {
+                    "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n",
+                    "stack": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:6:17",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                      "column": 17,
+                      "line": 6
+                    },
+                    "snippet": "  4 |\n  5 | test.beforeEach(async({page,request})=>{\n> 6 |   await request.post('http://127.0.0.1:3912/reset');\n    |                 ^\n  7 |   await page.addInitScript(()=>{sessionStorage.setItem('sound','off');sessionStorage.setItem('motion','reduce');});\n  8 | });\n  9 | const settle=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                        "column": 17,
+                        "line": 6
+                      },
+                      "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n\n  4 |\n  5 | test.beforeEach(async({page,request})=>{\n> 6 |   await request.post('http://127.0.0.1:3912/reset');\n    |                 ^\n  7 |   await page.addInitScript(()=>{sessionStorage.setItem('sound','off');sessionStorage.setItem('motion','reduce');});\n  8 | });\n  9 | const settle=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:6:17"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:13:30.602Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U29-a-phone-keyb-eac14--without-reframing-the-room\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U29-a-phone-keyb-eac14--without-reframing-the-room\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                    "column": 17,
+                    "line": 6
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-0d3ae8d0c15a49b9005a",
+          "file": "fixed-hud.spec.js",
+          "line": 312,
+          "column": 1
+        },
+        {
+          "title": "U25 case controls use consistent touch targets and notifications stay inside their section",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 210,
+                  "error": {
+                    "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n",
+                    "stack": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:6:17",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                      "column": 17,
+                      "line": 6
+                    },
+                    "snippet": "  4 |\n  5 | test.beforeEach(async({page,request})=>{\n> 6 |   await request.post('http://127.0.0.1:3912/reset');\n    |                 ^\n  7 |   await page.addInitScript(()=>{sessionStorage.setItem('sound','off');sessionStorage.setItem('motion','reduce');});\n  8 | });\n  9 | const settle=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                        "column": 17,
+                        "line": 6
+                      },
+                      "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n\n  4 |\n  5 | test.beforeEach(async({page,request})=>{\n> 6 |   await request.post('http://127.0.0.1:3912/reset');\n    |                 ^\n  7 |   await page.addInitScript(()=>{sessionStorage.setItem('sound','off');sessionStorage.setItem('motion','reduce');});\n  8 | });\n  9 | const settle=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));\n    at D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js:6:17"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:13:31.553Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U25-case-control-9bf4a-s-stay-inside-their-section\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\fixed-hud-U25-case-control-9bf4a-s-stay-inside-their-section\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\fixed-hud.spec.js",
+                    "column": 17,
+                    "line": 6
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-f57cebfd1f5d6c06d3d4",
+          "file": "fixed-hud.spec.js",
+          "line": 346,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "interaction.spec.js",
+      "file": "interaction.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U20 real 3D geometry renders and respects reduced motion without changing input controls",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 67,
+                  "error": {
+                    "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n",
+                    "stack": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\interaction.spec.js:6:62",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\interaction.spec.js",
+                      "column": 62,
+                      "line": 6
+                    },
+                    "snippet": "  4 |\n  5 | let contexts;\n> 6 | test.beforeEach(async({request})=>{contexts=[];await request.post('http://127.0.0.1:3912/reset');});\n    |                                                              ^\n  7 | test.afterEach(async()=>{await Promise.all(contexts.map(context=>context.close()));});\n  8 | async function player(browser,name='Alex',href='/') {\n  9 |   const context=await browser.newContext({permissions:['clipboard-read','clipboard-write'],viewport:{width:907,height:510}});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\interaction.spec.js",
+                        "column": 62,
+                        "line": 6
+                      },
+                      "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n\n  4 |\n  5 | let contexts;\n> 6 | test.beforeEach(async({request})=>{contexts=[];await request.post('http://127.0.0.1:3912/reset');});\n    |                                                              ^\n  7 | test.afterEach(async()=>{await Promise.all(contexts.map(context=>context.close()));});\n  8 | async function player(browser,name='Alex',href='/') {\n  9 |   const context=await browser.newContext({permissions:['clipboard-read','clipboard-write'],viewport:{width:907,height:510}});\n    at D:\\project\\browser_game\\tests\\browser\\interaction.spec.js:6:62"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:13:32.508Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\interaction-U20-real-3D-ge-93c55-out-changing-input-controls\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\interaction-U20-real-3D-ge-93c55-out-changing-input-controls\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\interaction.spec.js",
+                    "column": 62,
+                    "line": 6
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8e4a9e9ae8078749e311-99c6cc22fad3a3d604f8",
+          "file": "interaction.spec.js",
+          "line": 117,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "private-rooms.spec.js",
+      "file": "private-rooms.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "P01 friends can create invite and join while open matchmaking is disabled",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 86,
+                  "error": {
+                    "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n",
+                    "stack": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\private-rooms.spec.js:4:40",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\private-rooms.spec.js",
+                      "column": 40,
+                      "line": 4
+                    },
+                    "snippet": "  2 |\n  3 | test('P01 friends can create invite and join while open matchmaking is disabled',async({browser,request})=>{\n> 4 |   test.setTimeout(90000);await request.post('http://127.0.0.1:3912/reset');\n    |                                        ^\n  5 |   const contexts=[];\n  6 |   const open=async(viewport,hasTouch,url='/')=>{\n  7 |     const context=await browser.newContext({viewport,hasTouch,isMobile:hasTouch,permissions:['clipboard-read','clipboard-write']});contexts.push(context);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\private-rooms.spec.js",
+                        "column": 40,
+                        "line": 4
+                      },
+                      "message": "Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3912\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3912/reset\u001b[22m\n\u001b[2m    - user-agent: Playwright/1.64.0 (x64; windows 10.0) node/24.21\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n\n  2 |\n  3 | test('P01 friends can create invite and join while open matchmaking is disabled',async({browser,request})=>{\n> 4 |   test.setTimeout(90000);await request.post('http://127.0.0.1:3912/reset');\n    |                                        ^\n  5 |   const contexts=[];\n  6 |   const open=async(viewport,hasTouch,url='/')=>{\n  7 |     const context=await browser.newContext({viewport,hasTouch,isMobile:hasTouch,permissions:['clipboard-read','clipboard-write']});contexts.push(context);\n    at D:\\project\\browser_game\\tests\\browser\\private-rooms.spec.js:4:40"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T11:13:33.125Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\private-rooms-P01-friends--69374-pen-matchmaking-is-disabled\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\private-rooms-P01-friends--69374-pen-matchmaking-is-disabled\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\private-rooms.spec.js",
+                    "column": 40,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "53aed57e276f6d80d329-4075e8de271376f79b7f",
+          "file": "private-rooms.spec.js",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-16T11:11:28.360Z",
+    "duration": 125062.441,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  }
+}

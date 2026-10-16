@@ -1,0 +1,88 @@
+{
+  "verifiedAt": "2026-10-16T03:47:38.576577+00:00",
+  "requestedConversationGate": "passed",
+  "broaderInterfaceGate": "open",
+  "sourceCopyEntries": 441,
+  "passingScenarios": 13,
+  "failingScenarios": 1,
+  "runs": [
+    {
+      "report": "console-chat-regression.json",
+      "passed": 13,
+      "failed": 1
+    },
+    {
+      "report": "console-chat-final.json",
+      "passed": 1,
+      "failed": 1
+    }
+  ],
+  "latestResults": {
+    "U30 crowded mobile rooms keep long chat messages controls and notifications readable": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U31 phone and tablet conversation stays in the console in both orientations": {
+      "report": "console-chat-final.json",
+      "passed": true
+    },
+    "U32 compact player cards and room controls preserve keyboard focus across updates": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U26 fixed practice fits phone tablet laptop and rotation through every phase": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U27 eight players and five rounds remain reachable without any scrolling": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U28 chat draft and focus survive a snapshot and every case file stays fixed": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U29 a phone keyboard keeps editing controls visible without reframing the room": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U25 case controls use consistent touch targets and notifications stay inside their section": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U05 U11 keyboard operation and focus survive snapshots": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U06 U08 U09 responsive 320 by 568 with eight players": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U06 U08 U09 responsive 800 by 450 with eight players": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U13 actual browser zoom and contrast formula": {
+      "report": "console-chat-final.json",
+      "passed": false
+    },
+    "H05 speech bubbles fade expire and cannot carry messages into a live case": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    },
+    "U23 touch entry and live room camera survive phone and tablet rotation": {
+      "report": "console-chat-regression.json",
+      "passed": true
+    }
+  },
+  "build": {
+    "files": 28,
+    "bytes": 2712301,
+    "sourceAndManifestMatch": true
+  },
+  "unitTestsRerun": false,
+  "completeBrowserSuiteRerun": false,
+  "physicalDevicesVerified": false,
+  "imageGrading": false,
+  "deploymentPerformed": false
+}

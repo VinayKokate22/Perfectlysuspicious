@@ -1,0 +1,88 @@
+{
+  "verifiedAt": "2026-10-15T03:16:11.037053+00:00",
+  "unitTests": 74,
+  "sourceCopyEntries": 441,
+  "browserScenarios": 11,
+  "runs": [
+    {
+      "report": "all-suspects-regression.json",
+      "passed": 11
+    },
+    {
+      "report": "all-suspects-stationary.json",
+      "passed": 2
+    },
+    {
+      "report": "all-suspects-bubbles.json",
+      "passed": 3
+    }
+  ],
+  "latestResults": {
+    "U30": {
+      "title": "U30 crowded mobile rooms keep long chat messages controls and notifications readable",
+      "report": "all-suspects-bubbles.json",
+      "status": "passed"
+    },
+    "U26": {
+      "title": "U26 fixed practice fits phone tablet laptop and rotation through every phase",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    },
+    "U27": {
+      "title": "U27 eight players and five rounds remain reachable without any scrolling",
+      "report": "all-suspects-stationary.json",
+      "status": "passed"
+    },
+    "U28": {
+      "title": "U28 chat draft and focus survive a snapshot and every case file stays fixed",
+      "report": "all-suspects-bubbles.json",
+      "status": "passed"
+    },
+    "U29": {
+      "title": "U29 a phone keyboard keeps editing controls visible without reframing the room",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    },
+    "U25": {
+      "title": "U25 case controls use consistent touch targets and notifications stay inside their section",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    },
+    "U20": {
+      "title": "U20 real 3D geometry renders and respects reduced motion without changing input controls",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    },
+    "U21": {
+      "title": "U21 selecting a rendered suspect casts the practice vote and unavailable graphics retain playable controls",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    },
+    "H05": {
+      "title": "H05 speech bubbles fade expire and cannot carry messages into a live case",
+      "report": "all-suspects-bubbles.json",
+      "status": "passed"
+    },
+    "U22": {
+      "title": "U22 phone and tablet home menus fit the viewport with undistorted room framing",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    },
+    "U23": {
+      "title": "U23 touch entry and live room camera survive phone and tablet rotation",
+      "report": "all-suspects-regression.json",
+      "status": "passed"
+    }
+  },
+  "build": {
+    "profile": "local",
+    "files": 28,
+    "bytes": 2709955,
+    "sourceAndManifestMatch": true
+  },
+  "deterministicOnly": true,
+  "imageGrading": false,
+  "completeBrowserSuiteRerun": false,
+  "physicalDevicesVerified": false,
+  "deploymentPerformed": false
+}

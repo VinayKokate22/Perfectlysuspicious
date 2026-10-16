@@ -1,0 +1,229 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/fixed-hud.spec.js",
+      "tests/browser/game.spec.js",
+      "--grep",
+      "U31|U13",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "fixed-hud.spec.js",
+      "file": "fixed-hud.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U31 phone and tablet conversation stays in the console in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8329,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T03:42:28.038Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-625a576700b257c99b8b",
+          "file": "fixed-hud.spec.js",
+          "line": 128,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "game.spec.js",
+      "file": "game.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U13 actual browser zoom and contrast formula",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 39973,
+                  "error": {
+                    "message": "Error: {\"label\":\"Vote for Jamie\",\"parent\":\"width: 198px; left: 210px; top: 0px;\",\"x\":229,\"right\":409,\"width\":180,\"height\":48,\"font\":16,\"target\":true,\"primary\":true}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m320\u001b[39m\nReceived:    \u001b[31m409\u001b[39m",
+                    "stack": "Error: {\"label\":\"Vote for Jamie\",\"parent\":\"width: 198px; left: 210px; top: 0px;\",\"x\":229,\"right\":409,\"width\":180,\"height\":48,\"font\":16,\"target\":true,\"primary\":true}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m320\u001b[39m\nReceived:    \u001b[31m409\u001b[39m\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:52:119)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:125:85",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                      "column": 119,
+                      "line": 52
+                    },
+                    "snippet": "  50 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), target:!e.matches('input:disabled'), primary: e.matches('.primary,input,.vote-button')&&!e.matches('input:disabled') }; }));\n  51 |   // Locked chat is a compact status field, not an available touch action.\n> 52 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right,JSON.stringify(b)).toBeLessThanOrEqual(page.viewportSize().width); if(b.target)expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                                       ^\n  53 |   const row = page.locator('.clue-row');\n  54 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  55 | }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                        "column": 119,
+                        "line": 52
+                      },
+                      "message": "Error: {\"label\":\"Vote for Jamie\",\"parent\":\"width: 198px; left: 210px; top: 0px;\",\"x\":229,\"right\":409,\"width\":180,\"height\":48,\"font\":16,\"target\":true,\"primary\":true}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m320\u001b[39m\nReceived:    \u001b[31m409\u001b[39m\n\n  50 |   const boxes = await page.locator('button:visible,input:visible').evaluateAll(elements => elements.map(e => { const b = e.getBoundingClientRect(); return { label:e.getAttribute('aria-label')??e.textContent, parent:e.parentElement.getAttribute('style'), x: b.x, right: b.right, width: b.width, height: b.height, font: parseFloat(getComputedStyle(e).fontSize), target:!e.matches('input:disabled'), primary: e.matches('.primary,input,.vote-button')&&!e.matches('input:disabled') }; }));\n  51 |   // Locked chat is a compact status field, not an available touch action.\n> 52 |   for (const b of boxes) { expect(b.x,JSON.stringify(b)).toBeGreaterThanOrEqual(0); expect(b.right,JSON.stringify(b)).toBeLessThanOrEqual(page.viewportSize().width); if(b.target)expect(b.height).toBeGreaterThanOrEqual(44); if (b.primary) expect(b.font).toBeGreaterThanOrEqual(16); }\n     |                                                                                                                       ^\n  53 |   const row = page.locator('.clue-row');\n  54 |   if (await row.count()) { const a = await row.locator('input').boundingBox(), b = await row.locator('button').boundingBox(); expect(a.x + a.width <= b.x + 1 || a.y + a.height <= b.y + 1).toBe(true); }\n  55 | }\n    at layout (D:\\project\\browser_game\\tests\\browser\\game.spec.js:52:119)\n    at D:\\project\\browser_game\\tests\\browser\\game.spec.js:125:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-16T03:42:36.995Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U13-actual-browser-zoom-and-contrast-formula\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\game-U13-actual-browser-zoom-and-contrast-formula\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\game.spec.js",
+                    "column": 119,
+                    "line": 52
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8739d194ba1dcb8a2e3d-9740292e10920bf2eb16",
+          "file": "game.spec.js",
+          "line": 111,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-16T03:41:13.967Z",
+    "duration": 125232.05399999999,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,93 @@
+import { portrait } from './art.js';
+export const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const titles = {lobby:'The suspects are gathering.',clue1:'Leave your first clue.',reveal1:'The first evidence is in.',clue2:'Make your story hold.',reveal2:'Study the evidence.',voting:'Name your suspect.',results:'Case closed.',aborted:'The room went quiet.',exhausted:'The archive is exhausted.'};
+
+function menuIcon(kind){
+  const shapes={play:'<path d="M10 6L25 16L10 26Z"/>',create:'<rect x="4" y="10" width="24" height="17" rx="3"/><path d="M11 10V5H21V10M4 17H28M14 16V20H18V16"/>',join:'<path d="M17 4H27V28H17M3 16H20M13 9L20 16L13 23"/>',practice:'<circle cx="14" cy="13" r="8"/><path d="M20 19L28 27M10 13H18M14 9V17"/>'};
+  return `<svg class="menu-icon" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">${shapes[kind]}</svg>`;
+}
+
+export function platformView(state) {
+  const messages = {
+    loading: ['Opening the case.', 'Connecting to the game platform.'],
+    failed: ['Connection unavailable.', 'The game platform could not be reached. Reload to try again.'],
+    unsupported: ['Preview unavailable.', 'This preview is available on the local computer.'],
+    restricted: ['This case is unavailable.', 'Your platform settings do not allow this word game.']
+  };
+  const [title,message] = messages[state];
+  return `<section class="title-screen"><div class="title-content"><p class="eyebrow">Perfectly Suspicious</p><h2 id="phase-title" tabindex="-1">${title}</h2><p class="title-tagline">${message}</p>${state === 'failed' ? '<button class="primary" data-action="platform-reload">Reload game</button>' : ''}</div></section>`;
+}
+
+export function homeView({playerName,inviteCode,entryMode,publicMatchmaking=false}) {
+  if(entryMode==='quick'&&!publicMatchmaking)entryMode=null;
+  const heading = {quick:'Enter the investigation',create:'Open a private case',join:'Join your friends'};
+  return `<section class="title-screen game-home" aria-label="Game menu"><div class="title-scene" aria-hidden="true"></div><div class="title-content"><div class="title-heading"><p class="eyebrow">A game of clues and concealed identities</p><h1>Perfectly<br><em>Suspicious</em></h1><p class="title-tagline">One of you knows nothing.<br>All of you have something to hide.</p></div><div class="game-menu" role="group" aria-label="Play options"><button class="primary menu-main" data-action="enter" data-mode="${publicMatchmaking ? 'quick' : 'create'}">${menuIcon(publicMatchmaking ? 'play' : 'create')}<span class="menu-label">${publicMatchmaking ? 'Quick play' : 'Create a private room'}</span><span class="menu-number" aria-hidden="true">01</span></button><div class="friend-actions${publicMatchmaking ? '' : ' private-only'}">${publicMatchmaking ? `<button class="secondary" data-action="enter" data-mode="create">${menuIcon('create')}<span class="menu-label">Create a private room</span></button>` : ''}<button class="secondary" data-action="enter" data-mode="join">${menuIcon('join')}<span class="menu-label">Join room</span></button></div><button class="utility-button" data-action="practice">${menuIcon('practice')}<span class="menu-label">Try a guided practice</span></button></div><p class="menu-meta">3 to 8 players <span aria-hidden="true">·</span> Take turns <span aria-hidden="true">·</span> One accusation</p></div></section>${entryMode ? `<dialog id="entry-dialog" aria-labelledby="entry-title"><div class="dialog-tab">CASE REGISTRATION</div><button class="dialog-close outline" data-action="cancel-entry" aria-label="Back to game menu">Back</button><p class="eyebrow">${entryMode === 'join' ? 'You have been expected' : 'Choose your cover name'}</p><h2 id="entry-title">${heading[entryMode]}</h2><form id="entry"><label for="name">Your name</label><input id="name" name="name" autocomplete="nickname" maxlength="18" minlength="2" pattern="[A-Za-z ]{2,18}" required value="${escape(playerName)}" placeholder="Your detective name">${entryMode === 'join' ? `<label for="code">Room code</label><input id="code" name="code" maxlength="6" minlength="6" required value="${escape(inviteCode)}" autocomplete="off" placeholder="ABC123">` : ''}<button class="primary wide" type="submit">${entryMode === 'join' ? 'Join room' : entryMode === 'create' ? 'Create a private room' : 'Find a room'}</button></form><p class="small-note">${entryMode === 'quick' ? 'Join other players in an open room.' : entryMode === 'create' ? 'Bring at least two friends. No account needed.' : 'Your friends will see you enter the room.'}</p></dialog>` : ''}`;
+}
+
+function role(s) {
+  if (!s.me.participant) return '<div class="role-card"><p class="role-label">Observer file</p><p class="secret-word">Watching</p><p>Your seat opens next match.</p></div>';
+  return s.me.role === 'suspicious' ? '<div class="role-card suspicious"><p class="role-label">Your private identity</p><p class="secret-word">You are suspicious.</p><p>Only the category is known. Leave a convincing clue. Keep your cover.</p><span class="role-stamp">WORD WITHHELD</span></div>' : `<div class="role-card"><p class="role-label">For your eyes only</p><p class="secret-word">${escape(s.me.answer)}</p><p>You are informed. Prove it without giving the word away.</p><span class="role-stamp">INFORMED</span></div>`;
+}
+
+function board(s,connected) {
+  const lobby=s.phase==='lobby';
+  const voting=s.phase==='voting';
+  const people=['lobby','results','aborted','exhausted'].includes(s.phase)?s.players:s.roster;
+  let cards=people.map((p,i)=>{
+    const me=p.id===s.me.id, selected=s.me.vote===p.id, spy=s.result?.spy===p.id;
+    const speech=(s.chat??[]).find(message=>message.player===p.id);
+    const status=lobby?(p.id===s.host?'Host':p.connected?'Present':'Reconnecting'):s.phase==='results'?(spy?'Suspicious':'Informed'):me?'Your file':'Suspect';
+    return `<article data-player="${escape(p.id)}" class="clue-card suspect-card ${selected&&voting?'selected':''} ${spy?'identified':''} ${s.turn?.player===p.id?'current-turn':''}">${speech?`<p class="chat-bubble" data-message-id="${speech.id}" data-expires="${speech.expiresAt}" role="status" aria-label="${escape(p.name)} says">${escape(speech.text)}</p>`:''}<div class="file-top"><span>FILE ${String(p.number??i+1).padStart(2,'0')}</span><span>${escape(status)}</span></div><div class="suspect-id">${portrait((p.number??i+1)-1)}<div><p class="clue-owner">${escape(p.name)}${me?' <span class="you-label">YOU</span>':''}</p>${s.turn?.player===p.id?`<span class="turn-tag">${me?'Your turn':'Their turn'}</span>`:''}<p class="suspect-caption">${lobby?'Awaiting briefing':s.phase==='results'?`${s.result.awards[p.id]??0} points earned`:'Identity unconfirmed'}</p></div></div>${lobby?'':`<div class="evidence-slips">${s.clues.map((round,index)=>{
+      const visible=Object.hasOwn(round,p.id)||index+1<s.round||((s.phase.startsWith('reveal')||s.phase==='voting'||s.phase==='results')&&index+1<=s.round);
+      return `<div data-clue-round="${index}" class="evidence-slip ${visible?'unsealed':'sealed'}"><span class="slip-label">CLUE ${index+1}</span><p class="clue-word ${visible&&!round[p.id]?'empty':''}">${visible?escape(round[p.id]||'No clue'):'Waiting'}</p></div>`;
+    }).join('')}</div>`}${voting&&s.me.participant&&p.active&&!me?`<button class="vote-button" data-action="vote" data-target="${escape(p.id)}" aria-label="Vote for ${escape(p.name)}" aria-pressed="${selected}" ${!connected?'disabled':''}>${selected?'Accused':'Accuse'}</button>`:''}</article>`;
+  }).join('');
+  if(lobby) for(let i=people.length;i<8;i++)cards+=`<div class="empty-seat" aria-label="Open seat"><span class="empty-portrait" aria-hidden="true"></span><span>Open seat</span><small>Awaiting a suspect</small></div>`;
+  return `<section class="evidence-board" aria-label="${lobby?'Suspect lineup':'Revealed clues'}"><div class="board-label"><span>${lobby?'THE LINEUP':'EVIDENCE BOARD'}</span><span>${people.length} SUSPECTS</span></div><div class="clue-grid">${cards}</div></section>`;
+}
+
+function roster(s) {
+  return `<aside class="roster" aria-label="Players and scores"><h3>Session standings</h3><div class="roster-list">${s.players.map(p=>`<div class="player"><span class="player-name">${escape(p.name)}${p.id===s.me.id?' (you)':''}${!p.connected?'<small>Reconnecting</small>':''}</span><span class="score" aria-label="${p.score} points">${p.score}</span></div>`).join('')}</div></aside>`;
+}
+
+function rules(s,host,connected,draft){
+  const value=draft??s.settings;
+  const options=(max,current)=>Array.from({length:max},(_,i)=>`<option value="${i+1}" ${i+1===current?'selected':''}>${i+1}</option>`).join('');
+  return `<details class="details rules-panel" ${draft?'open':''}><summary>Game rules</summary><p class="small-note">${s.settings.cases} cases. ${s.settings.roundSeconds.length} clue rounds per case.</p><p class="small-note">Each case has a new word and ends with a vote.</p>${host&&s.phase==='lobby'?`<form id="rules-form"><div class="rule-pair"><label for="case-count">Cases<select id="case-count">${options(10,value.cases)}</select></label><label for="round-count">Clue rounds per case<select id="round-count">${options(5,value.roundSeconds.length)}</select></label></div><div class="round-times">${value.roundSeconds.map((seconds,i)=>`<label for="round-time-${i}">Round ${i+1} time per player<select id="round-time-${i}" data-round-time="${i}">${Array.from({length:11},(_,n)=>10+n*5).map(n=>`<option value="${n}" ${n===seconds?'selected':''}>${n} seconds</option>`).join('')}</select></label>`).join('')}</div><button class="secondary wide" type="submit" ${!connected?'disabled':''}>Save rules</button>${draft?'<p class="small-note">Save these rules before starting.</p>':''}</form>`:`<ol class="rule-times">${s.settings.roundSeconds.map((seconds,i)=>`<li>Round ${i+1}: ${seconds} seconds per player</li>`).join('')}</ol>`}</details>`;
+}
+
+export function roomView({s,connected,replaced,draft,chatDraft='',rulesDraft=null,computerInvite=false}) {
+  s={...s,players:s.players.map(p=>({...p,name:p.displayName??p.name})),roster:s.roster.map(p=>({...p,name:p.displayName??p.name}))};
+  const host=s.host===s.me.id,count=s.players.filter(p=>p.connected).length;
+  const live=s.phase.startsWith('clue')||s.phase.startsWith('reveal')||s.phase==='voting';
+  const current=s.roster.find(p=>p.id===s.turn?.player),myTurn=s.turn?.player===s.me.id;
+  let consoleView='',result='';
+  if(s.phase==='lobby')consoleView=`<div class="briefing"><p class="eyebrow">The briefing</p><h3>${count<3?`Waiting for ${3-count} more ${count===2?'player':'players'}.`:'Everyone is a suspect.'}</h3><p>One player will be kept in the dark. Take turns leaving clues. Find the bluff.</p><div class="briefing-steps"><span><b>01</b> Submit on your turn</span><span><b>02</b> Read each clue as it appears</span><span><b>03</b> Make your accusation</span></div>${host?`<button class="primary wide" data-action="start" ${count<3||!connected||rulesDraft?'disabled':''}>Start match</button>`:'<p class="lobby-wait">The host will start the match.</p>'}<button class="utility-button" data-action="practice">Practice while you wait</button><p class="small-note">${computerInvite?'Test invites work only on this computer.':'Share the room code to invite your friends.'}</p></div>${rules(s,host,connected,rulesDraft)}`;
+  const chatPanel=live?'<p class="chat-locked small-note">Chat opens after the case. Keep the secret in your clues.</p>':`<form id="chat-form" class="chat-form"><label for="chat-message">Talk to the room</label><div class="chat-row"><input id="chat-message" value="${escape(chatDraft)}" maxlength="80" autocomplete="off" placeholder="Say something" ${connected?'':'disabled'}><button class="secondary" type="submit" ${connected?'':'disabled'}>Send</button></div><p class="small-note">Chat is open between cases.</p></form>`;
+  if(live){
+    consoleView=role(s);
+    if(s.turn){
+      consoleView+=`<div class="turn-banner ${myTurn?'your-turn':''}" role="status"><p class="eyebrow">Clue round ${s.round} of ${s.settings.roundSeconds.length}</p><strong>${myTurn?'Your turn':`${escape(current?.name)} is up`}</strong><p>Turn ${s.turn.position} of ${s.turn.total}. ${s.settings.roundSeconds[s.round-1]} seconds each.</p></div>`;
+      if(s.me.participant){
+        const label=s.round===1?'Your first clue':s.round===2?'Your second clue':`Your clue for round ${s.round}`;
+        consoleView+=`<form id="clue-form"><label for="clue">${label}</label><div class="clue-row"><input id="clue" name="clue" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="20" value="${escape(s.me.clue||draft)}" aria-describedby="clue-help" ${!connected||!myTurn||s.me.attempts===0?'disabled':''}><button class="primary" type="submit" ${!connected||!myTurn||s.me.attempts===0?'disabled':''}>Submit clue</button></div><p class="submission-state">${s.me.clue?`Submitted: ${escape(s.me.clue)}`:Object.hasOwn(s.clues[s.round-1],s.me.id)?'Your turn ended. No clue submitted.':myTurn?'Submit to reveal your clue and pass the turn.':'Read the clues while you wait for your turn.'}</p><p class="input-help" id="clue-help">One word. Use 2 to 20 letters. Avoid the answer and obvious giveaways. A submitted clue is final.${s.round>1?' Use a clue you have not used in this case.':''}</p><p class="small-note">${s.me.attempts} attempts remaining.</p></form>`;
+      }
+    }
+    if(s.phase.startsWith('reveal'))consoleView+='<div class="phase-instruction"><p class="eyebrow">Clue round complete</p><h3>Whose story feels wrong?</h3><p>Study every statement. The next phase begins when the timer ends.</p></div>';
+    if(s.phase==='voting')consoleView+=`<div class="phase-instruction"><p class="eyebrow">The accusation</p><h3>Trust your instincts.</h3><p>Choose a suspect on the board. Change your vote until time ends. A tie catches nobody.</p><p class="submission-state">${s.me.vote?'Your vote is recorded.':'Your vote is private.'}</p></div>`;
+  }
+  if(s.phase==='results'){
+    const name=id=>s.roster.find(p=>p.id===id)?.name??'Nobody';
+    result=`<div class="verdict"><span class="verdict-stamp ${s.result.escaped?'escaped':'exposed'}">${s.result.escaped?'ESCAPED':'EXPOSED'}</span><div><p class="result-lead">${escape(name(s.result.spy))} was suspicious. ${s.result.escaped?'And got away with it.':'Caught in the act.'}</p><p>The secret word was <strong>${escape(s.result.answer)}</strong>. ${s.result.accused?`The group accused ${escape(name(s.result.accused))}.`:'There was no single accused player.'}</p></div></div>`;
+    consoleView=`<p class="eyebrow">This case</p><h3>The final reckoning</h3><div aria-label="Match points">${s.roster.map(p=>`<div class="result-person"><span>${escape(p.name)}</span><strong>${s.result.awards[p.id]} points</strong></div>`).join('')}</div>`;
+  }
+  if(s.phase==='aborted')consoleView='<p class="lesson">Fewer than three players remained. No points awarded. This word stays retired for the session.</p>';
+  if(s.phase==='exhausted')consoleView='<p class="lesson">Every word has been played. Start a new session to reset the scores and reopen the archive.</p>';
+  if(s.seriesComplete){
+    const highest=Math.max(...s.players.map(p=>p.score)),leaders=s.players.filter(p=>p.score===highest);
+    consoleView+=`<div class="series-result"><h3>All cases complete</h3><p>${leaders.length===1?'Winner':'Joint winners'}: ${leaders.map(p=>escape(p.name)).join(', ')}</p><strong>${highest} points</strong></div>`;
+  }
+  if(['results','aborted','exhausted'].includes(s.phase))consoleView+=`<div class="results-actions">${host?`${s.phase!=='exhausted'&&!s.seriesComplete?`<button class="primary" data-action="start" ${count<3||!connected?'disabled':''}>Next case</button>`:''}<button class="outline" data-action="reset" ${!connected?'disabled':''}>New session and reset scores</button>`:'<p>Waiting for the host to continue.</p>'}</div>`;
+  const title=s.turn?myTurn?'Make your move.':`${escape(current?.name)} is up.`:s.phase.startsWith('reveal')?'Study the evidence.':titles[s.phase];
+  return `<div class="room-top"><div class="room-ident"><span class="room-label">ROOM</span><span class="room-code">${escape(s.room)}</span><button class="outline" data-action="invite" ${!connected?'disabled':''}>${computerInvite?'Copy test invite':'Copy invite'}</button><span class="connection">${connected?'Connected':replaced?'Opened in another tab':'Reconnecting'}</span></div><button class="utility-button" data-action="leave">Leave room</button></div>${!connected?'<p class="connection connection-banner" role="status">Your connection was interrupted. Accepted entries are kept. <button class="outline" data-action="retry">Reconnect now</button></p>':''}<section class="game-panel" data-phase="${s.phase}"><div class="phase-head"><div><p class="eyebrow">${s.phase==='lobby'?'A new case awaits':`Case ${s.caseNumber} of ${s.settings.cases}`}</p><h2 tabindex="-1" id="phase-title">${title}</h2>${s.category?`<p class="category">Shared category: <strong>${escape(s.category)}</strong></p>`:''}</div>${live?`<div class="round-track" aria-label="Match progress">${s.phase==='voting'?'Accusation':`Clue round ${s.round} of ${s.settings.roundSeconds.length}`}</div>`:''}${s.deadline||s.startingAt?'<div class="clock-face"><div class="timer" role="timer" aria-label="Seconds remaining" aria-live="off"></div><span>SECONDS</span></div>':''}</div>${result}<div class="live-stage">${board(s,connected)}<aside class="player-console" aria-label="Your case file">${consoleView}${chatPanel}<details class="details"><summary>How points work</summary><p>Informed players earn 100 points for their own correct vote. The suspicious player earns 200 points if they escape. A tie catches nobody.</p></details></aside></div></section>${roster(s)}`;
+}
