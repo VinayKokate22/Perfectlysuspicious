@@ -41,3 +41,20 @@ test('H04 chat sender identity comes from the authenticated connection',()=>{
   service.handle(client,{type:'chat',value:'Different message',requestId:'chat'});
   assert.equal(service.rooms.get(first.room).chatSequence,1);
 });
+
+test('H06 the last three messages survive bubble expiry and reconnect but clear before a case',()=>{
+  const r=room();
+  for(const [i,text] of ['First message','Second message','Third message','Fourth message'].entries())assert.equal(r.say('a',text,i*3000).ok,true);
+  r.tick(16000);
+  assert.deepEqual(r.view('b',16000).chat,[]);
+  assert.deepEqual(r.view('b',16000).chatHistory.map(m=>m.text),['Second message','Third message','Fourth message']);
+  assert.equal(r.view('b',16000).chatHistory.every(m=>m.player==='a'&&m.name==='Alex (1)'),true);
+  r.setConnected('b',false,16000);r.setConnected('b',true,16001);
+  assert.equal(r.view('b',16001).chatHistory.length,3);
+  r.add('d','Newcomer',16001);assert.equal(r.view('d',16001).chatHistory.length,3);
+  r.start('a',16002);assert.deepEqual(r.view('b',16002).chatHistory,[]);
+  assert.equal(r.say('a','Secret answer',16003).code,'phase');assert.deepEqual(r.view('d',16003).chatHistory,[]);
+  while(r.phase!=='results')r.tick(r.deadline);
+  r.say('b','Good game',r.deadline??200000);assert.equal(r.view('a',200000).chatHistory.length,1);
+  r.reset('a');assert.deepEqual(r.view('a',200001).chatHistory,[]);
+});

@@ -9,7 +9,7 @@ export class Room {
     this.id = id; this.words = words; this.pick = pick; this.validate = validate;
     this.config = { ...DEFAULTS, ...config }; this.publicRoom = publicRoom;
     this.members = new Map(); this.roster = []; this.history = new Set(); this.nextNumber = 1;
-    this.chat=new Map();this.chatSequence=0;
+    this.chat=new Map();this.chatSequence=0;this.chatHistory=[];
     this.host = null; this.phase = 'lobby'; this.version = 0; this.matchId = 0;
     this.deadline = null; this.word = null; this.spy = null; this.result = null;
     this.clues = [new Map(), new Map()]; this.votes = new Map(); this.budgets = new Map();
@@ -66,7 +66,7 @@ export class Room {
     this.baseOrder=[...players.slice(first),...players.slice(0,first)].map(p=>p.id);
     this.clues = this.settings.roundSeconds.map(()=>new Map()); this.votes = new Map(); this.budgets = new Map();
     this.result = null;this.beginRound(0,now);
-    this.chat.clear();
+    this.chat.clear();this.chatHistory=[];
     this.touch(); return good('Match started');
   }
   reset(actor) {
@@ -75,7 +75,7 @@ export class Room {
     this.word = null; this.spy = null; this.roster = []; this.phase = 'lobby'; this.result = null;
     this.deadline = null; this.clues = this.settings.roundSeconds.map(()=>new Map()); this.votes.clear(); this.budgets.clear();
     this.caseNumber=0;this.round=0;this.turnIndex=-1;this.turnOrder=[];this.baseOrder=[];
-    this.chat.clear();
+    this.chat.clear();this.chatHistory=[];
     this.touch(); return good('New session ready');
   }
   checkPopulation() {
@@ -129,7 +129,10 @@ export class Room {
     if(now-(player.lastChatAt??-Infinity)<3000)return bad('rate','Wait a moment before chatting again');
     player.lastChatAt=now;
     const checked=validateChat(raw);if(!checked.ok)return bad('chat','Choose different words for your message');
-    this.chat.set(id,{id:++this.chatSequence,player:id,text:checked.value,sentAt:now,expiresAt:now+7000});
+    const message={id:++this.chatSequence,player:id,text:checked.value,sentAt:now,expiresAt:now+7000};
+    this.chat.set(id,message);
+    this.chatHistory.push({...message,name:player.numbered?`${player.name} (${player.number})`:player.name});
+    this.chatHistory=this.chatHistory.slice(-3);
     this.touch();return good('Message sent');
   }
   submit(id, value, matchId, phase, now) {
@@ -172,6 +175,10 @@ export class Room {
     return {
       room: this.id, publicRoom: this.publicRoom, host: this.host, version: this.version,
       chat:ACTIVE.has(this.phase)?[]:[...this.chat.values()].filter(message=>now<message.expiresAt),
+      chatHistory:ACTIVE.has(this.phase)?[]:this.chatHistory.map(message=>{
+        const sender=this.members.get(message.player);
+        return {...message,name:sender?(sender.numbered?`${sender.name} (${sender.number})`:sender.name):message.name};
+      }),
       matchId: this.matchId, phase: this.phase, serverNow: now, deadline: this.deadline,
       settings:{cases:this.settings.cases,roundSeconds:[...this.settings.roundSeconds]},caseNumber:this.caseNumber,
       seriesComplete:this.caseNumber>=this.settings.cases&&!ACTIVE.has(this.phase),round:round+1,

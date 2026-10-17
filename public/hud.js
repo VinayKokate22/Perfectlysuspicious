@@ -1,5 +1,7 @@
 // The room has a fixed viewport. Extra information lives in paged case files.
 // This controller owns presentation only; all game decisions stay on the server.
+import { GAME_GUIDE } from './guide.js';
+import { createResults } from './results.js';
 const element=(tag,className,text)=>{const node=document.createElement(tag);node.className=className;if(text)node.textContent=text;return node;};
 const button=(text,action)=>{const node=element('button','secondary',text);node.type='button';node.dataset.hud=action;return node;};
 export class FixedHUD {
@@ -14,15 +16,21 @@ export class FixedHUD {
       else if(action==='settings'){this.closeMenu(false);document.querySelector('#settings-open').click();}
       else if(action==='close')this.close();
       else if(action==='file')this.open(control.dataset.file);
+      else if(action==='result-view'){
+        this.resultView=control.dataset.view;
+        this.dialog.querySelector('.results-stage').dataset.view=this.resultView;
+        this.dialog.querySelectorAll('[data-hud=result-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===this.resultView)));
+      }
       else if(action==='previous'||action==='next'){this.page+=action==='next'?1:-1;this.layoutFile();this.dialog.querySelector('.file-content').focus({preventScroll:true});}
       else if(action==='suspect')this.openSuspect(control.dataset.person);
       else if(action==='suspect-close')this.closeSuspect();
     });
     root.addEventListener('click',event=>{if(event.target.closest('.room-menu [data-action]'))this.closeMenu(false);});
   }
-  attach({changed,round}){
+  attach({changed,round,snapshot=null}){
     this.observer.disconnect();
-    if(changed){this.file=null;this.page=0;this.round=round;this.menuOpen=false;this.suspectKey=null;}
+    this.snapshot=snapshot;
+    if(changed){this.file=null;this.page=0;this.round=round;this.menuOpen=false;this.suspectKey=null;this.resultView='votes';}
     this.panel=this.root.querySelector('.player-console');this.board=this.root.querySelector('.clue-grid');
     if(!this.panel||!this.board){this.dialog=null;this.root.classList.remove('fixed-hud');const gear=document.querySelector('#settings-open');gear.style.removeProperty('left');gear.style.removeProperty('top');return;}
     const files={};
@@ -32,7 +40,7 @@ export class FixedHUD {
     const chat=element('section','console-chat');chat.setAttribute('aria-label','Room chat');
     const form=this.panel.querySelector('.chat-form'),locked=this.panel.querySelector('.chat-locked');
     const roomKey=this.root.querySelector('.room-code')?.textContent;
-    if(this.roomKey!==roomKey||!form)this.lastMessage=null;
+    if(this.roomKey!==roomKey||!form){this.lastMessage=null;this.messages=[];}
     this.roomKey=roomKey;
     if(form)chat.append(form);
     else {
@@ -42,25 +50,34 @@ export class FixedHUD {
     locked?.remove();
     chat.querySelector('.small-note')?.remove();
     if(form){
-      for(const bubble of this.board.querySelectorAll('.chat-bubble')){
-        if(!this.lastMessage||Number(bubble.dataset.messageId)>this.lastMessage.id)this.lastMessage={id:Number(bubble.dataset.messageId),expires:Number(bubble.dataset.expires),name:bubble.getAttribute('aria-label').replace(/ says$/,''),text:bubble.textContent};
+      if(snapshot?.chatHistory)this.messages=[...snapshot.chatHistory];
+      else for(const bubble of this.board.querySelectorAll('.chat-bubble')){
+        const id=Number(bubble.dataset.messageId);
+        if(!this.messages.some(message=>message.id===id))this.messages.push({id,name:bubble.getAttribute('aria-label').replace(/ says$/,''),text:bubble.textContent});
+      }
+      this.messages=this.messages.sort((a,b)=>a.id-b.id).slice(-3);this.lastMessage=this.messages.at(-1);
+      const history=element('div','chat-history');history.setAttribute('aria-label','Recent room messages');
+      for(const message of this.messages.slice(0,-1)){
+        const previous=element('p','chat-previous');previous.title=`${message.name}: ${message.text}`;
+        previous.append(element('strong','chat-author',`${message.name}: `),element('span','chat-preview',message.text));history.append(previous);
       }
       const readout=element('div','chat-readout');readout.setAttribute('aria-label','Latest room message');readout.setAttribute('role','status');readout.setAttribute('aria-live','polite');readout.setAttribute('aria-atomic','true');
       if(this.lastMessage)readout.append(element('strong','chat-author',`${this.lastMessage.name}: `),document.createTextNode(this.lastMessage.text));
       else{readout.classList.add('chat-empty');readout.textContent='Room messages appear here.';}
-      chat.prepend(readout);
+      history.append(readout);chat.prepend(history);
+      files.chat=this.messages.map(message=>{const entry=element('section','chat-record');entry.append(element('h3','',message.name),element('p','',message.text));return entry;});
+      if(this.messages.length>1){const expand=button('History','file');expand.dataset.file='chat';expand.setAttribute('aria-label','Read full chat history');expand.setAttribute('aria-haspopup','dialog');form.querySelector('.chat-row').append(expand);}
     }
-    collect('scores',[...this.root.querySelectorAll('.result-person'),...this.root.querySelectorAll('.roster .player')]);
+    collect('scores',snapshot?.result?[...this.root.querySelectorAll('.leaderboard-title,.result-person')]:[...this.root.querySelectorAll('.result-person'),...this.root.querySelectorAll('.roster .player')]);
+    if(snapshot?.result)files.scores=[createResults(snapshot,this.resultView)];
     this.root.querySelector('.roster')?.remove();
     const help=[...this.panel.querySelectorAll('.briefing [data-action=practice],.briefing-steps,.input-help,.lesson,.small-note,.role-card>p:not(.role-label):not(.secret-word),.role-stamp,.details')];
     collect('help',help);
     for(const details of help.filter(n=>n.tagName==='DETAILS')){details.open=true;details.querySelector('summary')?.replaceWith(element('h3','',details.querySelector('summary').textContent));}
     const instruction=this.panel.querySelector('.phase-instruction>p:not(.eyebrow)');
-    if(instruction){files.help.push(instruction.cloneNode(true));instruction.textContent=this.root.querySelector('[data-phase=voting]')?'Choose a suspect to vote.':'Read the clues before the next turn.';}
+    if(instruction){files.help.push(instruction.cloneNode(true));if(this.root.querySelector('[data-phase=voting]'))instruction.textContent='Choose a suspect to vote.';}
     const reset=this.panel.querySelector('[data-action=reset]');if(reset){reset.setAttribute('aria-label',reset.textContent);reset.textContent='New session';}
     const practiceSubmit=this.panel.querySelector('#practice-form button');if(practiceSubmit){practiceSubmit.setAttribute('aria-label',practiceSubmit.textContent);practiceSubmit.textContent='Submit clue';}
-    const waiting=this.panel.querySelector('.briefing h3'),start=this.panel.querySelector('.briefing [data-action=start]');
-    if(start&&waiting?.textContent.startsWith('Waiting')){start.setAttribute('aria-label',start.textContent);start.textContent=waiting.textContent;}
     // Rejection rules remain connected to the clue input for assistive technology.
     this.root.querySelector('#clue')?.setAttribute('aria-describedby','hud-clue-help');
     if(this.root.querySelector('#clue')){const hint=element('span','sr-only','One word. Use 2 to 20 letters. A submitted clue is final.');hint.id='hud-clue-help';this.panel.append(hint);}
@@ -69,8 +86,8 @@ export class FixedHUD {
     const emptyPoints=this.panel.querySelector('[aria-label="Match points"]');
     if(emptyPoints)emptyPoints.hidden=true;
     this.panel.querySelectorAll(':scope>.eyebrow,:scope>h3').forEach(n=>{if(emptyPoints)n.remove();});
-    const series=this.panel.querySelector('.series-result');if(series){files.scores.push(series);series.remove();}
-    const detail=verdict?.querySelector('div>p:last-child');if(detail){files.help.push(detail);detail.remove();}
+    const series=this.panel.querySelector('.series-result');if(series){if(!snapshot?.result)files.scores.push(series);series.remove();}
+    const detail=verdict?.querySelector('div>p:last-child');if(detail){if(!snapshot?.result)files.scores.unshift(detail);detail.remove();}
     this.panel.querySelector('.role-card')?.classList.add('compact-role');
     this.panel.querySelector('.briefing')?.classList.add('compact-briefing');
     // Give every piece of information one home inside the case console.
@@ -78,7 +95,7 @@ export class FixedHUD {
     action.append(...this.panel.childNodes);
     const heading=this.root.querySelector('.phase-head');
     // Keep the result readable without repeating a second large heading on phones.
-    if(verdict){const lead=verdict.querySelector('.result-lead');if(lead){heading.querySelector('h2').dataset.compactTitle=lead.textContent.split('. ')[0]+'.';files.scores.unshift(element('p','',lead.textContent));}}
+    if(verdict){const lead=verdict.querySelector('.result-lead');if(lead&&!snapshot?.result){heading.querySelector('h2').dataset.compactTitle=lead.textContent.split('. ')[0]+'.';files.scores.unshift(element('p','',lead.textContent));}}
     heading?.querySelector('.practice-note')?.remove();
     const roomTop=this.root.querySelector('.room-top');
     const invite=roomTop?.querySelector('[data-action=invite]');
@@ -137,10 +154,9 @@ export class FixedHUD {
         form.replaceChildren(...sheets);this.root.append(form);form.hidden=true;
       }else {files.rules=[...rules.children];this.rulesForm=null;this.rulesSave=null;}
     }else {this.rulesForm=null;this.rulesSave=null;}
-    if(files.rules?.length){
-      files.help=[...files.rules,...files.help];
-      if(this.rulesForm){this.rulesForm.append(...files.help);this.rulesName='help';}
-    }
+    const guide=GAME_GUIDE.map(([title,text])=>{const page=element('section','guide-page');page.append(element('h3','',title),element('p','',text));return page;});
+    if(files.rules?.length){const setup=button('Match setup','file');setup.dataset.file='rules';guide[0].append(setup);}
+    files.help=[...guide,...files.help];
     this.cards=[...this.board.querySelectorAll('.suspect-card')];
     const speech=element('div','speech-layer');
     this.cards.forEach((card,i)=>{
@@ -156,6 +172,7 @@ export class FixedHUD {
     inspector.addEventListener('cancel',event=>{event.preventDefault();this.closeSuspect();});
     this.observer.observe(this.board);this.observer.observe(this.panel);this.observer.observe(this.notifications);
     this.layout();
+    if(changed&&snapshot?.phase==='results')this.file='scores';
     if(this.file&&files[this.file]?.length)this.open(this.file,true);
     if(this.suspectKey)this.openSuspect(this.suspectKey,true);
   }
@@ -163,19 +180,23 @@ export class FixedHUD {
     if(!this.files[name]?.length)return;
     this.closeMenu(false);
     if(!restore){this.page=0;this.file=name;}
-    const content=this.dialog.querySelector('.file-content'),save=this.dialog.querySelector('.file-save');
+    const content=this.dialog.querySelector('.file-content'),save=this.dialog.querySelector('.file-save'),heading=this.dialog.querySelector('.file-heading');
+    const results=this.files.scores?.find(node=>node.classList.contains('results-stage'));
+    const previousTabs=heading.querySelector('.result-tabs');if(previousTabs&&results)results.append(previousTabs);
     content.replaceChildren();save.replaceChildren();
     this.dialog.dataset.file=name;
-    this.dialog.querySelector('h2').textContent={rules:'Game rules',scores:'Session standings',help:'Rules and briefing'}[name];
-    if(name==='help'&&this.rulesForm){this.rulesForm.hidden=false;content.append(this.rulesForm);save.append(this.rulesSave);}
+    this.dialog.classList.toggle('results-file',name==='scores'&&Boolean(this.snapshot?.result));
+    this.dialog.querySelector('h2').textContent={rules:'Match setup',scores:this.snapshot?.result?(this.snapshot.seriesComplete?'Final results':`Case ${this.snapshot.caseNumber} results`):'Leaderboard',help:'How to play',chat:'Recent chat'}[name];
+    if(name==='rules'&&this.rulesForm){this.rulesForm.hidden=false;content.append(this.rulesForm);save.append(this.rulesSave);}
     else content.append(...this.files[name]);
+    if(name==='scores'&&results)heading.insertBefore(results.querySelector('.result-tabs'),heading.querySelector('[data-hud=close]'));
     for(const node of this.files[name])node.hidden=false;
     this.dialog.showModal();this.observer.observe(content);this.layoutFile();
     if(!restore)this.dialog.querySelector('[data-hud=close]').focus({preventScroll:true});
   }
   close(){
     const name=this.file;this.dialog?.close();this.file=null;
-    const control=this.root.querySelector(`.case-tools [data-file="${name}"][data-hud]`);
+    const control=this.root.querySelector(`.case-tools [data-file="${name}"][data-hud],.console-chat [data-file="${name}"][data-hud]`);
     (control?.checkVisibility()?control:this.menuButton)?.focus({preventScroll:true});
   }
   closeMenu(restore=true){this.roomMenu?.close();this.menuOpen=false;if(restore)this.menuButton?.focus({preventScroll:true});}
@@ -240,7 +261,7 @@ export class FixedHUD {
     if(fallback&&speech){const box=this.board.getBoundingClientRect();speech.style.width=`${Math.min(240,width-16)}px`;speech.style.left=`${box.left+width/2}px`;speech.style.top=`${box.top+8}px`;}
     const gap=width<600?6:12,count=this.cards.length;
     let cols=Math.min(count,width>=650?4:width>=480?3:2),rows=Math.ceil(count/cols);
-    if((height-gap*(rows-1))/rows<48&&width>=280){cols=3;rows=Math.ceil(count/cols);}
+    if((height-gap*(rows-1))/rows<(count>=7?60:48)&&width>=280){cols=3;rows=Math.ceil(count/cols);}
     const cardWidth=Math.min(240,(width-gap*(cols-1))/cols),slot=(height-gap*(rows-1))/rows;
     this.board.dataset.density='full';
     for(const card of this.cards){card.hidden=false;card.style.width=`${cardWidth}px`;card.querySelectorAll('.evidence-slip').forEach(slip=>{slip.hidden=false;slip.classList.remove('preview-hidden');});}
@@ -265,6 +286,7 @@ export class FixedHUD {
   }
   layoutFile(){
     if(!this.dialog?.open||!this.file)return;
+    if(this.dialog.classList.contains('results-file')){this.dialog.querySelector('.file-pagination').hidden=true;return;}
     const sheets=this.files[this.file],content=this.dialog.querySelector('.file-content');
     const available=content.clientHeight;
     for(const sheet of sheets)sheet.hidden=false;
@@ -272,7 +294,7 @@ export class FixedHUD {
     const pages=[];let page=[],used=0;
     for(const sheet of sheets){
       const height=sheet.getBoundingClientRect().height+12;
-      if(page.length&&(used+height>available||this.file==='help'&&this.rulesForm)){pages.push(page);page=[];used=0;}
+      if(page.length&&(used+height>available||this.file==='rules'&&this.rulesForm||this.file==='help'&&sheet.classList.contains('guide-page'))){pages.push(page);page=[];used=0;}
       page.push(sheet);used+=height;
     }
     if(page.length)pages.push(page);

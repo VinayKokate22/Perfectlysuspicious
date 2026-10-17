@@ -1,0 +1,102 @@
+{
+  "checkedAtUtc": "2026-10-17T03:38:23.905239+00:00",
+  "unit": {
+    "tests": 83,
+    "passed": 83,
+    "failed": 0,
+    "report": "clarity-unit.tap"
+  },
+  "browser": {
+    "distinctTargetedCases": 14,
+    "latestPassed": 14,
+    "fullSuiteRerun": false,
+    "cases": [
+      {
+        "title": "U37 invited guests can read the game explanation before setup details",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U38 current turns timers and reading breaks stay explicit on every screen size",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U39 three recent chats survive expiry and reload in a crowded touch room",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U40 visual ballots and a normal leaderboard fit with all eight players",
+        "status": "expected",
+        "report": "clarity-built-final.json"
+      },
+      {
+        "title": "U41 touch devices keep the active timer and submission reachable with a keyboard",
+        "status": "expected",
+        "report": "clarity-built-final.json"
+      },
+      {
+        "title": "U30 crowded mobile rooms keep long chat messages controls and notifications readable",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U31 phone and tablet conversation stays in the console in both orientations",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U33 floating room toasts stay outside controls without shifting the interface",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U36 laptop and monitor toasts stay near the top of the clear room area",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U27 eight players and five rounds remain reachable without any scrolling",
+        "status": "expected",
+        "report": "clarity-built-final.json"
+      },
+      {
+        "title": "U29 a phone keyboard keeps editing controls visible without reframing the room",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "U25 case controls use consistent touch targets and notifications stay inside their section",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      },
+      {
+        "title": "T07 host settings govern sequential turns, five clue rounds and the final case limit",
+        "status": "expected",
+        "report": "clarity-built-final.json"
+      },
+      {
+        "title": "T08 guided practice reveals one clue per turn and reverses the second round",
+        "status": "expected",
+        "report": "clarity-built-regression.json"
+      }
+    ]
+  },
+  "localBuild": {
+    "files": 32,
+    "bytes": 2743238,
+    "sourceAndManifestHashesVerified": true
+  },
+  "hostedBuild": {
+    "configurationTests": 4,
+    "report": "clarity-hosting.tap",
+    "assetHashesVerified": true,
+    "endpoint": "Test fixture only"
+  },
+  "limitations": [
+    "Physical devices were not tested",
+    "Production services were not redeployed",
+    "The earlier U13 zoom gate remains open"
+  ]
+}

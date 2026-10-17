@@ -1,0 +1,681 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/clarity.spec.js",
+      "tests/browser/fixed-hud.spec.js",
+      "tests/browser/turns.spec.js",
+      "--grep",
+      "U37|U38|U39|U40|U41|U25 |U27 |U29 |U30 |U31 |U33 |U36 |T07 |T08 ",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "clarity.spec.js",
+      "file": "clarity.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U37 invited guests can read the game explanation before setup details",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9231,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:32:38.915Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-c7d54665d97d2061bbca",
+          "file": "clarity.spec.js",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "U38 current turns timers and reading breaks stay explicit on every screen size",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13563,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:32:48.302Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-32ba2980d8bed5ebcc07",
+          "file": "clarity.spec.js",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "U39 three recent chats survive expiry and reload in a crowded touch room",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8687,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:01.885Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-087427638047bb08534d",
+          "file": "clarity.spec.js",
+          "line": 93,
+          "column": 1
+        },
+        {
+          "title": "U40 visual ballots and a normal leaderboard fit with all eight players",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 8772,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 5\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"file-content overflow\",\u001b[39m\n\u001b[31m+   \"results-stage overflow\",\u001b[39m\n\u001b[31m+   \"result-panels overflow\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 5\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"file-content overflow\",\u001b[39m\n\u001b[31m+   \"results-stage overflow\",\u001b[39m\n\u001b[31m+   \"result-panels overflow\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:133:141",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                      "column": 21,
+                      "line": 48
+                    },
+                    "snippet": "  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                        "column": 21,
+                        "line": 48
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 5\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"file-content overflow\",\u001b[39m\n\u001b[31m+   \"results-stage overflow\",\u001b[39m\n\u001b[31m+   \"result-panels overflow\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:133:141"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:10.590Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U40-visual-ballots-5f65b--fit-with-all-eight-players\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U40-visual-ballots-5f65b--fit-with-all-eight-players\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                    "column": 21,
+                    "line": 48
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-23230d16ec775c893952",
+          "file": "clarity.spec.js",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "U41 touch devices keep the active timer and submission reachable with a keyboard",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 11781,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.clock-face')\nExpected substring: \u001b[32m\"60\"\u001b[39m\nReceived string:    \u001b[31m\"52YOUR TIME\"\u001b[39m\nTimeout: 7000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.clock-face') with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for locator('.clock-face')\u001b[22m\n\u001b[2m    5 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"59YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"58YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"57YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"56YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"55YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"54YOUR TIME\"\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m    - unexpected value \"53YOUR TIME\"\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m    - unexpected value \"52YOUR TIME\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.clock-face')\nExpected substring: \u001b[32m\"60\"\u001b[39m\nReceived string:    \u001b[31m\"52YOUR TIME\"\u001b[39m\nTimeout: 7000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.clock-face') with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for locator('.clock-face')\u001b[22m\n\u001b[2m    5 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"59YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"58YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"57YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"56YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"55YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"54YOUR TIME\"\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m    - unexpected value \"53YOUR TIME\"\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m    - unexpected value \"52YOUR TIME\"\u001b[22m\n\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:165:92",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                      "column": 92,
+                      "line": 165
+                    },
+                    "snippet": "  163 |     await page.getByRole('button',{name:'Start match',exact:true}).tap();\n  164 |     for(const [width,height] of [[320,568],[360,640],[390,844],[568,320],[768,1024],[1024,768],[1180,820]]){\n> 165 |       await page.setViewportSize({width,height});await expect(page.locator('.clock-face')).toContainText('60');await expect(page.locator('.current-turn .turn-tag')).toHaveText('NOW');await fits(page);\n      |                                                                                            ^\n  166 |     }\n  167 |     await page.setViewportSize({width:390,height:844});await page.getByLabel('Your first clue',{exact:true}).tap();await page.setViewportSize({width:390,height:300});\n  168 |     await expect(page.locator('html')).toHaveAttribute('data-keyboard','open');await expect(page.locator('.clock-face')).toBeVisible();await fits(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                        "column": 92,
+                        "line": 165
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.clock-face')\nExpected substring: \u001b[32m\"60\"\u001b[39m\nReceived string:    \u001b[31m\"52YOUR TIME\"\u001b[39m\nTimeout: 7000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.clock-face') with timeout 7000ms\u001b[22m\n\u001b[2m  - waiting for locator('.clock-face')\u001b[22m\n\u001b[2m    5 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"59YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"58YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"57YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"56YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"55YOUR TIME\"\u001b[22m\n\u001b[2m    2 × locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"54YOUR TIME\"\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m    - unexpected value \"53YOUR TIME\"\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"clock-face\" data-urgent=\"false\">…</div>\u001b[22m\n\u001b[2m    - unexpected value \"52YOUR TIME\"\u001b[22m\n\n\n  163 |     await page.getByRole('button',{name:'Start match',exact:true}).tap();\n  164 |     for(const [width,height] of [[320,568],[360,640],[390,844],[568,320],[768,1024],[1024,768],[1180,820]]){\n> 165 |       await page.setViewportSize({width,height});await expect(page.locator('.clock-face')).toContainText('60');await expect(page.locator('.current-turn .turn-tag')).toHaveText('NOW');await fits(page);\n      |                                                                                            ^\n  166 |     }\n  167 |     await page.setViewportSize({width:390,height:844});await page.getByLabel('Your first clue',{exact:true}).tap();await page.setViewportSize({width:390,height:300});\n  168 |     await expect(page.locator('html')).toHaveAttribute('data-keyboard','open');await expect(page.locator('.clock-face')).toBeVisible();await fits(page);\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:165:92"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:20.190Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U41-touch-devices--c36a7-n-reachable-with-a-keyboard\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U41-touch-devices--c36a7-n-reachable-with-a-keyboard\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                    "column": 92,
+                    "line": 165
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-fa7d786f8b196f205365",
+          "file": "clarity.spec.js",
+          "line": 153,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "fixed-hud.spec.js",
+      "file": "fixed-hud.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U30 crowded mobile rooms keep long chat messages controls and notifications readable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9163,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:32.783Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-f1574264ca20c98eb569",
+          "file": "fixed-hud.spec.js",
+          "line": 92,
+          "column": 1
+        },
+        {
+          "title": "U31 phone and tablet conversation stays in the console in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7401,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:42.077Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-625a576700b257c99b8b",
+          "file": "fixed-hud.spec.js",
+          "line": 129,
+          "column": 1
+        },
+        {
+          "title": "U33 floating room toasts stay outside controls without shifting the interface",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9492,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:49.493Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-9eb987f0a9d879de4785",
+          "file": "fixed-hud.spec.js",
+          "line": 159,
+          "column": 1
+        },
+        {
+          "title": "U36 laptop and monitor toasts stay near the top of the clear room area",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7760,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:33:59.013Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-52df874ac38c37e3c3c7",
+          "file": "fixed-hud.spec.js",
+          "line": 196,
+          "column": 1
+        },
+        {
+          "title": "U27 eight players and five rounds remain reachable without any scrolling",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19916,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:34:06.792Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-d0f224c1c8e0c001e793",
+          "file": "fixed-hud.spec.js",
+          "line": 270,
+          "column": 1
+        },
+        {
+          "title": "U29 a phone keyboard keeps editing controls visible without reframing the room",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5554,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:34:26.729Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-0d3ae8d0c15a49b9005a",
+          "file": "fixed-hud.spec.js",
+          "line": 332,
+          "column": 1
+        },
+        {
+          "title": "U25 case controls use consistent touch targets and notifications stay inside their section",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3226,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:34:32.321Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ed0b4bf8c2c06d59bd98-f57cebfd1f5d6c06d3d4",
+          "file": "fixed-hud.spec.js",
+          "line": 366,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "turns.spec.js",
+      "file": "turns.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "T07 host settings govern sequential turns, five clue rounds and the final case limit",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19719,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:34:35.620Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "08f1ff40c3b2938eab8a-7cd5bd61ceb7cf7e9674",
+          "file": "turns.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "T08 guided practice reveals one clue per turn and reverses the second round",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5049,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:34:55.355Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "08f1ff40c3b2938eab8a-8033dea1c5d3c7deec2d",
+          "file": "turns.spec.js",
+          "line": 54,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T03:31:24.881Z",
+    "duration": 215827.84300000002,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

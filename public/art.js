@@ -1,3 +1,22 @@
+// Small block portraits use the same seat colors and hair silhouettes as the room.
+export function blockPortrait(seed=0){
+  const i=((seed%8)+8)%8;
+  const coats=['#ca9140','#237f7b','#a64f6b','#586da8','#748643','#bf6642','#337b99','#8e629e'];
+  const skins=['#bd8158','#efbf99','#8f593f','#d9a278','#e4b88f','#6f4536','#c68a64','#efd1b0'];
+  const hair=['#352922','#2d252d','#29252b','#5d3829','#544035','#242327','#d9c9a3','#644035'];
+  const hats=[
+    '<path d="M10 24H54V30H10ZM19 10H45V25H19Z" fill="#705035"/><path d="M19 21H45V26H19Z" fill="#302c2a"/>',
+    '<path d="M17 29V16L44 11L49 27H41V22L23 28V34H17Z"/>',
+    '<path d="M15 28V16H21V11H29V8H39V13H47V19H51V31H43V24H24V32Z"/>',
+    '<path d="M16 27V15H45V23H54V29H29V25Z" fill="#425b8c"/>',
+    '<path d="M14 42V17L20 12H45L50 18V42H44V25H21V42Z"/>',
+    '<path d="M17 29V17L24 9H42V14H49V28H40V24H24V32Z"/>',
+    '<path d="M15 26V17L21 11H43L49 17V29H15Z" fill="#347894"/><path d="M14 25H50V31H14Z" fill="#69a5b7"/>',
+    '<path d="M16 30V17L23 12H45L49 20V30H42V23L32 20L24 28Z"/>'
+  ];
+  return `<svg class="block-portrait" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="10" fill="#142b40"/><path d="M7 64V48L14 43H50L57 48V64Z" fill="${coats[i]}"/><path d="M7 49L16 46V64H7ZM49 46L57 50V64H49Z" fill="#000" opacity=".16"/><path d="M26 42H38V50L32 57L26 50Z" fill="#fff0d4"/><path d="M30 51H34L36 64H28Z" fill="#283344"/><rect x="18" y="18" width="29" height="28" rx="5" fill="${skins[i]}"/><path d="M42 23H47V41L42 46Z" fill="#000" opacity=".13"/><g fill="${hair[i]}">${hats[i]}</g><path d="M25 32V35M38 32V35" stroke="#282830" stroke-width="3" stroke-linecap="round"/><path d="M28 40H36" stroke="#684f43" stroke-width="2" stroke-linecap="round"/>${[1,4].includes(i)?'<path d="M21 30H29V37H21ZM34 30H42V37H34ZM29 33H34" fill="none" stroke="#233343" stroke-width="2"/>':''}<path d="M18 53L24 56L20 64M46 53L40 56L44 64" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2"/></svg>`;
+}
+
 // Original vector portraits. Artwork never encodes a player's secret role.
 export function portrait(seed = 0) {
   const n = typeof seed === 'number' ? seed : [...String(seed)].reduce((a,c)=>a+c.charCodeAt(0),0);

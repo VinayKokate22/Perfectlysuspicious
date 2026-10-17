@@ -1,10 +1,13 @@
 # Implementation phase log
 
-Updated 16 October 2026. No game has been deployed or submitted.
+Updated 17 October 2026. The user has configured Render and Vercel for private room testing. The current local revision has not been pushed or deployed by this agent.
 
-Latest private room and hosting revision: all 81 unit cases pass. Fifteen distinct targeted browser cases have passing latest results across the recorded runs, including the final four scenario correction for crowded phone notices and laptop placement. The complete browser suite was not rerun. The local client contains 28 files and 2717095 bytes, with source and manifest hashes verified. See release/review-evidence/private-hosting-verification.json for the current evidence, which supersedes earlier build totals below. U13, physical device review and platform verification remain open.
+Latest result board revision: votes are grouped by suspect, with each suspect followed by all voter portraits in one row. A separate row shows abstentions. The leaderboard still shows totals and points gained this case. U40 and U41 pass on the rebuilt client, including concentrated votes, all players abstaining and mobile and tablet geometry. The current build has 32 files and 2744535 bytes. Source and manifest hashes match. See release/review-evidence/grouped-votes-verification.json.
 
-Vercel and Render configuration files are prepared. docs/DEPLOYMENT.md explains GitHub setup, backend and frontend settings, invitations and the final hosted check. Open matchmaking remains implemented but disabled. The user will sign in and publish. No repository or hosted service was created. The current private room preview is http://localhost:3002; the older port 3000 server remains running.
+Previous play clarity revision: all 83 unit cases pass. Fourteen distinct targeted browser scenarios have passing latest results, including visual ballots, totals and case gains, small landscape results, turn timers, the simulated phone keyboard, three message history, existing notifications and host configured cases. The complete browser suite was not rerun. The final local client contains 32 files and 2743238 bytes, with source and manifest hashes verified. See release/review-evidence/clarity-verification.json. Physical devices, U13 zoom and platform verification remain open.
+
+The Rules menu now explains play before Match setup. Current turns have explicit headings, a visible seat marker and a camera facing pose. Reading breaks explain automatic progression. Results use a visual vote board and a separate normal leaderboard; phones switch between the two views. Chat history is bounded to three messages and remains locked during a live case. Both Render and Vercel need the new revision to receive all changes. Open matchmaking remains implemented but disabled. docs/DEPLOYMENT.md contains the hosting steps.
+
 
 | Phase | Status | Evidence |
 | --- | --- | --- |

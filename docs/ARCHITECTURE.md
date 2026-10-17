@@ -1,6 +1,6 @@
 # Architecture and UI flow
 
-Phase 1 completed on 10 October 2026. Local development only. No platform approval or deployment has occurred.
+Phase 1 completed on 10 October 2026. The user subsequently configured Render and Vercel for private room testing. These local changes do not publish either service. No platform approval has been established.
 
 ## Stack and components
 
@@ -97,3 +97,15 @@ The service defaults publicMatchmaking to false. The main server enables it only
 The Vercel configuration runs npm run build:web and publishes dist/hosted/client. This build requires GAME_BACKEND_URL, normalizes an HTTPS or WSS address to the secure /play endpoint and generates a public config.js without altering public/config.js. Only backendUrl, platform and publicMatchmaking enter that file. Local review builds still use dist/0.1.0/client and the same origin configuration. The manifest hashes describe the actual generated files.
 
 Render runs server/main.js as one Node 24 service. ALLOWED_ORIGINS lists the permitted frontend origins for WebSocket upgrades. Rooms remain in process memory, so no autoscaling or persistent room recovery is claimed. Frontend PUBLIC_MATCHMAKING is a build setting; the independent backend switch still enforces access. Both default to false. See DEPLOYMENT.md for the account setup and final hosted check.
+
+
+## Play clarity revision
+
+public/guide.js contains the player guide. FixedHUD keeps guide pages separate from the host configuration form. public/results.js builds the result summary, voter portraits and visible names grouped under each suspect and score table from the server's completed case snapshot. It normalizes display names and keys voters and targets by stable player ID. Results automatically open only when entering the results phase; subsequent chat and connection snapshots preserve the chosen view or closed state. public/results.css fits the two panels to portrait and landscape viewports without scrolling. public/art.js supplies original block portraits using the character seat palettes.
+
+The engine retains exactly three successful chat submissions in chatHistory. This history is independent of the expiring per player speech bubble map, contains server supplied names, and is cleared at case start and session reset. Active case views expose an empty history and reject chat. It remains room memory only, so a backend restart still ends rooms and their histories.
+
+The current seat's pose receives a camera direction in local character coordinates. Head and torso turn within bounded angles while the seat and camera stay fixed. Reduced motion applies a stable attentive pose. The live heading and countdown remain separate from that purely visual animation.
+
+
+Lobby readiness uses the connected flags in the authoritative snapshot. Disconnected members keep their seat for resumption and are visibly labeled Reconnecting. The count and Start match eligibility use the same connected population; no client side readiness state or alternative server threshold is introduced. The countdown tile derives its bar fraction and displayed seconds from the same server deadline. Results use text nodes for voter names, retain stable player identifiers and allow names to wrap inside their group.

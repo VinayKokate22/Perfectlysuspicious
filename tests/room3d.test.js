@@ -1,9 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Box3, PerspectiveCamera, Vector3 } from '../public/three.core.js';
+import { Box3, PerspectiveCamera, Vector3, Quaternion } from '../public/three.core.js';
 import { frameRoom } from '../public/room3d.js';
 import { createCharacter, poseCharacter } from '../public/characters.js';
 import { createRoomDecor, createInvestigationTable, createDeskSetting, poseRoomDecor, poseSteam } from '../public/environment.js';
+
+test('G09 the current player turns toward the camera without changing the seat or moving in reduced motion',()=>{
+  for(const rotation of [0,Math.PI,Math.PI/2,-Math.PI/2]){
+    const actor=createCharacter(2);actor.group.rotation.y=rotation;
+    const camera=new Vector3(2,9,14),target=actor.group.worldToLocal(camera.clone());
+    const direction=()=>new Vector3(0,0,-1).applyQuaternion(actor.head.getWorldQuaternion(new Quaternion()));
+    poseCharacter(actor,0,{still:true});const before=direction().dot(camera.clone().sub(actor.head.getWorldPosition(new Vector3())).normalize());
+    const options={still:true,turn:true,lookYaw:Math.atan2(-target.x,-target.z),lookPitch:Math.atan2(target.y-2.6,Math.hypot(target.x,target.z))};
+    poseCharacter(actor,1,options);
+    const after=direction().dot(camera.clone().sub(actor.head.getWorldPosition(new Vector3())).normalize());
+    assert.ok(after>before,`Camera attention must improve from seat angle ${rotation}`);
+    assert.deepEqual(actor.group.position.toArray(),[0,0,0]);assert.equal(actor.group.rotation.y,rotation);
+    const head=actor.head.rotation.toArray(),body=actor.body.rotation.toArray();poseCharacter(actor,100,options);
+    assert.deepEqual(actor.head.rotation.toArray(),head);assert.deepEqual(actor.body.rotation.toArray(),body);
+    poseCharacter(actor,101,{still:true});assert.equal(actor.head.rotation.y,0);assert.equal(actor.body.rotation.y,0);
+  }
+});
 
 test('G01 room bounds fit phone and tablet cameras without changing world proportions',()=>{
   for(const [width,height] of [[288,190],[358,340],[736,540],[288,800],[736,500],[1200,650]]){

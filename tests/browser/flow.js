@@ -1,5 +1,6 @@
 import {expect} from '@playwright/test';
 export async function openCaseFile(page,name){
+  if(await page.locator('.case-file').isVisible())await closeCaseFile(page);
   const menu=page.getByRole('button',{name:'Room menu',exact:true});if(await menu.isVisible())await menu.click();
   await page.getByRole('button',{name,exact:true}).click();await expect(page.locator('.case-file')).toBeVisible();
 }

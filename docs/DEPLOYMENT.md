@@ -47,9 +47,21 @@ Upload public, server and core together. Keep the repository private because the
 
 ## 2. Create the Render backend
 
-In Render, create a Blueprint and select the complete repository from step 1, such as suspiciousgame. Select the branch you uploaded. Render reads the included render.yaml. It defines one Node web service with npm ci --omit=dev as its build command, npm start as its start command and /health as its health check. Node 24 is selected by package.json. [Render Blueprint reference](https://render.com/docs/blueprint-spec)
+The render.yaml file is already prepared. Use the Blueprint option so Render reads the settings from that file. Follow these steps in order:
 
-When Render asks for ALLOWED_ORIGINS, enter your exact Vercel production address if you already know it. Otherwise enter https://setup.invalid temporarily and replace it in step 4. This placeholder deliberately allows no real game website yet. Do not enter an asterisk.
+1. Open your repository on GitHub. Confirm render.yaml and package.json are visible at the top level and that your latest changes are uploaded.
+2. Open [the Render dashboard](https://dashboard.render.com/) and create an account or sign in. Complete any account verification Render requests.
+3. In the dashboard, click New, then Blueprint.
+4. Connect your GitHub account if prompted. Authorize access to this game's repository. In Render's repository list, click Connect beside that repository. Select the complete project repository, the same one you will later use with Vercel.
+5. Enter a Blueprint name such as SuspiciousGame. Select the branch containing your uploaded code, usually main. Keep Blueprint Path as render.yaml.
+6. When prompted for ALLOWED_ORIGINS, enter https://setup.invalid if Vercel is not deployed yet. If you already have the Vercel production URL, enter its exact HTTPS origin with no trailing slash. The temporary value is intentional: the backend can start, but browser players will connect only after step 4 of this guide replaces it with the real game address.
+7. Review the proposed service. It should be the Node web service named perfectly-suspicious-server on the Free compute plan. The supplied file creates one service and no database. Check the displayed plan before proceeding.
+8. Click Deploy Blueprint. Wait for Render to finish building and starting the service. If Render reports an error, keep the error text from the build or service logs so the failure can be diagnosed.
+9. Open the created web service. Copy its public HTTPS address from the service page. Append /health to that address and open it in a browser. The response below confirms the backend is running.
+
+The dashboard sequence follows [Render's Blueprint setup instructions](https://render.com/docs/infrastructure-as-code). A Blueprint reads the build command, start command and other settings from render.yaml, so you do not need to type them again.
+
+The configured build command is npm ci --omit=dev, the start command is npm start and the health check is /health. Node 24 is selected by package.json. If a Root Directory setting is shown, leave it blank at the repository root.
 
 The other variables are already in render.yaml:
 
@@ -71,7 +83,17 @@ If you keep Free, open the backend /health URL and wait for it to respond before
 
 ## 3. Create the Vercel frontend
 
-Import the same GitHub repository into Vercel that you selected in Render, such as suspiciousgame. Use the same branch. There is no second repository to create or copy. Leave Root Directory at the repository root and use the Other framework preset. The included vercel.json sets the install command to npm ci, the build command to npm run build:web and the output directory to dist/hosted/client. [Vercel project configuration](https://vercel.com/docs/project-configuration/vercel-json)
+Have your Render service's public HTTPS address ready before starting. Use the service address ending in .onrender.com, without /health. The dashboard.render.com address is the management page and cannot be used as the backend address.
+
+1. Open [Vercel's New Project page](https://vercel.com/new) and sign in.
+2. Connect your GitHub account if needed. Find the same repository you used on Render and click Import. There is no second repository to create or copy. Use the same branch.
+3. Give the project a name such as perfectlysuspicious. Set Framework Preset to Other and leave Root Directory at the repository root. Do not select public or server.
+4. Leave the build overrides unchanged. The included vercel.json supplies npm ci as the install command, npm run build:web as the build command and dist/hosted/client as the output directory. These settings come from the file even if the form does not display all of them. Use Node 24 if a version selector is shown.
+5. Expand Environment Variables. Add GAME_BACKEND_URL with the actual Render HTTPS service address as its value. Add PUBLIC_MATCHMAKING with false as its value. If environment choices are shown, make sure Production is included.
+6. Click Deploy and wait for a successful build. If a build fails, copy its error text from the build logs.
+7. Open the project's production domain and copy its HTTPS origin. Use the stable game domain, such as https://YOUR_GAME.vercel.app. Complete step 4 of this guide before testing rooms: Render still needs to allow that address.
+
+The GitHub import flow is described in [Vercel's dashboard deployment guide](https://vercel.com/docs/getting-started-with-vercel#deploy-from-the-dashboard). The build settings come from [Vercel project configuration](https://vercel.com/docs/project-configuration/vercel-json).
 
 Before deploying, add these environment variables to Production:
 

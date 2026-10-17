@@ -1,0 +1,24 @@
+{
+  "checkedAtUtc": "2026-10-17T11:26:02.994213+00:00",
+  "browser": {
+    "report": "grouped-votes-final.json",
+    "passed": 2,
+    "failed": 0,
+    "cases": [
+      "U40",
+      "U41"
+    ],
+    "fullSuiteRerun": false
+  },
+  "sourceChecks": {
+    "passed": true,
+    "copyCatalogueEntries": 494
+  },
+  "build": {
+    "files": 32,
+    "bytes": 2744535,
+    "sourceAndManifestHashesVerified": true
+  },
+  "priorBaseline": "clarity-verification.json",
+  "deployed": false
+}

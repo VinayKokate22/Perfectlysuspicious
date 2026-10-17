@@ -42,6 +42,7 @@ async function fixed(page){
   expect(await page.locator('.room-canvas').getAttribute('data-frame-bounds')).toBe(before);
 }
 async function file(page,name){
+  if(await page.locator('.case-file').isVisible())await close(page);
   if(await page.getByRole('button',{name:'Room menu',exact:true}).isVisible())await page.getByRole('button',{name:'Room menu',exact:true}).click();
   await page.getByRole('button',{name,exact:true}).click();await expect(page.locator('.case-file')).toBeVisible();
 }
@@ -146,7 +147,7 @@ test('U31 phone and tablet conversation stays in the console in both orientation
     }
     await page.setViewportSize({width:568,height:320});
     await page.getByRole('button',{name:'Start match',exact:true}).tap();await expect(page.locator('#chat-message')).toBeDisabled();await contained(page);
-    await goPhase(request,'results');await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','results');
+    await goPhase(request,'results');await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','results');await expect(page.locator('.case-file')).toBeVisible();await close(page);
     sockets[0].send(JSON.stringify({type:'chat',value:message,requestId:'result_message'}));
     await expect(page.locator('.chat-readout')).toHaveText(`Christopherabcdefg: ${message}`);await contained(page);await readable(page);
     await request.post('http://127.0.0.1:3912/advance?ms=7000');
@@ -272,7 +273,7 @@ test('U27 eight players and five rounds remain reachable without any scrolling',
   try{
     for(const name of ['Jamie','Casey','Robin','Taylor','Morgan','Jordan','Christopherabcdefg'])sockets.push(await join(code,name));
     await expect(page.locator('.suspect-card')).toHaveCount(8);await fixed(page);
-    await file(page,'Rules');await page.getByRole('combobox',{name:'Cases',exact:true}).selectOption('2');
+    await file(page,'Rules');await page.getByRole('button',{name:'Match setup',exact:true}).click();await page.getByRole('combobox',{name:'Cases',exact:true}).selectOption('2');
     await page.getByRole('combobox',{name:'Clue rounds per case',exact:true}).selectOption('5');
     for(const [i,seconds] of [10,15,20,25,30].entries()){
       await page.locator('.case-file [data-hud=next]').click();
@@ -356,7 +357,7 @@ test('U29 a phone keyboard keeps editing controls visible without reframing the 
     await expect(page.locator('.chat-readout')).toHaveText('Alex: I can read this while the keyboard is open.');await contained(page);await readable(page);
     await page.setViewportSize({width:390,height:844});await expect(page.locator('html')).toHaveAttribute('data-keyboard','closed');await contained(page);
     await page.getByRole('button',{name:'Start match',exact:true}).tap();await goPhase(request,'results');await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','results');
-    await page.getByLabel('Talk to the room',{exact:true}).tap();await page.setViewportSize({width:390,height:300});await expect(page.locator('html')).toHaveAttribute('data-keyboard','open');await contained(page);
+    await expect(page.locator('.case-file')).toBeVisible();await close(page);await page.getByLabel('Talk to the room',{exact:true}).tap();await page.setViewportSize({width:390,height:300});await expect(page.locator('html')).toHaveAttribute('data-keyboard','open');await contained(page);
     await page.getByLabel('Talk to the room',{exact:true}).fill('Good case everyone');await page.getByRole('button',{name:'Send',exact:true}).tap();await expect(page.locator('.chat-readout')).toHaveText('Alex: Good case everyone');await contained(page);await readable(page);expect(errors).toEqual([]);
   }finally{for(const socket of sockets)socket.close();await context.close();}
 });

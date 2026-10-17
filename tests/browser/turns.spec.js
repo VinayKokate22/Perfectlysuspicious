@@ -18,12 +18,12 @@ test('T07 host settings govern sequential turns, five clue rounds and the final 
       await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','lobby');
     }
     const host=pages[0],guest=pages[1];
-    await openCaseFile(host,'Rules');
+    await openCaseFile(host,'Rules');await host.getByRole('button',{name:'Match setup',exact:true}).click();
     await host.getByRole('combobox',{name:'Cases',exact:true}).selectOption('2');await host.getByRole('combobox',{name:'Clue rounds per case',exact:true}).selectOption('5');
     for(const [i,seconds] of [10,15,20,25,30].entries()){await host.locator('.case-file [data-hud=next]').click();await host.getByRole('combobox',{name:`Round ${i+1} time per player`,exact:true}).selectOption(String(seconds));}
     await expect(host.getByRole('button',{name:'Start match',exact:true})).toBeDisabled();
     await host.getByRole('button',{name:'Save rules',exact:true}).tap();await closeCaseFile(host);
-    await openCaseFile(guest,'Rules');await expect(guest.locator('.case-file')).toContainText('2 cases. 5 clue rounds per case.');
+    await openCaseFile(guest,'Rules');await guest.getByRole('button',{name:'Match setup',exact:true}).click();await expect(guest.locator('.case-file')).toContainText('2 cases. 5 clue rounds per case.');
     await expect(guest.locator('.case-file')).toContainText('Round 5: 30 seconds per player');await expect(guest.getByRole('button',{name:'Save rules'})).toHaveCount(0);await closeCaseFile(guest);
     await host.getByRole('button',{name:'Start match',exact:true}).tap();await expect(host.locator('.turn-banner')).toContainText('Your turn');
     await expect(guest.getByRole('button',{name:'Submit clue',exact:true})).toBeDisabled();await expect(host.getByRole('timer')).toHaveText('10');
@@ -39,9 +39,11 @@ test('T07 host settings govern sequential turns, five clue rounds and the final 
     await expect(host.locator('#notice')).toHaveText('Choose another clue');
     await goPhase(request,'voting');await expect(host.locator('#chat-message')).toBeVisible();await expect(host.locator('#chat-message')).toBeDisabled();
     for(const page of [guest,pages[2]])await page.getByRole('button',{name:'Vote for Alex',exact:true}).click();
-    await goPhase(request,'results');await expect(guest.locator('.file-archive')).toContainText('100 points');
+    await goPhase(request,'results');await expect(guest.locator('.result-table .result-total').first()).toHaveText('100');
+    for(const page of pages){await expect(page.locator('.case-file')).toBeVisible();await closeCaseFile(page);}
     await host.getByRole('button',{name:'Next case',exact:true}).tap();await expect(guest.locator('.turn-banner')).toContainText('Your turn');await expect(guest.locator('.secret-word')).toHaveText('Library');
-    await goPhase(request,'results');await expect(host.locator('.series-result')).toContainText('All cases complete');
+    await goPhase(request,'results');await expect(host.locator('#file-title')).toHaveText('Final results');
+    for(const page of pages){await expect(page.locator('.case-file')).toBeVisible();await closeCaseFile(page);}
     await expect(host.getByRole('button',{name:'Next case',exact:true})).toHaveCount(0);expect(received[0].at(-1).caseNumber).toBe(2);
     expect(forbiddenText(await host.locator('main').innerText())).toBe(false);
     await host.getByRole('button',{name:'New session and reset scores',exact:true}).tap();await expect(host.locator('.game-panel')).toHaveAttribute('data-phase','lobby');

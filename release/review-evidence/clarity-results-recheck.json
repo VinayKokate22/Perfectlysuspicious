@@ -1,0 +1,220 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/clarity.spec.js",
+      "-g",
+      "U38|U40",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "clarity.spec.js",
+      "file": "clarity.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U38 current turns timers and reading breaks stay explicit on every screen size",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13836,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:30:14.116Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-32ba2980d8bed5ebcc07",
+          "file": "clarity.spec.js",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "U40 visual ballots and a normal leaderboard fit with all eight players",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6970,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"result-section-title text clipped at 568 by 320: {\\\"text\\\":{\\\"x\\\":29,\\\"y\\\":294,\\\"width\\\":7.09375,\\\"height\\\":24,\\\"top\\\":294,\\\"right\\\":36.09375,\\\"bottom\\\":318,\\\"left\\\":29},\\\"box\\\":{\\\"x\\\":29,\\\"y\\\":72,\\\"width\\\":510,\\\"height\\\":230,\\\"top\\\":72,\\\"right\\\":539,\\\"bottom\\\":302,\\\"left\\\":29}}\",\u001b[39m\n\u001b[31m+   \"result-section-title text clipped at 568 by 320: {\\\"text\\\":{\\\"x\\\":29,\\\"y\\\":318,\\\"width\\\":10.109375,\\\"height\\\":24,\\\"top\\\":318,\\\"right\\\":39.109375,\\\"bottom\\\":342,\\\"left\\\":29},\\\"box\\\":{\\\"x\\\":29,\\\"y\\\":72,\\\"width\\\":510,\\\"height\\\":230,\\\"top\\\":72,\\\"right\\\":539,\\\"bottom\\\":302,\\\"left\\\":29}}\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"result-section-title text clipped at 568 by 320: {\\\"text\\\":{\\\"x\\\":29,\\\"y\\\":294,\\\"width\\\":7.09375,\\\"height\\\":24,\\\"top\\\":294,\\\"right\\\":36.09375,\\\"bottom\\\":318,\\\"left\\\":29},\\\"box\\\":{\\\"x\\\":29,\\\"y\\\":72,\\\"width\\\":510,\\\"height\\\":230,\\\"top\\\":72,\\\"right\\\":539,\\\"bottom\\\":302,\\\"left\\\":29}}\",\u001b[39m\n\u001b[31m+   \"result-section-title text clipped at 568 by 320: {\\\"text\\\":{\\\"x\\\":29,\\\"y\\\":318,\\\"width\\\":10.109375,\\\"height\\\":24,\\\"top\\\":318,\\\"right\\\":39.109375,\\\"bottom\\\":342,\\\"left\\\":29},\\\"box\\\":{\\\"x\\\":29,\\\"y\\\":72,\\\"width\\\":510,\\\"height\\\":230,\\\"top\\\":72,\\\"right\\\":539,\\\"bottom\\\":302,\\\"left\\\":29}}\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:124:75",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                      "column": 21,
+                      "line": 48
+                    },
+                    "snippet": "  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                        "column": 21,
+                        "line": 48
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"result-section-title text clipped at 568 by 320: {\\\"text\\\":{\\\"x\\\":29,\\\"y\\\":294,\\\"width\\\":7.09375,\\\"height\\\":24,\\\"top\\\":294,\\\"right\\\":36.09375,\\\"bottom\\\":318,\\\"left\\\":29},\\\"box\\\":{\\\"x\\\":29,\\\"y\\\":72,\\\"width\\\":510,\\\"height\\\":230,\\\"top\\\":72,\\\"right\\\":539,\\\"bottom\\\":302,\\\"left\\\":29}}\",\u001b[39m\n\u001b[31m+   \"result-section-title text clipped at 568 by 320: {\\\"text\\\":{\\\"x\\\":29,\\\"y\\\":318,\\\"width\\\":10.109375,\\\"height\\\":24,\\\"top\\\":318,\\\"right\\\":39.109375,\\\"bottom\\\":342,\\\"left\\\":29},\\\"box\\\":{\\\"x\\\":29,\\\"y\\\":72,\\\"width\\\":510,\\\"height\\\":230,\\\"top\\\":72,\\\"right\\\":539,\\\"bottom\\\":302,\\\"left\\\":29}}\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:124:75"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T03:30:28.137Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U40-visual-ballots-5f65b--fit-with-all-eight-players\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U40-visual-ballots-5f65b--fit-with-all-eight-players\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                    "column": 21,
+                    "line": 48
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-23230d16ec775c893952",
+          "file": "clarity.spec.js",
+          "line": 112,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T03:29:00.324Z",
+    "duration": 95210.746,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

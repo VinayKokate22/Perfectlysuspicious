@@ -109,13 +109,13 @@ function render() {
   const changed = nextScreen !== screen;
   const focus = document.activeElement;
   const selector = focus?.id ? `#${CSS.escape(focus.id)}` : focus?.matches('[data-action],[data-hud]')
-    ? ['action','target','hud','person','file'].filter(key=>focus.dataset[key]!==undefined).map(key=>`[data-${key}="${CSS.escape(focus.dataset[key])}"]`).join('') : null;
+    ? ['action','target','hud','person','file','view'].filter(key=>focus.dataset[key]!==undefined).map(key=>`[data-${key}="${CSS.escape(focus.dataset[key])}"]`).join('') : null;
   const selection = focus?.tagName === 'INPUT' ? [focus.selectionStart, focus.selectionEnd] : null;
   document.body.dataset.screen = gate ? 'title' : practice ? 'practice' : snapshot ? 'match' : 'title';
   main.dataset.transition = String(changed);
   document.body.append(document.querySelector('#notice'));
   main.innerHTML = gate ? platformView(gate) : practice ? practiceView(escape) : snapshot ? roomView({s:snapshot,connected,replaced,draft,chatDraft,rulesDraft,computerInvite}) : homeView({playerName,inviteCode,entryMode,publicMatchmaking:window.GAME_CONFIG.publicMatchmaking===true});
-  hud.attach({changed,round:practice?Math.min(practiceStep(),1):Math.max(0,(snapshot?.round??1)-1)});
+  hud.attach({changed,round:practice?Math.min(practiceStep(),1):Math.max(0,(snapshot?.round??1)-1),snapshot:practice?null:snapshot});
   if (inviteDialog.open && (gate || practice || snapshot?.room !== inviteDialog.dataset.room)) inviteDialog.close();
   room3d?.attach();
   const dialog = main.querySelector('#entry-dialog');
@@ -145,6 +145,7 @@ function updateTimer() {
     face.dataset.urgent=String(remaining<=5);
     const duration=snapshot.phase.startsWith('clue')?snapshot.settings.roundSeconds[snapshot.round-1]:snapshot.phase==='voting'?20:snapshot.phase.startsWith('reveal')?8:5;
     face.style.setProperty('--time-left',`${Math.min(1,remaining/duration)*360}deg`);
+    face.style.setProperty('--time-fraction',String(Math.min(1,remaining/duration)));
   }
 }
 setInterval(updateTimer, 200);
@@ -152,14 +153,15 @@ function accept(s) {
   if (snapshot?.room === s.room && s.version < snapshot.version) return;
   const changed = !snapshot || s.matchId !== snapshot.matchId || s.phase !== snapshot.phase;
   if(snapshot?.room!==s.room||s.host!==s.me.id||s.phase!=='lobby')rulesDraft=null;
-  if(snapshot?.room===s.room&&!changed&&s.turn?.player!==snapshot.turn?.player)audio.cue('reveal');
+  const turnChanged=snapshot?.room===s.room&&!changed&&s.turn?.player!==snapshot.turn?.player;
+  if(turnChanged)audio.cue('reveal');
   if (practice && changed && s.phase === 'clue1' && s.me.participant) practice = false;
   if (changed) draft = s.phase.startsWith('clue') ? s.me.clue : '';
   if (changed) chatDraft='';
   entryMode = null;
   offset = s.serverNow - Date.now(); snapshot = s;
   const next = JSON.stringify({ ...s, serverNow: 0 });
-  if (fingerprint !== next) { fingerprint = next; render(); }
+  if (fingerprint !== next) { fingerprint = next; render();if(turnChanged)announce(main.querySelector('#phase-title')?.textContent??'Read the clues'); }
   else updateTimer();
 }
 async function connect() {

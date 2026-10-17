@@ -161,7 +161,8 @@ export class InvestigationRoom {
     poseRoomDecor(this.decor,t,reduced);
     for(let i=0;i<this.actors.length;i++) {
       const actor=this.actors[i];
-      poseCharacter(actor,t,{still:reduced,active:this.active===i||Boolean(actor.card?.matches('.selected,.current-turn')),speaking:Boolean(this.speech?.[i]&&!this.speech[i].hidden)});
+      const target=actor.group.worldToLocal(this.camera.position.clone()),turn=Boolean(actor.card?.matches('.current-turn'));
+      poseCharacter(actor,t,{still:reduced,active:this.active===i||Boolean(actor.card?.matches('.selected,.current-turn')),speaking:Boolean(this.speech?.[i]&&!this.speech[i].hidden),turn,lookYaw:Math.atan2(-target.x,-target.z),lookPitch:Math.atan2(target.y-2.6,Math.hypot(target.x,target.z))});
       poseSteam(actor.steam,t,i,reduced);
       actor.paper.rotation.x=actor.card?.querySelector('.unsealed')?(reduced?0:Math.sin(t+i)*.025):0;
     }

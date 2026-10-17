@@ -242,13 +242,17 @@ export function createCharacter(number){
   return {group,body:part('body'),head:part('head'),eyes:part('eyes'),arms:[part('arm0'),part('arm1')],ring:part('selection'),speechAnchor:part('speech'),restY:.9,index};
 }
 
-export function poseCharacter(actor,time,{still=false,active=false,speaking=false}={}){
+export function poseCharacter(actor,time,{still=false,active=false,speaking=false,turn=false,lookYaw=0,lookPitch=0}={}){
   const t=still?0:time,phase=actor.index*.63;
+  actor.lookBlend=still?Number(turn):(actor.lookBlend??0)+(Number(turn)-(actor.lookBlend??0))*.18;
+  // A small torso turn and a bounded head turn keep the seated pose natural.
+  const focus=actor.lookBlend;
+  actor.body.rotation.y=T.MathUtils.clamp(lookYaw*.18,-.56,.56)*focus;
   actor.body.position.y=actor.restY+(still?0:Math.sin(t*1.15+phase)*.013);
   actor.body.rotation.z=still?0:Math.sin(t*.7+phase)*.012;
-  actor.head.rotation.y=still?0:Math.sin(t*.5+phase)*.09;
+  actor.head.rotation.y=T.MathUtils.clamp(lookYaw,-1.15,1.15)*focus+(still?0:Math.sin(t*.5+phase)*.09*(1-focus));
   actor.head.rotation.z=still?0:(active?-.055:Math.sin(t*.6+phase)*.025);
-  actor.head.rotation.x=still?0:Math.sin(t*(speaking?5:1.1)+phase)*(speaking?.035:.012);
+  actor.head.rotation.x=T.MathUtils.clamp(lookPitch,0,.28)*focus+(still?0:Math.sin(t*(speaking?5:1.1)+phase)*(speaking?.035:.012));
   const blink=(t+phase)%5.3;
   actor.eyes.scale.y=still||blink>.22?1:Math.max(.08,Math.abs(blink-.11)/.11);
   actor.arms.forEach((arm,i)=>{arm.rotation.x=.10+(still?0:Math.sin(t*.8+phase+i)*.018);});

@@ -1,4 +1,4 @@
-import {goPhase,takeTurn,nextPracticeRound,waitingPractice} from './flow.js';
+import {goPhase,takeTurn,nextPracticeRound,waitingPractice,closeCaseFile} from './flow.js';
 import { test, expect, chromium } from '@playwright/test';
 import path from 'node:path';
 import { forbiddenText } from '../../core/validation.js';
@@ -75,7 +75,8 @@ test('U01 U02 U03 U04 U07 U10 U14 complete sequential match, secrecy, locked clu
   await pages[0].getByRole('button',{name:'Vote for Jamie',exact:true}).click();
   for(const p of pages.slice(1)){await p.getByRole('button',{name:'Vote for Alex',exact:true}).click();await expect(p.getByRole('button',{name:'Vote for Alex',exact:true})).toHaveAttribute('aria-pressed','true');}
   await cleanCopy(pages[0]);await goPhase(request,'results');
-  await expect(pages[0].locator('.result-lead')).toHaveText('Alex was suspicious. Caught in the act.');await expect(pages[1].locator('.file-archive')).toContainText('100 points');
+  await expect(pages[0].locator('.result-lead')).toHaveText('Alex was suspicious. Caught in the act.');await expect(pages[1].locator('.result-table .result-total').first()).toHaveText('100');
+  for(const page of pages){await expect(page.locator('.case-file')).toBeVisible();await closeCaseFile(page);}
   await pages[0].getByRole('button',{name:'Next case',exact:true}).click();await phase(pages[0],'clue1');await expect(pages[1].locator('.secret-word')).not.toHaveText('Airport');
   await pages[3].getByRole('button',{name:'Leave room'}).click();await phase(pages[0],'clue1');await pages[2].getByRole('button',{name:'Leave room'}).click();await phase(pages[0],'aborted');await cleanCopy(pages[0]);
 });

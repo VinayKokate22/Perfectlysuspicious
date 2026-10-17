@@ -1,0 +1,255 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\Vinay Kokate\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
+      "D:\\project\\browser_game\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/clarity.spec.js",
+      "--grep",
+      "U40|U41",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\project\\browser_game\\playwright.config.js",
+    "rootDir": "D:/project/browser_game/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/project/browser_game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/project/browser_game/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\project\\browser_game\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\project\\browser_game\\tests\\browser",
+        "snapshotDir": "D:\\project\\browser_game\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3911",
+          "browserName": "chromium",
+          "trace": {
+            "mode": "retain-on-failure",
+            "screenshots": false,
+            "snapshots": true,
+            "sources": true
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser-server.js",
+      "url": "http://127.0.0.1:3911/health",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "clarity.spec.js",
+      "file": "clarity.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "U40 votes group by suspect and the leaderboard fits with all eight players",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 12564,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 10\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 10\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:124:132",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                      "column": 21,
+                      "line": 48
+                    },
+                    "snippet": "  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                        "column": 21,
+                        "line": 48
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 10\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:124:132"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T05:43:47.284Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U40-votes-group-by-60273-fits-with-all-eight-players\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U40-votes-group-by-60273-fits-with-all-eight-players\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                    "column": 21,
+                    "line": 48
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-3a04cf98d17f31d8f416",
+          "file": "clarity.spec.js",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "U41 touch devices keep the active timer and submission reachable with a keyboard",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10856,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 10\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 10\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:190:163",
+                    "location": {
+                      "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                      "column": 21,
+                      "line": 48
+                    },
+                    "snippet": "  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                        "column": 21,
+                        "line": 48
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 10\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+   \"suspect-votes overflow at 1180 by 820: 491/491, 45/42\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  46 |     }\n  47 |     return bad;\n> 48 |   });expect(errors).toEqual([]);\n     |                     ^\n  49 | }\n  50 | const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1180,820],[1366,768]];\n  51 |\n    at fits (D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:48:21)\n    at D:\\project\\browser_game\\tests\\browser\\clarity.spec.js:190:163"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T05:44:01.968Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U41-touch-devices--c36a7-n-reachable-with-a-keyboard\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\project\\browser_game\\test-results\\clarity-U41-touch-devices--c36a7-n-reachable-with-a-keyboard\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\project\\browser_game\\tests\\browser\\clarity.spec.js",
+                    "column": 21,
+                    "line": 48
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6f9f0755311f8183b459-fa7d786f8b196f205365",
+          "file": "clarity.spec.js",
+          "line": 169,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T05:42:33.325Z",
+    "duration": 100084.13799999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
