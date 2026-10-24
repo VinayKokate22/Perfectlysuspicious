@@ -5,6 +5,17 @@ const names=['You','Alex','Jamie','Robin'];
 const scripts=[['','mug','morning','blanket'],['','roasted','aroma','pillow']];
 export function startPractice(){step=0;turn=0;clues=[{},{}];feedback='';voted='';typed='';roundDone=false;}
 export const practiceStep=()=>step;
+export const practiceState=()=>({step,turn,clues,feedback,voted,typed,roundDone});
+export const typePracticeClue=value=>{typed=value;};
+export function restorePractice(saved){
+  try{
+    const value=JSON.parse(saved);
+    if(!value||!Number.isInteger(value.step)||value.step<0||value.step>3||!Number.isInteger(value.turn)||value.turn<(value.step>=2?-1:0)||value.turn>4||typeof value.roundDone!=='boolean')return false;
+    if(!Array.isArray(value.clues)||value.clues.length!==2||!value.clues.every(round=>round&&typeof round==='object'&&!Array.isArray(round)&&Object.entries(round).every(([key,clue])=>/^[0-3]$/.test(key)&&typeof clue==='string'&&/^[a-z]{2,20}$/.test(clue))))return false;
+    if(!['feedback','voted','typed'].every(key=>typeof value[key]==='string')||value.typed.length>20)return false;
+    ({step,turn,clues,feedback,voted,typed,roundDone}=value);return true;
+  }catch{return false;}
+}
 startPractice();
 function advance(){
   turn+=step===0?1:-1;

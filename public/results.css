@@ -1,136 +1,149 @@
-/* A single results stage, with visual ballots and a conventional score table. */
-.case-file.results-file[open]{width:min(1000px,calc(100% - 24px));max-width:none;height:min(740px,calc(100% - 24px));padding:18px;gap:12px;border-color:#85a8c4;background:radial-gradient(ellipse at top left,#446b8c66,transparent 60%),linear-gradient(135deg,#243f5b,#122a43);border-radius:16px;box-shadow:inset 0 3px 0 #b8d4e744,inset 0 -5px 0 #0a1c30,0 12px 38px #020b18a6}
-.results-file .file-heading{gap:8px}
-.results-file .file-heading h2{min-width:0;color:#ffe0a0;font-size:26px}
+/* Results read from top to bottom: reveal, suspect cards, then compact standings. */
+.case-file.results-file[open]{
+  width:min(960px,calc(100% - 32px));max-width:none;height:auto;max-height:calc(100% - 32px);
+  padding:20px;gap:16px;border:2px solid #7899b1;border-radius:18px;
+  background:radial-gradient(ellipse at top left,#42648255,transparent 65%),linear-gradient(145deg,#203b53,#122a3e);
+  box-shadow:inset 0 2px 0 #c5d9df33,inset 0 -4px 0 #0b1e2c,0 18px 48px #020b1880;
+}
+.results-file .file-heading{gap:12px}
+.results-file .file-heading h2{min-width:0;font:700 26px/1.15 Barlow,sans-serif;color:#fff0d2}
 .results-file .file-heading button{flex-shrink:0}
-.results-file .file-content{display:flex;margin:0}
-.results-file .results-stage{display:flex;flex-direction:column;flex:1;min-height:0;min-width:0;gap:12px;margin:0}
-.result-summary{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-shrink:0;border:1px solid #65829d;border-radius:10px;padding:10px 12px;background:linear-gradient(115deg,#304f6b,#18344e);box-shadow:inset 0 2px 0 #aec9df22}
-.result-culprit{display:flex;align-items:center;gap:10px;min-width:0}
+.results-file .file-content{
+  display:block;flex:1 1 auto;min-height:0;margin:0;padding:0 6px 4px 0;
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  scrollbar-width:thin;scrollbar-color:#68889b #152d40;scrollbar-gutter:stable;
+}
+.results-file .file-content:focus-visible{outline:2px solid #dfc38d;outline-offset:-2px;border-radius:4px}
+.results-file .results-stage{display:flex;flex-direction:column;gap:24px;min-width:0;margin:0}
+.result-summary{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:20px;border:1px solid #6288a266;border-radius:12px;
+  background:radial-gradient(ellipse at top left,#416e904d,transparent 75%),#19364d;box-shadow:inset 0 1px 0 #a7c9e21a;
+}
+.result-culprit{display:flex;align-items:center;gap:14px;min-width:0}
 .result-reveal{min-width:0}
-.result-reveal strong{display:block;font:700 18px/1.15 Barlow,sans-serif;overflow-wrap:anywhere;color:#fff1d4}
-.result-reveal span{display:block;margin-top:3px;font:600 14px/1.2 Barlow,sans-serif;color:#d5e4ed}
-.result-secret{text-align:right;min-width:0;flex-shrink:0;max-width:44%}
-.result-secret span{display:block;color:#bbd5e8;font:500 13px/1.2 Barlow,sans-serif}
-.result-secret strong{display:block;color:#ffda78;font:700 22px/1.2 Barlow,sans-serif;overflow-wrap:anywhere}
-.result-avatar{position:relative;display:inline-block;flex:0 0 auto;width:40px;height:40px;vertical-align:middle;filter:saturate(1.18)}
-.result-avatar .block-portrait{display:block;width:100%;height:100%;border:1px solid #89a4b7;border-radius:7px;box-shadow:inset 0 1px 0 #fff5}
-.seat-number{position:absolute;right:-3px;bottom:-1px;min-width:13px;padding:0 2px;border-radius:3px;background:#e6c36d;color:#182e44;font:800 10px/13px Barlow,sans-serif;text-align:center}
-.result-tabs{display:none;gap:8px;flex-shrink:0}
-.fixed-hud .result-tabs button{flex:1;min-width:0;font-size:16px;white-space:nowrap}
-.fixed-hud .result-tabs button[aria-pressed=true]{background:linear-gradient(120deg,#ffda78,#dca23c);border-color:#ffe3a0;color:#183044;box-shadow:inset 0 2px 0 #ffefbe,0 3px 0 #795322}
-.result-panels{display:grid;grid-template-columns:1.1fr 1fr;flex:1;min-height:0;gap:18px}
-.vote-results,.score-results{display:flex;flex-direction:column;gap:10px;min-height:0;min-width:0}
-.results-file .result-section-title{font:700 20px/1.2 Barlow,sans-serif;color:#dfedfa;margin:0;flex-shrink:0}
-.vote-board{display:flex;flex-direction:column;min-height:0;gap:4px;flex:1}
-.suspect-votes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);align-items:center;gap:8px;min-height:32px;padding:4px 8px;flex:1 0 auto;border:1px solid #527695;border-radius:8px;background:linear-gradient(115deg,#2d5070,#1b3653);box-shadow:inset 0 1px 0 #9fc8e022}
-.ballot-person{display:flex;align-items:center;min-width:0;gap:8px}
-.ballot-person .result-avatar{width:24px;height:24px}
-.ballot-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 16px/1.2 Barlow,sans-serif;color:#f0e9d9}
-.voter-portraits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:4px 6px;min-width:0;padding:0 3px 1px 0}
-.named-voter{display:flex;align-items:center;gap:5px;min-width:0}
-.voter-name{font:600 14px/16px Barlow,sans-serif;color:#fff0d4;min-width:0;overflow-wrap:anywhere}
-.voter-portraits .result-avatar{width:22px;height:22px;min-width:0}
-.voter-portraits .seat-number{right:-2px;min-width:11px;font-size:9px;line-height:11px;padding:0 1px}
-.voter-portraits:has(.zero-votes){display:block}
-.ballot-abstained,.zero-votes{font:500 15px/1.2 Barlow,sans-serif;color:#b8cbdc}
-.zero-votes{white-space:nowrap}
-.suspect-votes[data-target=""]{background:#122c4380;border-style:dashed}
-.result-table{border-collapse:separate;border-spacing:0;table-layout:fixed;width:100%;flex:1;font:600 16px/1.2 Barlow,sans-serif;font-variant-numeric:tabular-nums}
-.result-table thead{color:#bed5e6}
-.result-table thead th{height:30px;font-size:13px;text-align:left;font-weight:600;padding:0 6px}
-.result-table th:first-child{width:38px}
-.result-table th:nth-child(3),.result-table th:nth-child(4){width:62px;text-align:right}
+.result-reveal strong{display:block;margin:4px 0 6px;font:700 29px/1.1 Barlow,sans-serif;color:#ffe1a2;overflow-wrap:anywhere}
+.result-summary[data-outcome=caught] .result-reveal strong{color:#fff0d2}
+.result-reveal .result-kicker{display:block;color:#a8c1d3;font:700 10px/1.3 Barlow,sans-serif;text-transform:uppercase;letter-spacing:1.3px}
+.result-reveal .result-outcome-detail{display:block;font:500 13px/1.4 Barlow,sans-serif;color:#c4d3de;overflow-wrap:anywhere}
+.result-secret{
+  flex:0 0 auto;max-width:36%;min-width:0;padding:12px 18px;border-radius:7px;
+  border:1px solid #f7e5b8;background:linear-gradient(125deg,#fff0ca,#ebd39a);text-align:center;
+  box-shadow:inset 0 0 0 3px #fff6dc55,0 3px 0 #0e2534;
+}
+.result-secret span{display:block;color:#695b40;font:700 10px/1.3 Barlow,sans-serif;text-transform:uppercase;letter-spacing:.8px}
+.result-secret strong{display:block;margin-top:3px;color:#273f43;font:700 23px/1.15 Barlow,sans-serif;overflow-wrap:anywhere}
+.result-avatar{position:relative;display:inline-block;flex:0 0 auto;width:44px;height:44px;vertical-align:middle}
+.result-avatar .block-portrait{display:block;width:100%;height:100%;border:1px solid #8ca6ad;border-radius:10px;box-shadow:0 2px 0 #0d2635}
+.result-summary .result-avatar{width:64px;height:64px}
+.seat-number{position:absolute;right:-3px;bottom:-1px;min-width:14px;padding:0 3px;border-radius:4px;background:#e7c37b;color:#203442;font:700 10px/14px Barlow,sans-serif;text-align:center}
+/* These are two full-width sections, never side-by-side panels or separate tabs. */
+.result-panels{display:flex;flex-direction:column;gap:20px;min-width:0}
+.vote-results,.score-results{display:flex;flex-direction:column;gap:12px;min-width:0}
+.result-section-heading{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px 16px}
+.result-section-note{color:#9fb9cc;font:500 12px/1.3 Barlow,sans-serif}
+.results-file .result-section-title{margin:0;font:700 19px/1.2 Barlow,sans-serif;color:#e4edf0}
+.vote-board{display:grid;grid-template-columns:repeat(var(--suspect-columns,3),minmax(0,1fr));align-items:stretch;gap:12px;min-width:0}
+.suspect-votes{
+  display:flex;flex-direction:column;gap:14px;min-width:0;padding:14px;
+  border:1px solid #4b6c8666;border-radius:10px;
+  background:linear-gradient(145deg,#244660,#1b354d);box-shadow:inset 0 1px 0 #bddcff12;
+}
+/* Warm gold rims echo the active-player highlight without a white outline. */
+.suspect-votes[data-suspicious=true]{
+  border-color:#e6b953;
+  box-shadow:inset 0 0 0 2px #f2c968,0 0 8px #ffd36b4d;
+}
+.vote-card-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;min-height:48px}
+.ballot-person{display:flex;align-items:center;gap:10px;min-width:0;flex:1;text-align:left}
+.ballot-person .result-avatar{width:40px;height:40px}
+.ballot-details{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ballot-name{color:#fff0d5;font:700 18px/1.2 Barlow,sans-serif;overflow-wrap:anywhere;max-width:100%}
+.vote-count{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:0 0 auto;min-width:40px;min-height:48px;padding:5px;border-radius:7px;background:#102c4180;color:#adc7dc;font:600 10px/1.2 Barlow,sans-serif;font-variant-numeric:tabular-nums}
+.vote-count strong{color:#edf5fc;font:700 23px/1 Barlow,sans-serif}
+.revealed-suspect,.revealed-informed{font:600 11px/1.25 Barlow,sans-serif}
+.revealed-suspect{color:#f3d28e}
+.revealed-informed{color:#abc4d8}
+.vote-card-ballots{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:11px;border-top:1px solid #789bb633}
+.voted-by-label{color:#a9c0d2;font:600 10px/1.2 Barlow,sans-serif;letter-spacing:.7px;text-transform:uppercase}
+.voter-portraits{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.named-voter{display:flex;align-items:center;gap:6px;min-width:0;max-width:100%;padding:4px 7px;border-radius:6px;background:#33566e80;border:1px solid #789bb61a}
+.voter-name{min-width:0;color:#eee8d8;font:500 13px/1.25 Barlow,sans-serif;overflow-wrap:anywhere}
+.voter-portraits .result-avatar{width:22px;height:22px}
+.voter-portraits .block-portrait{border-radius:5px}
+.voter-portraits .seat-number{right:-2px;min-width:10px;padding:0 1px;font-size:8px;line-height:10px;border-radius:2px}
+.ballot-abstained{color:#b4c9d7;font:600 13px/1.2 Barlow,sans-serif}
+.suspect-votes.abstained-voters{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;background:#122e414d;border:0;border-radius:8px;box-shadow:none;padding:8px 12px;gap:8px 16px}
+.abstained-voters .vote-card-heading{min-height:0;gap:8px}
+.abstained-voters .vote-count{flex-direction:row;gap:4px;min-height:0;min-width:0;padding:0;background:none;color:#9fb9cc}
+.abstained-voters .vote-count strong{font-size:13px;color:inherit}
+.abstained-voters .voter-portraits{flex:1 1 180px}
+/* Scores keep their useful column alignment without stretching rows to fill the window. */
+.score-results{padding-top:16px;border-top:1px solid #7d9baa33}
+.result-table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0 5px;font:600 16px/1.2 Barlow,sans-serif;font-variant-numeric:tabular-nums}
+.result-table thead{color:#adc4cf}
+.result-table thead th{padding:0 12px 5px;font:600 12px/1.2 Barlow,sans-serif;text-align:left}
+.result-table th:first-child{width:48px}
+.result-table th:nth-child(3),.result-table th:nth-child(4){width:84px;text-align:right}
 .results-file .result-table .result-person{display:table-row;min-height:0;background:none;border:0;box-shadow:none;border-radius:0;padding:0;font-size:16px}
-.result-table tbody td,.result-table tbody th{border-bottom:1px solid #55769166;background:#122c4566;padding:4px 6px;vertical-align:middle}
-.result-table tbody tr:nth-child(odd)>*{background:#31557566}
-.result-table tbody tr[data-rank="1"]>*{background:#69553055}
-.result-table .result-rank{color:#f7d37c;text-align:center;font-weight:800}
-.result-table .result-player{font-weight:600;text-align:left;overflow:hidden;white-space:nowrap}
-.result-table .result-player>span:last-child{display:inline-block;max-width:calc(100% - 38px);vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
-.result-table .result-player .result-avatar{width:28px;height:28px;margin-right:8px}
-.result-table .result-total{text-align:right;font-size:19px;font-weight:800;color:#fff2d8}
-.result-table .result-gain{text-align:right;color:#81e2c5;font-weight:700}
-@media(max-width:899px), (max-height:700px){
- .case-file.results-file[open]{width:min(680px,calc(100% - 16px));height:min(740px,calc(100% - 16px));padding:6px;gap:6px}
- .results-file .results-stage{gap:6px}
- .results-file .file-heading h2{font-size:22px}
- .result-summary{padding:4px 6px;gap:8px}
- .result-summary .result-avatar{width:32px;height:32px}
- .result-culprit{gap:7px}
- .result-reveal strong{font-size:16px}
- .result-reveal span{font-size:12px}
- .result-secret span{font-size:12px}
- .result-secret strong{font-size:18px}
- .result-tabs{display:flex}
- .result-panels{display:flex;gap:0}
- .vote-results,.score-results{width:100%;gap:0}
- .results-file .result-section-title{display:none}
- .results-stage[data-view=votes] .score-results,.results-stage[data-view=scores] .vote-results{display:none}
- .vote-board{gap:3px}
- .suspect-votes{padding:2px 6px;gap:8px;min-height:24px}
- .ballot-person{gap:6px}
- .ballot-person .result-avatar{width:18px;height:18px}
- .ballot-name,.ballot-abstained,.zero-votes{font-size:14px}
- .voter-portraits{gap:3px 5px}
- .voter-portraits .result-avatar{width:18px;height:18px}
- .named-voter{gap:4px}
- .voter-name{font-size:13px;line-height:16px}
- .result-table th:first-child{width:32px}
- .result-table th:nth-child(3),.result-table th:nth-child(4){width:49px}
- .result-table .result-player .result-avatar{width:26px;height:26px;margin-right:6px}
- .result-table .result-player>span:last-child{max-width:calc(100% - 32px)}
- .result-table tbody td,.result-table tbody th{padding:3px 4px}
- .results-file .result-table .result-person{font-size:15px}
- .result-table .result-total{font-size:18px}
+.result-table tbody td,.result-table tbody th{height:50px;padding:8px 12px;vertical-align:middle;background:#243f5366;border:0}
+.result-table tbody tr:nth-child(odd)>*{background:#2e4b5f66}
+.result-table tbody tr[data-rank="1"]>*{
+  background:#284b65;border-top:1px solid #e6b953;border-bottom:1px solid #e6b953;
+  box-shadow:inset 0 2px 0 #f2c968,inset 0 -2px 0 #f2c968;
+}
+.result-table tbody tr[data-rank="1"]>:first-child{
+  border-left:1px solid #e6b953;
+  box-shadow:inset 2px 0 0 #f2c968,inset 0 2px 0 #f2c968,inset 0 -2px 0 #f2c968;
+}
+.result-table tbody tr[data-rank="1"]>:last-child{
+  border-right:1px solid #e6b953;
+  box-shadow:inset -2px 0 0 #f2c968,inset 0 2px 0 #f2c968,inset 0 -2px 0 #f2c968;
+}
+.results-file .result-table .result-person[data-rank="1"]{filter:drop-shadow(0 0 3px #ffd36b33)}
+.result-table tbody tr>:first-child{border-radius:8px 0 0 8px}
+.result-table tbody tr>:last-child{border-radius:0 8px 8px 0}
+.result-table .result-rank{color:#efcc83;text-align:center;font-weight:700}
+.result-rank-badge{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;color:#b9cfdf;background:#142e4355;font:700 14px/1 Barlow,sans-serif}
+.result-table tr[data-rank="1"] .result-rank-badge{color:#263b4b;background:linear-gradient(135deg,#ffe4a4,#e7bd69);box-shadow:inset 0 1px 0 #fff3cb}
+.result-table .result-player{font-weight:600;text-align:left;overflow-wrap:anywhere}
+.result-table .result-player>span:last-child{display:inline-block;max-width:calc(100% - 42px);vertical-align:middle;overflow-wrap:anywhere}
+.result-table .result-player .result-avatar{width:30px;height:30px;margin-right:10px}
+.result-table .result-total{text-align:right;font-size:20px;font-weight:700;color:#fff0d5}
+.result-table .result-gain{text-align:right;font-size:15px;font-weight:600;color:#99d8bf}
+.result-table .result-gain[data-earned=false]{color:#92aabc}
+@media(min-width:701px) and (max-width:900px){
+  .vote-board{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .case-file.results-file[open]{width:calc(100% - 16px);max-height:calc(100% - 16px);padding:12px;gap:12px;border-radius:13px}
+  .results-file .file-heading h2{font-size:22px}
+  .results-file .results-stage{gap:18px}
+  .result-summary{padding:12px;gap:12px;flex-wrap:wrap}
+  .result-summary .result-avatar{width:48px;height:48px}
+  .result-culprit{gap:10px;flex:1 1 200px}
+  .result-reveal strong{font-size:23px}
+  .result-reveal .result-outcome-detail{font-size:12px}
+  .result-secret{flex:1 1 120px;max-width:none;padding:8px 12px}
+  .result-secret strong{font-size:20px}
+  .vote-board{grid-template-columns:minmax(0,1fr);gap:10px}
+  .suspect-votes{padding:12px;gap:10px}
+  .ballot-name{font-size:16px}
+  .ballot-person .result-avatar{width:40px;height:40px}
+  .result-table thead th{padding:0 5px 4px;font-size:11px}
+  .result-table th:first-child{width:30px}
+  .result-table th:nth-child(3),.result-table th:nth-child(4){width:52px}
+  .result-table tbody td,.result-table tbody th{padding:7px 5px}
+  .results-file .result-table .result-person{font-size:14px}
+  .result-table .result-player .result-avatar{width:24px;height:24px;margin-right:7px}
+  .result-table .result-player>span:last-child{max-width:calc(100% - 33px)}
+  .result-table .result-total{font-size:17px}
+  .result-table .result-gain{font-size:13px}
+  .result-rank-badge{width:22px;height:24px;font-size:12px}
 }
 @media(max-height:450px) and (orientation:landscape){
- .case-file.results-file[open]{width:calc(100% - 8px);height:calc(100% - 8px);padding:4px;gap:2px}
- .results-file .file-heading{height:48px;min-height:48px}
- .results-file .file-heading h2{font-size:20px}
- .results-file .results-stage{display:grid;grid-template-columns:minmax(0,1fr) 240px;grid-template-rows:48px minmax(0,1fr);gap:2px 10px}
- .result-summary{grid-column:1;grid-row:1;padding:3px 6px;border:0;box-shadow:none;background:none}
- .result-summary .result-avatar,.result-secret span{display:none}
- .result-reveal strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
- .result-reveal span{font-size:12px}
- .result-secret strong{font-size:16px}
- .result-tabs{grid-column:2;grid-row:1;gap:6px}
- .fixed-hud .result-tabs button{font-size:14px;padding:6px}
- .result-panels{grid-column:1/-1;grid-row:2}
- .vote-board{display:block;columns:2;column-gap:8px;column-fill:auto}
- .suspect-votes{break-inside:avoid;margin-bottom:3px;min-height:24px}
- .suspect-votes{gap:6px;padding:2px 5px}
- .ballot-person .result-avatar{width:18px;height:18px}
- .voter-portraits{gap:3px 5px}
- .ballot-name{font-size:13px}
- .result-table thead th{height:20px;font-size:12px}
- .result-table tbody td,.result-table tbody th{padding:0 6px}
- .results-file .result-table .result-person{font-size:14px}
- .result-table .result-player .result-avatar{width:19px;height:19px;margin-right:8px}
- .result-table .result-player .seat-number{font-size:8px;line-height:10px;min-width:11px}
- .result-table .result-player>span:last-child{max-width:calc(100% - 29px)}
- .result-table .result-total{font-size:16px}
-}
-
-/* Large voter groups wrap below their suspect within the same framed row. */
-@media(max-width:899px), (max-height:700px){
- .suspect-votes:has(.named-voter:nth-child(3)){grid-template-columns:minmax(0,1fr);gap:4px}
- .suspect-votes:has(.named-voter:nth-child(3)) .voter-portraits{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(min-height:700px) and (max-width:899px){
- .ballot-person .result-avatar,.voter-portraits .result-avatar{width:24px;height:24px}
- .voter-name{font-size:14px;line-height:18px}
-}
-
-/* Put the result views beside Close so names get the space below. */
-@media(max-width:899px), (max-height:700px){
- .results-file .file-heading{justify-content:flex-end}
- .results-file .file-heading h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
- .results-file .result-tabs{flex:1;min-width:0;height:48px;gap:6px}
- .fixed-hud .results-file .result-tabs button{padding:6px;font-size:15px}
-}
-@media(max-height:450px) and (orientation:landscape){
- .results-file .results-stage{display:flex;gap:0}
- .results-file .result-summary{position:absolute;top:4px;left:6px;width:calc(100% - 326px);height:48px;padding:3px 2px}
- .results-file .result-tabs{flex:0 0 240px;margin-left:auto}
+  .case-file.results-file[open]{width:calc(100% - 16px);max-height:calc(100% - 12px);padding:10px;gap:8px}
+  .results-file .file-heading h2{font-size:20px}
+  .result-summary{padding:10px 12px}
+  .result-reveal strong{font-size:19px}
 }

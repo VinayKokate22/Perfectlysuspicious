@@ -24,7 +24,7 @@ test('I01 local invite copies a complete link and joins the same room in another
   await host.getByRole('button',{name:'Copy test invite',exact:true}).click();
   await expect(host.locator('#notice')).toHaveText('Test invite copied.');
   const invite=await host.evaluate(()=>navigator.clipboard.readText());
-  expect(invite).toBe(`http://127.0.0.1:3911/?room=${room}`);
+  expect(invite).toBe(`http://127.0.0.1:3911/#/join/${room}`);
   const guest=await player(browser,'Jamie',invite);
   await expect(guest.locator('.room-code')).toHaveText(room);
   await expect(host.locator('.suspect-card')).toHaveCount(2);
@@ -41,7 +41,7 @@ test('I02 unavailable and denied Clipboard API fall back to a real complete copy
     },unavailable);
     await page.getByRole('button',{name:'Copy test invite',exact:true}).click();
     await expect(page.locator('#notice')).toHaveText('Test invite copied.');
-    expect(await page.evaluate(()=>window.readTestClipboard())).toBe(`http://127.0.0.1:3911/?room=${room}`);
+    expect(await page.evaluate(()=>window.readTestClipboard())).toBe(`http://127.0.0.1:3911/#/join/${room}`);
     await expect(page.getByRole('button',{name:'Copy test invite',exact:true})).toBeFocused();
     await expect(page.locator('textarea')).toHaveCount(0);
   }
@@ -58,11 +58,11 @@ test('I03 blocked copying provides a selectable full invite with mobile layout a
     const compact=await page.getByRole('button',{name:'Room menu',exact:true}).isVisible();if(compact)await page.getByRole('button',{name:'Room menu',exact:true}).click();
     await page.getByRole('button',{name:'Copy test invite',exact:true}).click();
     const dialog=page.getByRole('dialog',{name:'Your invitation'}),field=dialog.getByLabel('Invite link',{exact:true});
-    await expect(dialog).toBeVisible();await expect(field).toHaveValue(`http://127.0.0.1:3911/?room=${room}`);
+    await expect(dialog).toBeVisible();await expect(field).toHaveValue(`http://127.0.0.1:3911/#/join/${room}`);
     await expect(field).toBeFocused();
-    expect(await field.evaluate(el=>el.value.slice(el.selectionStart,el.selectionEnd))).toBe(`http://127.0.0.1:3911/?room=${room}`);
+    expect(await field.evaluate(el=>el.value.slice(el.selectionStart,el.selectionEnd))).toBe(`http://127.0.0.1:3911/#/join/${room}`);
     await page.keyboard.press('Control+c');
-    expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(`http://127.0.0.1:3911/?room=${room}`);
+    expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(`http://127.0.0.1:3911/#/join/${room}`);
     await dialog.getByRole('button',{name:'Copy again'}).click();
     await expect(dialog.locator('#invite-feedback')).toHaveText('Automatic copying was blocked. Use the copy command for the selected text.');
     await expect(field).toBeFocused();
@@ -185,7 +185,7 @@ test('H05 speech bubbles fade expire and cannot carry messages into a live case'
   await expect(host.locator('.chat-bubble')).toHaveCount(0);
   await guest.getByRole('button',{name:'Send',exact:true}).click();await expect(host.locator('.chat-bubble')).toHaveText('My draft');
   await host.getByRole('button',{name:'Start match',exact:true}).click();
-  for(const page of [host,guest]){await expect(page.locator('#chat-message')).toBeVisible();await expect(page.locator('#chat-message')).toBeDisabled();await expect(page.locator('#chat-message')).toHaveAttribute('placeholder','Chat opens after this case');await expect(page.locator('.chat-bubble')).toHaveCount(0);}
+  for(const page of [host,guest]){await expect(page.locator('#chat-message')).toBeVisible();await expect(page.locator('#chat-message')).toBeEnabled();await expect(page.locator('#chat-message')).toHaveAttribute('placeholder','Chat here — secret words become ****');await expect(page.locator('.chat-bubble')).toHaveCount(0);}
   await goPhase(request,'results');
   await expect(host.getByLabel('Talk to the room',{exact:true})).toBeVisible();
 });

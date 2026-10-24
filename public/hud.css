@@ -329,7 +329,9 @@ html[data-keyboard=open] .fixed-hud .chat-readout{height:auto;min-height:72px}
 @media(max-height:360px) and (orientation:landscape){.fixed-hud .notification-well{height:32px}}
 html[data-keyboard=open] body #main.fixed-hud .live-stage{grid-template-columns:minmax(0,1fr);grid-template-rows:0 minmax(0,1fr)}
 html[data-keyboard=open] .fixed-hud .case-tools,html[data-keyboard=open] #settings-open{display:none}
-html[data-keyboard=open] .fixed-hud:has(#chat-form) .console-action,html[data-keyboard=open] .fixed-hud .console-chat:not(:has(#chat-form)){display:none}
+html[data-keyboard=open] .fixed-hud:has(.console-chat:focus-within) .console-action,
+html[data-keyboard=open] .fixed-hud:has(.console-action:focus-within) .console-chat,
+html[data-keyboard=open] .fixed-hud .console-chat:not(:has(#chat-form)){display:none}
 
 /* Every person stays on the board. Small cards open their complete case file. */
 .fixed-hud .evidence-board,.fixed-hud .evidence-board:has(.has-room3d){display:block;position:relative}

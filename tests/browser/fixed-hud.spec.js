@@ -121,8 +121,8 @@ test('U30 crowded mobile rooms keep long chat messages controls and notification
     await page.getByRole('button',{name:'Room menu',exact:true}).click();await contained(page);
     await page.getByRole('button',{name:'Settings',exact:true}).click();await expect(page.locator('#settings-dialog')).toBeVisible();
     await page.locator('#settings-close').click();await expect(page.getByRole('button',{name:'Room menu',exact:true})).toBeFocused();
-    await page.getByRole('button',{name:'Start match',exact:true}).click();await expect(page.locator('.chat-readout')).toHaveCount(0);
-    await expect(page.locator('#chat-message')).toBeDisabled();await readable(page);
+    await page.getByRole('button',{name:'Start match',exact:true}).click();await expect(page.locator('.chat-readout')).toHaveCount(1);
+    await expect(page.locator('#chat-message')).toBeEnabled();await readable(page);
   }finally{for(const socket of sockets)socket.close();}
 });
 
@@ -146,7 +146,7 @@ test('U31 phone and tablet conversation stays in the console in both orientation
       await expect(page.locator('.suspect-card:visible')).toHaveCount(8);
     }
     await page.setViewportSize({width:568,height:320});
-    await page.getByRole('button',{name:'Start match',exact:true}).tap();await expect(page.locator('#chat-message')).toBeDisabled();await contained(page);
+    await page.getByRole('button',{name:'Start match',exact:true}).tap();await expect(page.locator('#chat-message')).toBeEnabled();await contained(page);
     await goPhase(request,'results');await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','results');await expect(page.locator('.case-file')).toBeVisible();await close(page);
     sockets[0].send(JSON.stringify({type:'chat',value:message,requestId:'result_message'}));
     await expect(page.locator('.chat-readout')).toHaveText(`Christopherabcdefg: ${message}`);await contained(page);await readable(page);

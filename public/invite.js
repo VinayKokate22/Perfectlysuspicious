@@ -7,7 +7,7 @@ export function checkedInvite(value) {
 
 export function localInvite(room, href) {
   const url = new URL(checkedInvite(href));
-  url.search = ''; url.hash = ''; url.searchParams.set('room', room);
+  url.search = ''; url.hash = `/join/${room}`;
   return url.href;
 }
 

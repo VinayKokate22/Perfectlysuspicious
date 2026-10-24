@@ -1,5 +1,6 @@
 import { FixedHUD } from './hud.js';
-import { practiceView, practiceAction, startPractice, practiceStep } from './practice.js';
+import { practiceView, practiceAction, startPractice, practiceStep, practiceState, restorePractice, typePracticeClue } from './practice.js';
+import { GameNavigation, readRoute } from './navigation.js';
 import { Platform, loadSDK } from './platform.js';
 import { homeView, roomView, platformView, escape } from './views.js';
 import { GameAudio } from './audio.js';
@@ -30,8 +31,15 @@ const audio = new GameAudio({enabled:read('sound') !== 'off',onChange:updateSoun
 let snapshot = null, socket = null, opening = null, practice = false, connected = false, replaced = false;
 let screen = '', fingerprint = '', draft = '', chatDraft = '', offset = 0, noticeTimer, noticeAnimation, reconnectTimer, retryCount = 0;
 let rulesDraft=null;
-let playerName = read('name') ?? '', inviteCode = new URLSearchParams(location.search).get('room') ?? '';
-let entryMode = inviteCode ? 'join' : null;
+let entryPending=false,entryFeedback='',entryFailed=false;
+let closedRoomMessage=read('closed-room-message')??'';
+const initialRoute=readRoute(location.href);
+let roomHidden=location.hash==='#/';
+let restoring=Boolean(read('session')),resuming=null;
+let playerName = read('name') ?? '', inviteCode = initialRoute.match(/^\/(?:room|join)\/(.+)$/)?.[1]??'';
+let entryMode = inviteCode ? 'join' : ['create','join','quick'].includes(initialRoute.slice(1))?initialRoute.slice(1):null;
+practice=initialRoute==='/practice';
+if(practice)restorePractice(read('practice-progress'));
 const pending = new Map();
 const platformMode = window.GAME_CONFIG.platform ?? 'local';
 const computerInvite = platformMode === 'local' && isComputerInvite(location.href);
@@ -40,6 +48,7 @@ let room3d=null;
 import('./room3d.js').then(({InvestigationRoom})=>{try{room3d=new InvestigationRoom();room3d.attach();}catch{document.documentElement.dataset.scene='unavailable';hud.layout();}}).catch(()=>{document.documentElement.dataset.scene='unavailable';hud.layout();});
 const previewAllowed = platformMode === 'sdk-preview' && ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
 let booted = false, queuedEntry = null, entryQueue = Promise.resolve(), seatRoom = null;
+const navigation=platformMode==='local'?new GameNavigation(applyRoute):null;
 const platform = new Platform({
   profile: platformMode === 'local' ? 'local' : previewAllowed ? 'basic' : 'disabled',
   load: loadSDK,
@@ -51,6 +60,48 @@ const platform = new Platform({
   }
 });
 
+function rememberPractice(){save('practice-progress',JSON.stringify(practiceState()));}
+function roomRoute(){return `/room/${snapshot?.room??seatRoom}`;}
+function applyRoute(route){
+  if(platformGate())return;
+  practice=route==='/practice';entryMode=null;
+  if(practice){if(!restorePractice(read('practice-progress')))startPractice();}
+  else if(route.startsWith('/room/')){
+    roomHidden=false;
+    if(!snapshot){inviteCode=route.split('/')[2];entryMode='join';if(read('session'))void resume();}
+    else if(snapshot.room!==route.split('/')[2]){navigation.go(roomRoute(),{replace:true});notice('Leave your current room before joining another.');}
+  }else{
+    roomHidden=true;
+    if(!snapshot){
+      entryMode=route.startsWith('/join')?'join':['/create','/quick'].includes(route)?route.slice(1):null;
+      if(route.startsWith('/join/'))inviteCode=route.split('/')[2];
+    }
+  }
+  render();
+}
+function cancelEntry(){entryMode=null;navigation?.go('/',{replace:true});render();main.querySelector('[data-action=enter]')?.focus();}
+function updateEntryFeedback(message=entryFeedback,failed=entryFailed){
+  entryFeedback=message;entryFailed=failed;
+  const form=main.querySelector('#entry');if(!form)return;
+  let status=form.querySelector('#entry-status');
+  if(!status){status=document.createElement('p');status.id='entry-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');form.append(status);}
+  status.textContent=message;status.hidden=!message;status.className=failed?'entry-status entry-error':'entry-status';
+  form.setAttribute('aria-busy',String(entryPending));
+  const submit=form.querySelector('[type=submit]');submit.disabled=entryPending;
+  submit.textContent=entryPending?'Connecting…':entryMode==='join'?'Join room':entryMode==='create'?'Create a private room':'Find a room';
+}
+function forgetRoom(){
+  const old=socket;socket=null;opening=null;connected=false;restoring=false;
+  save('session',null);seatRoom=null;snapshot=null;fingerprint='';draft='';chatDraft='';rulesDraft=null;
+  inviteCode='';entryMode=null;roomHidden=true;clearTimeout(reconnectTimer);
+  for(const request of pending.values()){clearTimeout(request.timer);request.resolve({ok:false,code:'cancelled',message:'Connection cancelled.'});}
+  pending.clear();old?.close();navigation?.go('/',{replace:true});render();
+}
+function showRoomClosed(message){
+  closedRoomMessage=message;save('closed-room-message',message);practice=false;
+  forgetRoom();main.querySelector('#phase-title')?.focus({preventScroll:true});announce(message);
+}
+
 function platformGate() {
   if (platformMode === 'local') return null;
   if (!previewAllowed) return 'unsupported';
@@ -61,7 +112,7 @@ function platformGate() {
 function suspendPlatformPlay() {
   clearTimeout(reconnectTimer); clearTimeout(noticeTimer); noticeAnimation?.cancel(); noticeAnimation=null;
   document.querySelector('#notice').textContent = '';
-  save('session', null); snapshot = null; seatRoom = null; fingerprint = ''; draft = ''; practice = false; entryMode = null;
+  save('session', null); restoring=false; snapshot = null; seatRoom = null; fingerprint = ''; draft = ''; practice = false; entryMode = null;
   connected = false; socket?.close();
 }
 function queuePlatformEntry(entry) {
@@ -105,21 +156,29 @@ function render() {
   const gate = platformGate();
   audio.setScene(practice?practiceStep()===3?'results':practiceStep()===2?'voting':'clue1':snapshot?.phase??'home');
   audio.setEnvironment({muted:Boolean(platform.settings.muteAudio),hidden:document.hidden,blocked:Boolean(gate)});
-  const nextScreen = gate ? `platform:${gate}` : practice ? `practice:${practiceStep()}` : snapshot ? `${snapshot.room}:${snapshot.matchId}:${snapshot.phase}` : 'home';
+  const visibleRoom=roomHidden?null:snapshot;
+  const nextScreen = gate ? `platform:${gate}` : practice ? `practice:${practiceStep()}` : visibleRoom ? `${snapshot.room}:${snapshot.matchId}:${snapshot.phase}` : 'home';
   const changed = nextScreen !== screen;
   const focus = document.activeElement;
   const selector = focus?.id ? `#${CSS.escape(focus.id)}` : focus?.matches('[data-action],[data-hud]')
     ? ['action','target','hud','person','file','view'].filter(key=>focus.dataset[key]!==undefined).map(key=>`[data-${key}="${CSS.escape(focus.dataset[key])}"]`).join('') : null;
   const selection = focus?.tagName === 'INPUT' ? [focus.selectionStart, focus.selectionEnd] : null;
-  document.body.dataset.screen = gate ? 'title' : practice ? 'practice' : snapshot ? 'match' : 'title';
+  document.body.dataset.screen = gate ? 'title' : practice ? 'practice' : visibleRoom ? 'match' : 'title';
   main.dataset.transition = String(changed);
-  document.body.append(document.querySelector('#notice'));
-  main.innerHTML = gate ? platformView(gate) : practice ? practiceView(escape) : snapshot ? roomView({s:snapshot,connected,replaced,draft,chatDraft,rulesDraft,computerInvite}) : homeView({playerName,inviteCode,entryMode,publicMatchmaking:window.GAME_CONFIG.publicMatchmaking===true});
-  hud.attach({changed,round:practice?Math.min(practiceStep(),1):Math.max(0,(snapshot?.round??1)-1),snapshot:practice?null:snapshot});
+  // Preserve the shared controls before replacing the current screen.
+  hud.captureChatScroll();
+  document.body.append(document.querySelector('#notice'),document.querySelector('#settings-open'));
+  main.innerHTML = gate ? platformView(gate) : practice ? practiceView(escape) : visibleRoom ? roomView({s:snapshot,connected,replaced,draft,chatDraft,rulesDraft,computerInvite}) : homeView({playerName,inviteCode,entryMode:restoring||snapshot?null:entryMode,activeRoom:snapshot?.room,restoring,closedRoomMessage,publicMatchmaking:window.GAME_CONFIG.publicMatchmaking===true});
+  hud.attach({changed,round:practice?Math.min(practiceStep(),1):Math.max(0,(snapshot?.round??1)-1),snapshot:practice?null:visibleRoom});
   if (inviteDialog.open && (gate || practice || snapshot?.room !== inviteDialog.dataset.room)) inviteDialog.close();
   room3d?.attach();
   const dialog = main.querySelector('#entry-dialog');
-  if (dialog) { dialog.showModal(); dialog.addEventListener('cancel', event => { event.preventDefault(); entryMode = null; render(); main.querySelector('[data-action=enter]')?.focus(); }); }
+  if (dialog) {
+    dialog.querySelector('#name')?.setAttribute('autofocus', '');
+    dialog.showModal();
+    updateEntryFeedback();
+    dialog.addEventListener('cancel', event => { event.preventDefault(); cancelEntry(); });
+  }
   screen = nextScreen; updateTimer();
   if(changed&&!gate){
     const stage=practice?practiceStep():snapshot?.phase;
@@ -128,10 +187,11 @@ function render() {
   }
   const activeDialog=main.querySelector('dialog[open]');
   if(activeDialog){if(!changed&&selector){const next=activeDialog.querySelector(selector);next?.focus({preventScroll:true});if(selection&&next?.setSelectionRange)next.setSelectionRange(...selection);}return;}
-  if (changed) { main.querySelector('#phase-title')?.focus({preventScroll:true}); announce(main.querySelector('#phase-title')?.textContent ?? 'Ready to play'); }
+  if (changed && !(focus?.id==='chat-message'&&main.querySelector('#chat-message'))) { main.querySelector('#phase-title')?.focus({preventScroll:true}); announce(main.querySelector('#phase-title')?.textContent ?? 'Ready to play'); }
   else if (selector) { const next = main.querySelector(selector); next?.focus({ preventScroll: true }); if (selection && next?.setSelectionRange) next.setSelectionRange(...selection); }
 }
 function updateTimer() {
+  updateIdleWarning();
   for(const bubble of main.querySelectorAll('.chat-bubble')){
     const remaining=Number(bubble.dataset.expires)-Date.now()-offset;
     bubble.style.opacity=String(document.documentElement.dataset.motion==='reduce'?(remaining>0?1:0):Math.max(0,Math.min(1,remaining/2000)));
@@ -148,6 +208,21 @@ function updateTimer() {
     face.style.setProperty('--time-fraction',String(Math.min(1,remaining/duration)));
   }
 }
+function updateIdleWarning(){
+  const remaining=snapshot?.idleExpiresAt?Math.max(0,Math.ceil((snapshot.idleExpiresAt-Date.now()-offset)/1000)):null;
+  let warning=main.querySelector('#idle-warning');
+  if(practice||remaining===null||remaining>60){warning?.remove();return;}
+  // Keep the warning visible even when the results or history dialog is open.
+  const host=main.querySelector('dialog[open] .file-content')??main.querySelector('.player-console')??main.querySelector('.title-content');
+  if(!host)return;
+  if(!warning){
+    warning=document.createElement('aside');warning.id='idle-warning';warning.className='idle-warning';
+    warning.innerHTML='<p role="status">This room is about to close due to inactivity.</p><p class="idle-countdown"></p><button type="button" class="secondary" data-action="keep-room">Keep room open</button>';
+  }
+  if(warning.parentElement!==host)host.prepend(warning);
+  warning.querySelector('.idle-countdown').textContent=remaining?`Closes in ${remaining} seconds.`:'Waiting for the server to confirm room status…';
+  warning.querySelector('button').disabled=!connected||remaining===0;
+}
 setInterval(updateTimer, 200);
 function accept(s) {
   if (snapshot?.room === s.room && s.version < snapshot.version) return;
@@ -157,9 +232,11 @@ function accept(s) {
   if(turnChanged)audio.cue('reveal');
   if (practice && changed && s.phase === 'clue1' && s.me.participant) practice = false;
   if (changed) draft = s.phase.startsWith('clue') ? s.me.clue : '';
-  if (changed) chatDraft='';
+  if(snapshot?.room!==s.room)chatDraft='';
   entryMode = null;
   offset = s.serverNow - Date.now(); snapshot = s;
+  restoring=false;
+  if(!practice&&!roomHidden)navigation?.go(roomRoute(),{replace:navigation.current!=='/'});
   const next = JSON.stringify({ ...s, serverNow: 0 });
   if (fingerprint !== next) { fingerprint = next; render();if(turnChanged)announce(main.querySelector('#phase-title')?.textContent??'Read the clues'); }
   else updateTimer();
@@ -172,16 +249,20 @@ async function connect() {
     const url = new URL(window.GAME_CONFIG.backendUrl ?? '/play', location.href);
     url.protocol = url.protocol === 'https:' || url.protocol === 'wss:' ? 'wss:' : 'ws:';
     const ws = new WebSocket(url); socket = ws;
-    const timeout = setTimeout(() => { ws.close(); reject(new Error('Connection timed out. Try again.')); }, 8000);
+    // Hosted services may need time to wake after inactivity.
+    const hosted=Boolean(window.GAME_CONFIG.backendUrl);
+    const timeout = setTimeout(() => { ws.close(); reject(new Error('The game server did not respond. Please try again shortly.')); }, hosted?90000:8000);
     ws.onopen = () => {
       clearTimeout(timeout);
-      if (platformGate()) { ws.close(); reject(new Error('Game entry is unavailable.')); return; }
+      if (socket!==ws||platformGate()) { ws.close(); reject(new Error('Game entry is unavailable.')); return; }
       connected = true; replaced = false; retryCount = 0; render(); resolve();
     };
     ws.onerror = () => { clearTimeout(timeout); reject(new Error('Could not connect. Try again.')); };
     ws.onmessage = event => {
+      if(socket!==ws)return;
       let msg; try { msg = JSON.parse(event.data); } catch { return; }
-      if (msg.type === 'welcome' && !platformGate()) { save('session', msg.token); seatRoom = msg.room; }
+      if (msg.type === 'welcome' && !platformGate()) { save('session', msg.token); seatRoom = msg.room;closedRoomMessage='';save('closed-room-message',null); }
+      if (msg.type === 'room-closed') {showRoomClosed(msg.message);return;}
       if (msg.type === 'snapshot' && !platformGate()) accept(msg);
       if (msg.type === 'ack') { const request = pending.get(msg.requestId); if (request) { clearTimeout(request.timer); pending.delete(msg.requestId); request.resolve(msg); } }
       if (msg.type === 'error') notice(msg.message);
@@ -194,33 +275,41 @@ async function connect() {
       render();
       if (read('session') && !replaced && retryCount < 5) reconnectTimer = setTimeout(resume, Math.min(1000 * 2 ** retryCount++, 8000));
     };
-  }).finally(() => { opening = null; });
-  return opening;
+  }).finally(() => {if(opening===attempt)opening=null;});
+  const attempt=opening;return attempt;
 }
 async function request(type, data = {}) {
   await connect();
   if (platformGate()) throw new Error('Game entry is unavailable.');
+  const transport=socket;
+  if(transport?.readyState!==WebSocket.OPEN)throw new Error('Connection interrupted. Please reconnect.');
   const requestId = Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
   return new Promise(resolve => {
-    const timer = setTimeout(() => { pending.delete(requestId); resolve({ ok: false, message: 'No reply yet. Reconnecting to check your entry.' }); socket.close(); }, 8000);
-    pending.set(requestId, { resolve, timer }); socket.send(JSON.stringify({ type, requestId, ...data }));
+    const timer = setTimeout(() => { pending.delete(requestId); resolve({ ok: false, message: 'No reply yet. Reconnecting to check your entry.' }); transport.close(); }, 8000);
+    pending.set(requestId, { resolve, timer }); transport.send(JSON.stringify({ type, requestId, ...data }));
   });
 }
 async function resume() {
   if (platformGate()) return;
+  if(resuming)return resuming;
+  if(connected&&seatRoom)return {ok:true};
   clearTimeout(reconnectTimer); const token = read('session'); if (!token) return;
-  try {
+  resuming=(async()=>{try {
     const ack = await request('resume', { token });
-    if (!ack.ok && ack.code === 'expired') { save('session', null); seatRoom = null; snapshot = null; fingerprint = ''; render(); notice(ack.message); }
+    if(read('session')!==token)return ack;
+    if (!ack.ok && ['expired','idle-expired'].includes(ack.code))showRoomClosed(ack.message);
     else if (!ack.ok) notice(ack.message);
     return ack;
-  } catch (error) { notice(error.message); return {ok:false,code:'connection',message:error.message}; }
+  } catch (error) {if(read('session')===token)notice(error.message);return {ok:false,code:'connection',message:error.message};}
+  finally{resuming=null;}})();
+  return resuming;
 }
 main.addEventListener('input', event => {
   if (event.target.id === 'chat-message') chatDraft = event.target.value;
   if (event.target.id === 'clue') draft = event.target.value;
   if (event.target.id === 'name') { playerName = event.target.value; save('name', playerName); }
   if (event.target.id === 'code') inviteCode = event.target.value;
+  if(event.target.id==='practice-clue'){typePracticeClue(event.target.value);rememberPractice();}
 });
 main.addEventListener('change',event=>{
   if(event.target.closest('form')?.id!=='rules-form')return;
@@ -231,7 +320,14 @@ main.addEventListener('change',event=>{
 main.addEventListener('submit', async event => {
   event.preventDefault();
   if (platformGate()) return;
-  if (practice) { const accepted=practiceAction('submit', main.querySelector('#practice-clue')?.value); render(); notice(main.querySelector('.submission-state')?.textContent??''); if(accepted)audio.cue('sealed'); return; }
+  if (practice) { const accepted=practiceAction('submit', main.querySelector('#practice-clue')?.value);rememberPractice(); render(); notice(main.querySelector('.submission-state')?.textContent??''); if(accepted)audio.cue('sealed'); return; }
+  const entering=event.target.id==='entry';
+  if(entering&&(entryPending||restoring||snapshot))return;
+  let entryWait;
+  if(entering){
+    entryPending=true;updateEntryFeedback('Connecting to the game server…',false);
+    entryWait=setTimeout(()=>{if(entryPending)updateEntryFeedback('Still connecting. The server may be waking up; this can take about a minute.',false);},8000);
+  }
   try {
     let ack;
     if(event.target.id==='rules-form'){
@@ -241,26 +337,31 @@ main.addEventListener('submit', async event => {
     if(event.target.id==='chat-form'){
       ack=await request('chat',{value:chatDraft});
       if(ack.ok){chatDraft='';const field=main.querySelector('#chat-message');if(field)field.value='';audio.cue('chat');}
-      notice(ack.message);return;
+      else notice(ack.message);
+      return;
     }
     if (event.target.id === 'entry') {
+      if(restoring||snapshot)return;
       const type = entryMode ?? 'create';
-      if (type === 'join' && !/^[a-f0-9]{6}$/i.test(inviteCode.trim())) { notice('Enter a room code with 6 letters or numbers.'); return; }
-      ack = await request(type, { name: playerName, code: inviteCode });
+      if (type === 'join' && !/^[a-f0-9]{6}$/i.test(inviteCode.trim())) { updateEntryFeedback('Enter a room code with 6 letters or numbers.',true); return; }
+      roomHidden=false;ack = await request(type, { name: playerName, code: inviteCode });
     } else if (event.target.id === 'clue-form') ack = await request('clue', { value: draft, matchId: snapshot.matchId, phase: snapshot.phase });
-    if (ack) { notice(ack.message); if(ack.ok&&event.target.id==='clue-form')audio.cue('sealed'); }
-  } catch (error) { notice(error.message); }
+    if (ack) { if(entering)updateEntryFeedback(ack.ok?'':ack.message,!ack.ok);else notice(ack.message); if(ack.ok&&event.target.id==='clue-form')audio.cue('sealed'); }
+  } catch (error) { if(entering)updateEntryFeedback(error.message,true);else notice(error.message); }
+  finally {if(entering){clearTimeout(entryWait);entryPending=false;updateEntryFeedback();}}
 });
 main.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]'); if (!button) return;
   const action = button.dataset.action;
   if (action === 'platform-reload') { location.reload(); return; }
   if (platformGate()) return;
-  if (action === 'enter') { entryMode = button.dataset.mode; render(); main.querySelector('#name')?.focus(); return; }
-  if (action === 'cancel-entry') { entryMode = null; render(); main.querySelector('[data-action=enter]')?.focus(); return; }
-  if (action === 'practice') { practice = true; startPractice(); render(); return; }
-  if (action === 'practice-exit') { practice = false; render(); return; }
-  if (practice) { practiceAction(action, button.dataset.target); render(); return; }
+  if (action === 'dismiss-closed') {closedRoomMessage='';save('closed-room-message',null);render();return;}
+  if (action === 'enter') {if(snapshot||restoring)return;if(!entryPending){entryFeedback='';entryFailed=false;}entryMode = button.dataset.mode;navigation?.go(`/${entryMode}`);render(); main.querySelector('#name')?.focus(); return; }
+  if (action === 'return-room') {roomHidden=false;navigation?.go(roomRoute());render();return;}
+  if (action === 'cancel-entry') {cancelEntry();return;}
+  if (action === 'practice') { practice = true;startPractice();rememberPractice();navigation?.go('/practice');render();return; }
+  if (action === 'practice-exit') {practice = false;navigation?.go(snapshot&&!roomHidden?roomRoute():'/',{replace:true});render();return;}
+  if (practice) { practiceAction(action, button.dataset.target);rememberPractice();render();return; }
   try {
     if (action === 'invite') {
       const room = snapshot.room;
@@ -277,10 +378,11 @@ main.addEventListener('click', async event => {
       return;
     }
     if (action === 'retry') { if (socket?.readyState === WebSocket.OPEN) socket.close(); else await resume(); return; }
-    if (action === 'leave' && !connected) { save('session', null); seatRoom = null; snapshot = null; fingerprint = ''; clearTimeout(reconnectTimer); render(); return; }
+    if (action === 'leave' && (!connected||restoring&&!seatRoom)) {forgetRoom();return;}
     const ack = await request(action, { target: button.dataset.target, matchId: snapshot?.matchId, phase: snapshot?.phase });
     if(action==='vote'&&ack.ok)audio.cue('vote');
-    if (action === 'leave' && ack.ok) { save('session', null); seatRoom = null; snapshot = null; fingerprint = ''; inviteCode = ''; socket.close(); render(); }
+    if (action === 'leave' && ack.ok)forgetRoom();
+    if(action==='keep-room'&&ack.ok)return;
     notice(ack.message);
   } catch (error) { notice(error.message); }
 });
@@ -342,7 +444,10 @@ document.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)
 document.addEventListener('click',event=>{if(event.target.closest('button')&&!event.target.closest('#sound'))audio.cue('tap');});
 document.addEventListener('visibilitychange',()=>audio.setEnvironment({hidden:document.hidden}));
 window.addEventListener('pagehide',()=>audio.setEnvironment({hidden:true}));
-window.addEventListener('pageshow',()=>audio.setEnvironment({hidden:document.hidden}));
+window.addEventListener('pageshow',event=>{
+  audio.setEnvironment({hidden:document.hidden});
+  if(event.persisted&&read('session')&&!replaced&&!connected)void resume();
+});
 updateSoundControl();
 render();
 await platform.init(); booted = true; render();

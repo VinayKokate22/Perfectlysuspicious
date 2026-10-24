@@ -18,7 +18,7 @@ test('P01 friends can create invite and join while open matchmaking is disabled'
     const code=await host.locator('.room-code').textContent();
     await host.getByRole('button',{name:'Room menu',exact:true}).click();await host.locator('.room-menu [data-action=invite]').click();
     await expect(host.locator('#notice')).toHaveText('Test invite copied.');
-    const invite=await host.evaluate(()=>navigator.clipboard.readText());expect(invite).toBe(`http://127.0.0.1:3911/?room=${code}`);
+    const invite=await host.evaluate(()=>navigator.clipboard.readText());expect(invite).toBe(`http://127.0.0.1:3911/#/join/${code}`);
     const desktop=await open({width:1366,height:768},false,invite);
     await expect(desktop.getByLabel('Room code',{exact:true})).toHaveValue(code);
     await desktop.getByLabel('Your name',{exact:true}).fill('Jamie');await desktop.locator('#entry button[type=submit]').click();

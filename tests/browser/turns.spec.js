@@ -37,7 +37,7 @@ test('T07 host settings govern sequential turns, five clue rounds and the final 
     await goPhase(request,'clue5');await expect(host.getByRole('timer')).toHaveText('30');await expect(host.locator('.evidence-slip')).toHaveCount(15);
     await host.getByLabel('Your clue for round 5',{exact:true}).fill('queue');await host.getByRole('button',{name:'Submit clue',exact:true}).tap();
     await expect(host.locator('#notice')).toHaveText('Choose another clue');
-    await goPhase(request,'voting');await expect(host.locator('#chat-message')).toBeVisible();await expect(host.locator('#chat-message')).toBeDisabled();
+    await goPhase(request,'voting');await expect(host.locator('#chat-message')).toBeVisible();await expect(host.locator('#chat-message')).toBeEnabled();
     for(const page of [guest,pages[2]])await page.getByRole('button',{name:'Vote for Alex',exact:true}).click();
     await goPhase(request,'results');await expect(guest.locator('.result-table .result-total').first()).toHaveText('100');
     for(const page of pages){await expect(page.locator('.case-file')).toBeVisible();await closeCaseFile(page);}

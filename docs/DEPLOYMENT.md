@@ -79,7 +79,7 @@ Let Render supply PORT. Leave the root directory at the repository root. Do not 
 
 The Blueprint selects the Free compute plan for setup testing. Render Free services sleep after 15 minutes without inbound traffic and can take about a minute to wake. Render may also restart them. For smoother sharing, choose a paid compute plan after reviewing its cost. This is a service compute setting, separate from the workspace plan. [Render Free service limitations](https://render.com/docs/free)
 
-If you keep Free, open the backend /health URL and wait for it to respond before your first test. A sleeping backend can exceed the game's connection timeout; return to the game and retry after it wakes. Sleeping or restarting clears this game's current rooms.
+If you keep Free, open the backend /health URL and wait for it to respond before your first test. The hosted client allows up to 90 seconds for a WebSocket connection and displays connection progress and errors inside the room-entry dialog. If the hosting proxy rejects the connection while the service wakes, retry after /health responds. Sleeping or restarting clears this game's current rooms.
 
 ## 3. Create the Vercel frontend
 

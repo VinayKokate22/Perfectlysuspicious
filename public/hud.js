@@ -2,8 +2,28 @@
 // This controller owns presentation only; all game decisions stay on the server.
 import { GAME_GUIDE } from './guide.js';
 import { createResults } from './results.js';
+import { blockPortrait } from './art.js';
 const element=(tag,className,text)=>{const node=document.createElement(tag);node.className=className;if(text)node.textContent=text;return node;};
 const button=(text,action)=>{const node=element('button','secondary',text);node.type='button';node.dataset.hud=action;return node;};
+// Messages in the snapshot have been accepted by the server; this is not a read receipt.
+const markSent=(node,message,playerId)=>{
+  if(!playerId||message.player!==playerId)return;
+  const sent=element('span','chat-sent');sent.title='Sent';sent.setAttribute('role','img');sent.setAttribute('aria-label','Sent');
+  sent.innerHTML='<svg viewBox="0 0 24 16" aria-hidden="true" focusable="false"><path d="m2 8 4 4L16 2M12 10l2 2L24 2"/></svg>';
+  node.classList.add('chat-own');node.append(sent);
+};
+const readChatScroll=node=>{
+  if(!node?.isConnected||!node.clientHeight)return null;
+  const top=node.getBoundingClientRect().top;
+  const anchor=[...node.children].find(child=>child.getBoundingClientRect().bottom>top+1);
+  return {bottom:node.scrollHeight-node.clientHeight-node.scrollTop<8,top:node.scrollTop,id:anchor?.dataset.message,offset:anchor?anchor.getBoundingClientRect().top-top:0};
+};
+const restoreChatScroll=(node,state)=>{
+  if(!state||state.bottom){node.scrollTop=node.scrollHeight;return;}
+  const anchor=[...node.children].find(child=>child.dataset.message===state.id);
+  if(anchor)node.scrollTop+=anchor.getBoundingClientRect().top-node.getBoundingClientRect().top-state.offset;
+  else node.scrollTop=state.top;
+};
 export class FixedHUD {
   constructor(root){
     this.root=root;this.file=null;this.page=0;this.round=0;this.suspectKey=null;
@@ -16,11 +36,6 @@ export class FixedHUD {
       else if(action==='settings'){this.closeMenu(false);document.querySelector('#settings-open').click();}
       else if(action==='close')this.close();
       else if(action==='file')this.open(control.dataset.file);
-      else if(action==='result-view'){
-        this.resultView=control.dataset.view;
-        this.dialog.querySelector('.results-stage').dataset.view=this.resultView;
-        this.dialog.querySelectorAll('[data-hud=result-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===this.resultView)));
-      }
       else if(action==='previous'||action==='next'){this.page+=action==='next'?1:-1;this.layoutFile();this.dialog.querySelector('.file-content').focus({preventScroll:true});}
       else if(action==='suspect')this.openSuspect(control.dataset.person);
       else if(action==='suspect-close')this.closeSuspect();
@@ -29,8 +44,10 @@ export class FixedHUD {
   }
   attach({changed,round,snapshot=null}){
     this.observer.disconnect();
+    if(this.snapshot?.room!==snapshot?.room){this.chatScroll=null;this.chatFileScroll=null;}
     this.snapshot=snapshot;
-    if(changed){this.file=null;this.page=0;this.round=round;this.menuOpen=false;this.suspectKey=null;this.resultView='votes';}
+    if(changed){this.file=null;this.page=0;this.round=round;this.menuOpen=false;this.suspectKey=null;this.chatFileScroll=null;}
+    this.chatHistory=null;
     this.panel=this.root.querySelector('.player-console');this.board=this.root.querySelector('.clue-grid');
     if(!this.panel||!this.board){this.dialog=null;this.root.classList.remove('fixed-hud');const gear=document.querySelector('#settings-open');gear.style.removeProperty('left');gear.style.removeProperty('top');return;}
     const files={};
@@ -38,16 +55,14 @@ export class FixedHUD {
     const rules=this.panel.querySelector('.rules-panel');
     collect('rules',rules?[rules]:[]);
     const chat=element('section','console-chat');chat.setAttribute('aria-label','Room chat');
-    const form=this.panel.querySelector('.chat-form'),locked=this.panel.querySelector('.chat-locked');
+    const form=this.panel.querySelector('.chat-form');
     const roomKey=this.root.querySelector('.room-code')?.textContent;
     if(this.roomKey!==roomKey||!form){this.lastMessage=null;this.messages=[];}
     this.roomKey=roomKey;
     if(form)chat.append(form);
     else {
-      chat.innerHTML='<div class="chat-form"><label for="chat-message">Room chat</label><div class="chat-row"><input id="chat-message" disabled placeholder="Chat opens after this case"><button class="secondary" disabled>Send</button></div></div>';
-      if(!locked)chat.querySelector('input').placeholder='Chat opens in a live room';
+      chat.innerHTML='<div class="chat-form"><label for="chat-message">Room chat</label><div class="chat-row"><input id="chat-message" disabled placeholder="Chat opens in a live room"><button class="secondary" disabled>Send</button></div></div>';
     }
-    locked?.remove();
     chat.querySelector('.small-note')?.remove();
     if(form){
       if(snapshot?.chatHistory)this.messages=[...snapshot.chatHistory];
@@ -55,21 +70,21 @@ export class FixedHUD {
         const id=Number(bubble.dataset.messageId);
         if(!this.messages.some(message=>message.id===id))this.messages.push({id,name:bubble.getAttribute('aria-label').replace(/ says$/,''),text:bubble.textContent});
       }
-      this.messages=this.messages.sort((a,b)=>a.id-b.id).slice(-3);this.lastMessage=this.messages.at(-1);
-      const history=element('div','chat-history');history.setAttribute('aria-label','Recent room messages');
+      this.messages=this.messages.sort((a,b)=>a.id-b.id).slice(-200);this.lastMessage=this.messages.at(-1);
+      const history=element('div','chat-history');history.id='room-chat-history';history.tabIndex=0;history.setAttribute('role','region');history.setAttribute('aria-label','Room messages. Scroll up for earlier messages.');
       for(const message of this.messages.slice(0,-1)){
-        const previous=element('p','chat-previous');previous.title=`${message.name}: ${message.text}`;
-        previous.append(element('strong','chat-author',`${message.name}: `),element('span','chat-preview',message.text));history.append(previous);
+        const previous=element('p','chat-previous');previous.dataset.message=message.id;previous.title=`${message.name}: ${message.text}`;
+        previous.append(element('strong','chat-author',`${message.name}: `),element('span','chat-preview',message.text));markSent(previous,message,snapshot?.me?.id);history.append(previous);
       }
       const readout=element('div','chat-readout');readout.setAttribute('aria-label','Latest room message');readout.setAttribute('role','status');readout.setAttribute('aria-live','polite');readout.setAttribute('aria-atomic','true');
-      if(this.lastMessage)readout.append(element('strong','chat-author',`${this.lastMessage.name}: `),document.createTextNode(this.lastMessage.text));
+      if(this.lastMessage){readout.dataset.message=this.lastMessage.id;readout.append(element('strong','chat-author',`${this.lastMessage.name}: `),document.createTextNode(this.lastMessage.text));markSent(readout,this.lastMessage,snapshot?.me?.id);}
       else{readout.classList.add('chat-empty');readout.textContent='Room messages appear here.';}
-      history.append(readout);chat.prepend(history);
-      files.chat=this.messages.map(message=>{const entry=element('section','chat-record');entry.append(element('h3','',message.name),element('p','',message.text));return entry;});
+      history.append(readout);chat.prepend(history);this.chatHistory=history;this.chatScroll??={bottom:true};
+      files.chat=this.messages.map(message=>{const entry=element('section','chat-record');entry.dataset.message=message.id;const body=element('p','',message.text);markSent(body,message,snapshot?.me?.id);entry.append(element('h3','',message.name),body);return entry;});
       if(this.messages.length>1){const expand=button('History','file');expand.dataset.file='chat';expand.setAttribute('aria-label','Read full chat history');expand.setAttribute('aria-haspopup','dialog');form.querySelector('.chat-row').append(expand);}
     }
     collect('scores',snapshot?.result?[...this.root.querySelectorAll('.leaderboard-title,.result-person')]:[...this.root.querySelectorAll('.result-person'),...this.root.querySelectorAll('.roster .player')]);
-    if(snapshot?.result)files.scores=[createResults(snapshot,this.resultView)];
+    if(snapshot?.result)files.scores=[createResults(snapshot)];
     this.root.querySelector('.roster')?.remove();
     const help=[...this.panel.querySelectorAll('.briefing [data-action=practice],.briefing-steps,.input-help,.lesson,.small-note,.role-card>p:not(.role-label):not(.secret-word),.role-stamp,.details')];
     collect('help',help);
@@ -88,7 +103,13 @@ export class FixedHUD {
     this.panel.querySelectorAll(':scope>.eyebrow,:scope>h3').forEach(n=>{if(emptyPoints)n.remove();});
     const series=this.panel.querySelector('.series-result');if(series){if(!snapshot?.result)files.scores.push(series);series.remove();}
     const detail=verdict?.querySelector('div>p:last-child');if(detail){if(!snapshot?.result)files.scores.unshift(detail);detail.remove();}
-    this.panel.querySelector('.role-card')?.classList.add('compact-role');
+    const roleCard=this.panel.querySelector('.role-card');
+    if(roleCard){
+      roleCard.classList.add('compact-role');
+      // Keep the shared category with the private word (or withheld identity).
+      const category=this.root.querySelector('.phase-head .category');
+      if(category)roleCard.append(category);
+    }
     this.panel.querySelector('.briefing')?.classList.add('compact-briefing');
     // Give every piece of information one home inside the case console.
     const action=element('section','console-action');action.setAttribute('aria-label','Current action');
@@ -116,7 +137,7 @@ export class FixedHUD {
       const control=button(label,'file');control.dataset.file=name;control.setAttribute('aria-haspopup','dialog');dock.append(control);
     }
     if(invite)dock.append(invite);if(leave)dock.append(leave);
-    const settings=element('span','settings-seat');settings.setAttribute('aria-hidden','true');dock.append(settings);
+    const settings=element('span','settings-seat');settings.append(document.querySelector('#settings-open'));dock.append(settings);
     this.panel.append(dock);
     // Phones keep the current action and chat visible. Secondary actions have a
     // separate room menu, with the same controls and no scrolling.
@@ -125,7 +146,7 @@ export class FixedHUD {
     const menuHeading=element('div','file-heading');menuHeading.append(element('h2','','Room menu'));menuHeading.querySelector('h2').id='room-menu-title';menuHeading.append(button('Close','menu-close'));roomMenu.append(menuHeading);
     if(roomKey)roomMenu.append(element('p','menu-room-code',`Room ${roomKey}`));
     const menuActions=element('div','room-menu-actions');
-    for(const control of dock.querySelectorAll('button')){const copy=control.cloneNode(true);if(copy.dataset.action==='leave')copy.textContent='Leave room';if(copy.dataset.action==='practice-exit')copy.textContent='Back to game';menuActions.append(copy);}
+    for(const control of dock.querySelectorAll(':scope>button')){const copy=control.cloneNode(true);if(copy.dataset.action==='leave')copy.textContent='Leave room';if(copy.dataset.action==='practice-exit')copy.textContent='Back to game';menuActions.append(copy);}
     menuActions.append(button('Settings','settings'));roomMenu.append(menuActions);this.root.append(roomMenu);this.roomMenu=roomMenu;
     roomMenu.addEventListener('cancel',event=>{event.preventDefault();this.closeMenu();});
     if(this.menuOpen)roomMenu.showModal();
@@ -135,7 +156,7 @@ export class FixedHUD {
     const archive=element('div','file-archive');archive.hidden=true;
     for(const nodes of Object.values(files))archive.append(...nodes);this.root.append(archive);
     const dialog=element('dialog','case-file');dialog.setAttribute('aria-labelledby','file-title');
-    dialog.innerHTML='<div class="file-heading"><h2 id="file-title"></h2></div><div class="file-content" tabindex="-1"></div><div class="file-save"></div><div class="file-pagination"></div>';
+    dialog.innerHTML='<div class="file-heading"><h2 id="file-title"></h2></div><div id="case-file-content" class="file-content" tabindex="-1"></div><div class="file-save"></div><div class="file-pagination"></div>';
     const close=button('Close','close');dialog.querySelector('.file-heading').append(close);
     const previous=button('Previous','previous'),next=button('Next','next');
     const status=element('span','file-page');status.setAttribute('aria-live','polite');
@@ -161,6 +182,9 @@ export class FixedHUD {
     const speech=element('div','speech-layer');
     this.cards.forEach((card,i)=>{
       card.dataset.person=card.dataset.player??String(i);
+      const seat=Number(card.querySelector('.file-top span')?.textContent.match(/\d+/)?.[0]??i+1)-1;
+      const token=element('span','player-token');token.setAttribute('aria-hidden','true');token.innerHTML=blockPortrait(seat);
+      card.querySelector('.suspect-id').prepend(token);
       const name=card.querySelector('.clue-owner').cloneNode(true);name.querySelector('.you-label')?.remove();card.dataset.name=name.textContent.trim();
       const inspect=button('Read clues','suspect');inspect.className='suspect-open';inspect.dataset.person=card.dataset.person;inspect.setAttribute('aria-label',`Inspect ${card.dataset.name}`);inspect.setAttribute('aria-haspopup','dialog');card.append(inspect);
       const bubble=card.querySelector('.chat-bubble');if(bubble){bubble.dataset.seat=i;bubble.dataset.latest=String(Number(bubble.dataset.messageId)===this.lastMessage?.id);bubble.replaceChildren(element('span','bubble-text',bubble.textContent));speech.append(bubble);}
@@ -180,18 +204,20 @@ export class FixedHUD {
     if(!this.files[name]?.length)return;
     this.closeMenu(false);
     if(!restore){this.page=0;this.file=name;}
-    const content=this.dialog.querySelector('.file-content'),save=this.dialog.querySelector('.file-save'),heading=this.dialog.querySelector('.file-heading');
-    const results=this.files.scores?.find(node=>node.classList.contains('results-stage'));
-    const previousTabs=heading.querySelector('.result-tabs');if(previousTabs&&results)results.append(previousTabs);
+    const content=this.dialog.querySelector('.file-content'),save=this.dialog.querySelector('.file-save');
     content.replaceChildren();save.replaceChildren();
     this.dialog.dataset.file=name;
-    this.dialog.classList.toggle('results-file',name==='scores'&&Boolean(this.snapshot?.result));
-    this.dialog.querySelector('h2').textContent={rules:'Match setup',scores:this.snapshot?.result?(this.snapshot.seriesComplete?'Final results':`Case ${this.snapshot.caseNumber} results`):'Leaderboard',help:'How to play',chat:'Recent chat'}[name];
+    const isResults=name==='scores'&&Boolean(this.snapshot?.result);
+    this.dialog.classList.toggle('results-file',isResults);
+    this.dialog.classList.toggle('chat-file',name==='chat');
+    content.tabIndex=isResults||name==='chat'?0:-1;
+    if(isResults||name==='chat')content.setAttribute('aria-label',isResults?'Case results':'Room chat history');else content.removeAttribute('aria-label');
+    this.dialog.querySelector('h2').textContent={rules:'Match setup',scores:this.snapshot?.result?(this.snapshot.seriesComplete?'Final results':`Case ${this.snapshot.caseNumber} results`):'Leaderboard',help:'How to play',chat:'Room chat'}[name];
     if(name==='rules'&&this.rulesForm){this.rulesForm.hidden=false;content.append(this.rulesForm);save.append(this.rulesSave);}
     else content.append(...this.files[name]);
-    if(name==='scores'&&results)heading.insertBefore(results.querySelector('.result-tabs'),heading.querySelector('[data-hud=close]'));
     for(const node of this.files[name])node.hidden=false;
     this.dialog.showModal();this.observer.observe(content);this.layoutFile();
+    if(name==='chat')restoreChatScroll(content,restore?this.chatFileScroll:null);
     if(!restore)this.dialog.querySelector('[data-hud=close]').focus({preventScroll:true});
   }
   close(){
@@ -219,11 +245,25 @@ export class FixedHUD {
     this.inspector?.querySelector('.suspect-ballot').replaceChildren();
   }
   layout(){
+    this.layoutChat();
     const title=this.root.querySelector('#phase-title');
     if(title?.dataset.compactTitle){title.dataset.fullTitle??=title.textContent;title.textContent=matchMedia('(max-width:1100px), (pointer:coarse)').matches?title.dataset.compactTitle:title.dataset.fullTitle;}
     this.layoutBoard();this.layoutToast();if(this.dialog?.open)this.layoutFile();
-    const seat=this.root.querySelector('.settings-seat')?.getBoundingClientRect();
-    if(seat){const gear=document.querySelector('#settings-open');gear.style.left=`${seat.left}px`;gear.style.top=`${seat.top}px`;}
+  }
+  captureChatScroll(){
+    this.chatScroll=readChatScroll(this.chatHistory);
+    this.chatFileScroll=this.dialog?.open&&this.file==='chat'?readChatScroll(this.dialog.querySelector('.file-content')):null;
+  }
+  layoutChat(){
+    const history=this.chatHistory;if(!history?.isConnected)return;
+    const position=this.chatScroll??readChatScroll(history);this.chatScroll=null;
+    // Reserve only the latest three messages' height; older entries stay scrollable.
+    const height=[...history.children].slice(-3).reduce((sum,node)=>{
+      const style=getComputedStyle(node);return sum+node.offsetHeight+parseFloat(style.marginTop)+parseFloat(style.marginBottom);
+    },0);
+    history.style.maxHeight=`${Math.ceil(height)}px`;
+    history.tabIndex=this.messages.length?0:-1;
+    restoreChatScroll(history,position);
   }
   layoutToast(){
     if(!this.notifications?.isConnected||!this.board?.isConnected)return;
@@ -286,7 +326,7 @@ export class FixedHUD {
   }
   layoutFile(){
     if(!this.dialog?.open||!this.file)return;
-    if(this.dialog.classList.contains('results-file')){this.dialog.querySelector('.file-pagination').hidden=true;return;}
+    if(this.dialog.classList.contains('results-file')||this.file==='chat'){this.dialog.querySelector('.file-pagination').hidden=true;return;}
     const sheets=this.files[this.file],content=this.dialog.querySelector('.file-content');
     const available=content.clientHeight;
     for(const sheet of sheets)sheet.hidden=false;

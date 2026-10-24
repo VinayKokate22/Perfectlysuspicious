@@ -85,7 +85,7 @@ test('U38 current turns timers and reading breaks stay explicit on every screen 
     await expect(page.locator('#phase-title')).toHaveText('Christopherabcdefg (2) is playing');
     for(const [width,height]of sizes){await page.setViewportSize({width,height});await fits(page);}
     await goPhase(request,'reveal1');
-    for(const [width,height]of sizes){await page.setViewportSize({width,height});await expect(page.locator('.read-break')).toBeVisible();await expect(page.locator('.read-break')).toContainText('Round 2 starts automatically');await expect(page.locator('.read-break')).toContainText('No typing');await fits(page);}
+    for(const [width,height]of sizes){await page.setViewportSize({width,height});await expect(page.locator('.read-break')).toBeVisible();await expect(page.locator('.read-break')).toContainText('Round 2 starts automatically');await expect(page.locator('.read-break')).toContainText('Clue entry is paused');await fits(page);}
     await goPhase(request,'reveal2');await expect(page.locator('.read-break')).toContainText('Voting starts automatically');
     for(const [width,height]of sizes){await page.setViewportSize({width,height});await fits(page);}
   }finally{for(const socket of guests)socket.close();}
@@ -106,7 +106,7 @@ test('U39 three recent chats survive expiry and reload in a crowded touch room',
       for(const message of messages)expect(seen.join(' ')).toContain(message);await closeCaseFile(page);
     }
     await page.reload();await expect(page.locator('.chat-previous')).toHaveCount(2);await expect(page.locator('.chat-readout')).toContainText(messages[2]);
-    const host=guests.find(socket=>socket.state.host===socket.state.me.id);await send(host,'start');await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','clue1');await expect(page.locator('.chat-history')).toHaveCount(0);await expect(page.locator('#chat-message')).toBeDisabled();
+    const host=guests.find(socket=>socket.state.host===socket.state.me.id);await send(host,'start');await expect(page.locator('.game-panel')).toHaveAttribute('data-phase','clue1');await expect(page.locator('.chat-history')).toHaveCount(1);await expect(page.locator('#chat-message')).toBeEnabled();
   }finally{for(const socket of guests)socket.close();}
 });
 

@@ -1,0 +1,109 @@
+/* Player nameplates borrow the table's felt, rounded wood rail and brass trim. */
+body .fixed-hud .clue-grid[data-density] .suspect-card{
+  --card-face:linear-gradient(145deg,#387d68,#245647);
+  --card-rim:linear-gradient(145deg,#edbd70,#b97c3d 65%,#98602e);
+  --card-depth:inset 0 2px 0 #a6d8ba45,inset 0 -3px 0 #143e3470,0 3px 0 #744824,0 6px 12px #2e241b40;
+  container-type:inline-size;padding:9px 10px 10px;
+  border:3px solid transparent;border-radius:15px;
+  background:var(--card-face) padding-box,var(--card-rim) border-box;
+  box-shadow:var(--card-depth);color:#fff0cf;
+}
+.fixed-hud .clue-grid .suspect-card::before{display:none}
+.fixed-hud .clue-grid .suspect-id{
+  display:flex;align-items:center;gap:8px;padding:0;text-align:left;
+}
+.fixed-hud .clue-grid .player-token{
+  display:block;flex:0 0 34px;width:34px;height:34px;overflow:hidden;
+  padding:0;border:2px solid #e4bb7c;border-radius:10px;background:#203f3a;
+  box-shadow:inset 0 1px 0 #fff0c8,0 2px 0 #163c31;
+}
+.fixed-hud .clue-grid .player-token svg{display:block;width:100%;height:100%}
+.fixed-hud .clue-grid .suspect-id>div{
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px;flex:1;min-width:0;
+}
+.fixed-hud .clue-grid .clue-owner{
+  flex:1;min-width:0;margin:0;padding:0;color:#fff1d4;
+  font:700 19px/1.15 Barlow,sans-serif;text-shadow:0 2px 0 #173c3270;
+}
+.fixed-hud .clue-grid .you-label{color:#e5d3a4;font:700 9px/1.2 Barlow,sans-serif;letter-spacing:.4px}
+.fixed-hud .clue-grid .evidence-slips{gap:4px;margin-top:7px}
+body .fixed-hud .clue-grid .evidence-slip{
+  align-items:baseline;gap:8px;min-height:25px;padding:4px 7px;
+  border:1px solid #d5b781;border-radius:6px;
+  background:linear-gradient(135deg,#faedcf,#e8d2a7);
+  box-shadow:inset 0 1px 0 #fff7df,0 1px 1px #163e3340;
+}
+.fixed-hud .clue-grid .slip-label{color:#71634b;font:700 9px/1.2 Barlow,sans-serif;letter-spacing:.3px}
+.fixed-hud .clue-grid .clue-word{color:#30463b;font:700 17px/1.15 Barlow,sans-serif}
+body .fixed-hud .clue-grid .evidence-slip.sealed{
+  border-color:#8fb59b28;background:#153e3566;
+  box-shadow:inset 0 1px 2px #0c302d45,0 1px 0 #a7cba81a;
+}
+.fixed-hud .clue-grid .sealed .slip-label{color:#a8c4ad}
+.fixed-hud .clue-grid .sealed .clue-word{color:#c5d6bd;font:500 14px/1.2 Barlow,sans-serif;letter-spacing:0}
+.fixed-hud .clue-grid .clue-word.empty{color:#71634b}
+/* A bright double rim marks the current turn without changing card geometry. */
+body .fixed-hud .clue-grid[data-density] .suspect-card.current-turn{
+  --card-rim:linear-gradient(135deg,#fff7d1,#ffda65 70%,#f1b947);
+  border:3px solid transparent;
+  background:var(--card-face) padding-box,var(--card-rim) border-box;
+  box-shadow:inset 0 0 0 2px #f6cc68,var(--card-depth),0 0 12px #ffd36b66;
+}
+.fixed-hud .clue-grid .suspect-card.current-turn::after{
+  content:'';position:absolute;inset:0;z-index:3;pointer-events:none;
+  border:2px solid #fff6c9;border-radius:inherit;
+  box-shadow:0 0 9px #ffda6580;opacity:1;
+  animation:active-player-border 2.4s ease-in-out infinite;
+}
+@keyframes active-player-border{
+  0%,100%{opacity:1}
+  50%{opacity:.45}
+}
+.fixed-hud .clue-grid .current-turn .clue-owner{padding:0;color:#fff3d4}
+.fixed-hud .clue-grid .current-turn .turn-tag{
+  position:static;display:block;flex-shrink:0;margin:0;padding:4px 6px;
+  border:1px solid #ffe2a2;border-radius:6px;background:linear-gradient(#ffe4a0,#e8b861);
+  color:#5a3a20;box-shadow:inset 0 1px 0 #fff0c7,0 2px 0 #95632e;
+  font:700 10px/1.1 Barlow,sans-serif;letter-spacing:0;white-space:nowrap;
+}
+body .fixed-hud .clue-grid[data-density] .suspect-card.selected,
+body .fixed-hud .clue-grid[data-density] .suspect-card.identified{
+  --card-rim:linear-gradient(135deg,#edac8c,#bc715b);
+  border-color:transparent;box-shadow:var(--card-depth),inset 0 0 0 1px #edac8c88;
+}
+body .fixed-hud .clue-grid[data-density] .suspect-card:has(.vote-button):hover:not(.selected){
+  --card-rim:linear-gradient(135deg,#ffe3a0,#dbad69);
+  border-color:transparent;box-shadow:var(--card-depth);
+}
+body .fixed-hud .clue-grid[data-density] .suspect-card[data-connected=false]{--card-rim:linear-gradient(#b4a58a,#8c7962);border-color:transparent}
+.fixed-hud .clue-grid .connection-tag{flex-basis:100%;color:#e3ceb1}
+.fixed-hud .clue-grid .suspect-card .vote-button{
+  border:1px solid #f7d99e;border-radius:8px;background:linear-gradient(#f6d999,#ddb16a);
+  color:#533b28;box-shadow:inset 0 1px 0 #fff0c8,0 2px 0 #8e6034;font:700 16px/1.2 Barlow,sans-serif;
+}
+.fixed-hud .clue-grid .suspect-card .vote-button:hover:not(:disabled){background:linear-gradient(#ffe5b0,#ecc27a);box-shadow:inset 0 1px 0 #fff5dc,0 2px 0 #8e6034}
+.fixed-hud .clue-grid .suspect-card .vote-button[aria-pressed=true]{border-color:#f0b597;background:linear-gradient(#b76d59,#914f43);color:#fff0d9;box-shadow:inset 0 1px 0 #efbea466,0 2px 0 #683a30}
+.fixed-hud .clue-grid .suspect-card .vote-button:focus-visible{outline:3px solid #fff2ca;outline-offset:2px}
+/* Match the existing 52/70-pixel compact slots; full history remains in the inspector. */
+body .fixed-hud .clue-grid[data-density]:not([data-density=full]) .suspect-card{
+  padding:4px 6px;border-width:2px;border-radius:10px;min-height:52px;
+}
+.fixed-hud .clue-grid:not([data-density=full]) .suspect-id{gap:5px;padding-right:10px}
+.fixed-hud .clue-grid:not([data-density=full]) .current-turn .suspect-id{padding-right:0}
+.fixed-hud .clue-grid:not([data-density=full]) .player-token{flex-basis:20px;width:20px;height:20px;border-width:1px;border-radius:6px}
+.fixed-hud .clue-grid:not([data-density=full]) .clue-owner{font-size:15px;line-height:20px}
+.fixed-hud .clue-grid:not([data-density=full]) .suspect-id>div{gap:4px}
+.fixed-hud .clue-grid:not([data-density=full]) .turn-tag{padding:2px 3px;font-size:9px;border-radius:4px}
+.fixed-hud .clue-grid:not([data-density=full]) .evidence-slips{margin-top:2px;gap:2px}
+body .fixed-hud .clue-grid:not([data-density=full]) .evidence-slip{min-height:16px;padding:0 3px;gap:5px;border-width:0;border-radius:3px}
+.fixed-hud .clue-grid:not([data-density=full]) .slip-label{font-size:8px;line-height:16px;letter-spacing:0}
+.fixed-hud .clue-grid:not([data-density=full]) .clue-word{font-size:14px;line-height:16px}
+.fixed-hud .clue-grid:not([data-density=full]) .suspect-open{border-radius:7px}
+.fixed-hud .clue-grid:not([data-density=full]) .suspect-open:hover{background:#fff6d60a;box-shadow:inset 0 0 0 2px #f4d79e88}
+.fixed-hud .clue-grid:not([data-density=full]) .suspect-open:focus-visible{outline-color:#ffe7ad}
+.fixed-hud .clue-grid:not([data-density=full]) .suspect-open::after{top:11px;right:7px;width:5px;height:5px;border-color:#ddc58d}
+.fixed-hud .clue-grid[data-density=brief] .player-token{display:none}
+.fixed-hud .clue-grid[data-density=brief] .clue-owner{line-height:18px}
+@container (max-width:130px){
+  .fixed-hud .clue-grid .player-token{display:none}
+}

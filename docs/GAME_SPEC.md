@@ -32,6 +32,10 @@ Public snapshots never contain role mappings, word identifiers, forbidden lists 
 
 ## Rooms and lifecycle
 
+Waiting lobbies and rooms outside an active case close after 15 minutes without a successful player action. Joining, chatting, saving rules, starting or resetting a session, and the explicit Keep room open action renew the timer. Automatic snapshots, reconnects and merely leaving a tab open do not renew it. Active cases are exempt; a fresh 15-minute window begins when a case ends or is aborted. The client shows a warning during the final minute with a Keep room open button. The existing 60-second cleanup for rooms with no connected players still applies.
+
+Room closure replaces the game with a persistent explanation and Create a new room, Join room and Back to menu actions. The browser remembers a received explanation in sessionStorage until dismissed or another room is joined. To explain a missed closure when a suspended tab reconnects, the server retains only an expiry reason per session token for up to 24 hours, capped at 10,000 receipts; game data is removed immediately. Receipts are also lost on server restart, after which the client gives a general expired-or-restarted explanation.
+
 Private rooms use a six character room code. Public matching selects the oldest public waiting room with space. Public rooms count down five seconds once three connected players are present, cancelling the countdown if fewer remain. The creator is host; host authority is never needed to advance timed gameplay.
 
 Host transfer chooses the earliest connected eligible member. A lost connection has 15 seconds of grace. During grace, prior accepted inputs remain. Once grace expires the player becomes inactive for the current match. If fewer than three active match players remain, abort without scores. Otherwise the match continues without replacing roles. Voluntary leaving expires eligibility immediately. Reconnecting after expiry spectates until the next match. Votes already cast for a departed player remain valid. No new vote can target an inactive participant.
@@ -74,20 +78,20 @@ All proposed defaults in Phase 0 are now resolved by this document. Minimum alph
 
 ## Social chat
 
-Chat is allowed only in lobby, results, aborted and exhausted states. The server rejects chat in every clue round, reading interval and voting, for both participants and spectators. Starting or resetting a match clears messages. This prevents the extra chat channel from bypassing the clue mechanic; it cannot prevent coordination outside the game.
+Chat is available to connected participants and spectators in every phase. During active cases, the server masks the answer, aliases, listed related words, inflections, conservative typos and simple spaced, punctuated or number-substituted spellings as ****. Only matching spans are replaced, before storing or broadcasting. Between cases, the revealed word can be discussed normally. Existing history is filtered against each new answer on case start. Resetting the session clears messages. The curated filter cannot detect every possible semantic hint or deliberate paraphrase.
 
 Every member can publish one bubble at a time. A valid message contains 2 to 80 supported text characters, no emoji or dash characters, and passes explicit moderation checks. Each submission consumes a three second cooldown, including rejected text. Bubbles last seven seconds, fading over the last two seconds unless reduced motion is selected. Leaving removes that player's bubble. Names and sender identity come from the server session. Chat never changes scores or match timers.
 
 
 ## Turn clarity and result presentation
 
-The heading names the current player, their seat has a NOW badge and a gold border, and the active character looks toward the camera. Your turn has a larger gold countdown. Turn changes are announced once. During the eight second reading interval the console explains that the next clue round or voting starts automatically, and that no typing is needed yet.
+The heading names the current player, their seat has a NOW badge and a gold border, and the active character looks toward the camera. Your turn has a larger gold countdown. Turn changes are announced once. During the eight second reading interval the console explains that the next clue round or voting starts automatically, and that clue entry is paused while chat remains available.
 
 The room menu Rules button opens a short explanation of roles, turn order, allowed clues, reading breaks, voting and points. Host configuration is a separate Match setup control within that guide.
 
 Every completed case automatically opens results. The vote board groups votes by suspect. Each row shows that suspect followed by the character portraits and visible names of everyone who voted for them. Voter names wrap instead of relying on hover labels. Suspects without votes show 0 votes. Players who abstained share a separate Did not vote row. Stable seat numbers distinguish matching names. A separate leaderboard lists rank, player, total points and the points earned in that case. Phones and tablets switch between Vote board and Leaderboard; spacious desktop screens show both. All eight ballots and score rows fit without scrolling. Closing results returns to chat and the host's continuation controls. The final case uses the same presentation with a final leaderboard. Votes are never exposed before voting ends.
 
-The console retains the latest three chat messages between cases. The newest message is fully readable; the earlier two use compact previews, with complete text available through History. The server sends this bounded history to reconnecting and newly joining players even after a speech bubble expires. Starting or resetting a case clears it. No phone or tablet chat is shown over characters' heads.
+The console previews three chat messages at a time and scrolls through up to 200 messages. History provides complete text in a scrollable dialog. The server sends this bounded, masked history to reconnecting and newly joining players even after a speech bubble expires. History persists across cases and clears when the session is reset. No phone or tablet chat is shown over characters' heads.
 
 
 The lobby reports connected players explicitly and shows a Reconnecting label on retained seats whose connections have dropped. Three connected players enable Start match; the number of visible seats alone does not make a match ready. The action always says Start match. The private word card explicitly says Your secret word and keeps the answer larger than the category. Suspicious players keep their separate identity card without receiving the answer. The timer uses a raised rectangular tile with a number, caption and remaining time bar. Mobile and tablet Menu and Send controls share dimensions and styling.

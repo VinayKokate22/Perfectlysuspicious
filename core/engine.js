@@ -1,4 +1,4 @@
-import { validateChat } from './validation.js';
+import { validateChat, maskChatWords } from './validation.js';
 export const ACTIVE = new Set(['voting',...Array.from({length:5},(_,i)=>[`clue${i+1}`,`reveal${i+1}`]).flat()]);
 export const DEFAULTS = Object.freeze({ min: 3, max: 8, reveal: 8000, vote: 20000, grace: 15000, attempts: 6, interval: 750 });
 export const good = (message = 'Done') => ({ ok: true, code: 'ok', message });
@@ -66,7 +66,9 @@ export class Room {
     this.baseOrder=[...players.slice(first),...players.slice(0,first)].map(p=>p.id);
     this.clues = this.settings.roundSeconds.map(()=>new Map()); this.votes = new Map(); this.budgets = new Map();
     this.result = null;this.beginRound(0,now);
-    this.chat.clear();this.chatHistory=[];
+    this.chat.clear();
+    // Earlier conversation may mention the new secret; filter it before this case's snapshot.
+    this.chatHistory=this.chatHistory.map(message=>({...message,text:maskChatWords(message.text,this.word)}));
     this.touch(); return good('Match started');
   }
   reset(actor) {
@@ -125,14 +127,14 @@ export class Room {
     this.tick(now);
     const player=this.members.get(id);
     if(!player?.connected)return bad('session','Join a room to chat');
-    if(ACTIVE.has(this.phase))return bad('phase','Chat opens after the case');
     if(now-(player.lastChatAt??-Infinity)<3000)return bad('rate','Wait a moment before chatting again');
     player.lastChatAt=now;
     const checked=validateChat(raw);if(!checked.ok)return bad('chat','Choose different words for your message');
-    const message={id:++this.chatSequence,player:id,text:checked.value,sentAt:now,expiresAt:now+7000};
+    const text=ACTIVE.has(this.phase)?maskChatWords(checked.value,this.word):checked.value;
+    const message={id:++this.chatSequence,player:id,text,sentAt:now,expiresAt:now+7000};
     this.chat.set(id,message);
     this.chatHistory.push({...message,name:player.numbered?`${player.name} (${player.number})`:player.name});
-    this.chatHistory=this.chatHistory.slice(-3);
+    this.chatHistory=this.chatHistory.slice(-200);
     this.touch();return good('Message sent');
   }
   submit(id, value, matchId, phase, now) {
@@ -174,8 +176,8 @@ export class Room {
     const round = this.round;
     return {
       room: this.id, publicRoom: this.publicRoom, host: this.host, version: this.version,
-      chat:ACTIVE.has(this.phase)?[]:[...this.chat.values()].filter(message=>now<message.expiresAt),
-      chatHistory:ACTIVE.has(this.phase)?[]:this.chatHistory.map(message=>{
+      chat:[...this.chat.values()].filter(message=>now<message.expiresAt),
+      chatHistory:this.chatHistory.map(message=>{
         const sender=this.members.get(message.player);
         return {...message,name:sender?(sender.numbered?`${sender.name} (${sender.number})`:sender.name):message.name};
       }),
