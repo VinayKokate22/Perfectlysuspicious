@@ -1,5 +1,5 @@
 import * as T from './three.module.js';
-import { createCharacter, poseCharacter } from './characters.js';
+import { createCharacter, poseCharacter, setCharacterLeader, disposeCharacter, prepareGoldEnvironment } from './characters.js';
 import { createRoomDecor, createInvestigationTable, createDeskSetting, poseRoomDecor, poseSteam } from './environment.js';
 
 // Fit actual world bounds independently along both screen axes. A menu can
@@ -30,6 +30,7 @@ export class InvestigationRoom {
     this.renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'low-power'});
     this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;
     this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.toneMapping=T.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.65;
+    prepareGoldEnvironment(this.renderer);
     this.canvas=this.renderer.domElement;this.canvas.className='room-canvas';this.canvas.setAttribute('aria-hidden','true');
     this.viewport=document.querySelector('#room-stage');this.viewport.append(this.canvas);
     this.raycaster=new T.Raycaster();
@@ -64,6 +65,7 @@ export class InvestigationRoom {
     return createCharacter(index);
   }
   rebuild() {
+    for(const actor of this.actors)disposeCharacter(actor);
     this.stage.traverse(object=>{if(object.geometry&&!object.geometry.userData.sharedAvatar&&!object.geometry.userData.sharedRoom)object.geometry.dispose();});this.stage.clear();this.actors=[];
     const narrow=this.width<440&&!this.title, count=this.cards.length||5;
     const rows=Math.ceil(count/2),length=Math.max(3.2,rows*1.18),tableX=narrow?2:length,tableZ=narrow?length:2;
@@ -83,12 +85,19 @@ export class InvestigationRoom {
     for(const actor of this.actors)this.focusBounds.union(new T.Box3().setFromObject(actor.group));
     this.focusBounds.expandByScalar(.05);
     this.canvas.dataset.characters=String(this.actors.length);this.canvas.dataset.characterStyle='block';
+    this.syncLeaders();
     this.fitCamera();
+  }
+  syncLeaders(newLeaders=new Set()){
+    const reduced=document.documentElement.dataset.motion==='reduce'||(document.documentElement.dataset.motion==='system'&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+    for(const actor of this.actors)setCharacterLeader(actor,actor.card?.dataset.leader==='true',{celebrate:!reduced&&newLeaders.has(actor.card?.dataset.player)});
   }
   attach() {
     const title=document.querySelector('.title-screen');
-    const mount=title?.querySelector('.title-scene')??title??document.querySelector('.clue-grid');if(!mount)return;
-    this.title=Boolean(title);this.cards=this.title?[]:[...mount.querySelectorAll('.suspect-card')];
+    const mount=title?.querySelector('.title-scene')??title??document.querySelector('.scene-window,.clue-grid');if(!mount)return;
+    this.title=Boolean(title);this.cards=this.title?[]:[...document.querySelectorAll('.clue-grid .suspect-card')];
+    const leaders=new Set(this.cards.filter(card=>card.dataset.leader==='true').map(card=>card.dataset.player));
+    const newLeaders=new Set(this.leaderIds?[...leaders].filter(id=>!this.leaderIds.has(id)):[]);this.leaderIds=leaders;
     this.speech=this.cards.map((card,i)=>document.querySelector(`.speech-layer .chat-bubble[data-seat="${i}"]`));
     if(this.mount!==mount){
       this.resizeObserver.disconnect();this.mount=mount;this.resizeObserver.observe(mount);this.resizeObserver.observe(mount.parentElement);this.resizeObserver.observe(this.viewport);
@@ -99,7 +108,7 @@ export class InvestigationRoom {
     const count=this.cards.length||5;
     if(this.actorCount!==count||this.wasTitle!==this.title){this.width=0;this.actorCount=count;this.wasTitle=this.title;}
     for(let i=0;i<this.actors.length;i++)this.actors[i].card=this.cards[i];
-    this.resize();this.layoutBubbles();this.dirty=true;
+    this.resize();this.syncLeaders(newLeaders);this.layoutBubbles();this.dirty=true;
   }
   resize() {
     if(!this.mount?.isConnected||document.documentElement.dataset.keyboard==='open')return;
@@ -127,6 +136,10 @@ export class InvestigationRoom {
     };
     if(!this.title){area.left=T.MathUtils.clamp(clip.left+scrollX,0,this.viewWidth-area.width);area.top=T.MathUtils.clamp(clip.top+scrollY,0,this.viewHeight-area.height);}
     if(!this.title&&matchMedia('(max-width:900px) and (orientation:portrait)').matches){area.height=this.viewHeight-Math.min(240,this.viewHeight*.38);area.top=8;}
+    if(this.mount.matches('.scene-window')){
+      const view=this.viewport.getBoundingClientRect();
+      Object.assign(area,{left:box.left-view.left,top:box.top-view.top,width:Math.max(1,box.width),height:Math.max(1,box.height)});
+    }
     if(split){area.left=this.viewWidth*.485;area.width=this.viewWidth*.5;}
     const points=frameRoom(this.camera,this.focusBounds,{width:this.viewWidth,height:this.viewHeight,direction:this.title?new T.Vector3(.5,.7,1):new T.Vector3(0,.85,1),fraction:area.width/this.viewWidth,heightFraction:area.height/this.viewHeight,centerX:(area.left+area.width/2)/this.viewWidth*2-1,centerY:1-(area.top+area.height/2)/this.viewHeight*2,padding:this.title?.08:.025});
     const distance=this.camera.position.distanceTo(this.focusBounds.getCenter(new T.Vector3()));this.scene.fog.near=distance+10;this.scene.fog.far=distance+50;

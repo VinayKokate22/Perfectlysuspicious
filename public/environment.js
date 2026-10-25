@@ -210,9 +210,9 @@ export function createRoomDecor(){
 
 function buildTable(length){
   const g=new T.Group();
-  slab(g,length*2+3.1,7.2,.024,1.7,'#63465a',0,-.114,0,'cloth');
+  slab(g,length*2+3.1,7.2,.024,1.7,'#183d2e',0,-.114,0,'cloth');
   slab(g,length*2+2.85,6.95,.008,1.6,'#bb9063',0,-.095,0,'cloth',.045);
-  slab(g,length*2+2.58,6.68,.008,1.5,'#a16c68',0,-.094,0,'cloth',.10);
+  slab(g,length*2+2.58,6.68,.008,1.5,'#365a3e',0,-.094,0,'cloth',.10);
   slab(g,length*2+2.1,6.2,.008,1.4,'#c0a178',0,-.093,0,'cloth',.035);
   for(const side of [-1,1])for(let x=-length-.5;x<=length+.5;x+=.45){
     const stitch=box(g,.12,.008,.12,'#b58875',x,-.087,side*3.1,'cloth',0);stitch.rotation.y=Math.PI/4;

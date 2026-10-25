@@ -44,12 +44,13 @@ export class FixedHUD {
   }
   attach({changed,round,snapshot=null}){
     this.observer.disconnect();
-    if(this.snapshot?.room!==snapshot?.room){this.chatScroll=null;this.chatFileScroll=null;}
+    if(this.snapshot?.room!==snapshot?.room){this.chatScroll=null;this.chatFileScroll=null;this.evidenceScroll=null;this.consoleScroll=null;}
     this.snapshot=snapshot;
-    if(changed){this.file=null;this.page=0;this.round=round;this.menuOpen=false;this.suspectKey=null;this.chatFileScroll=null;}
+    if(changed){this.file=null;this.page=0;this.round=round;this.menuOpen=false;this.suspectKey=null;this.chatFileScroll=null;this.resultsScroll=0;}
+    this.resultsPanel=null;this.root.classList.remove('showing-results');
     this.chatHistory=null;
     this.panel=this.root.querySelector('.player-console');this.board=this.root.querySelector('.clue-grid');
-    if(!this.panel||!this.board){this.dialog=null;this.root.classList.remove('fixed-hud');const gear=document.querySelector('#settings-open');gear.style.removeProperty('left');gear.style.removeProperty('top');return;}
+    if(!this.panel||!this.board){this.dialog=null;this.root.classList.remove('fixed-hud','table-layout','mobile-evidence');const gear=document.querySelector('#settings-open');gear.style.removeProperty('left');gear.style.removeProperty('top');return;}
     const files={};
     const collect=(name,nodes)=>{files[name]=(nodes??[]).filter(Boolean);for(const node of files[name])node.remove();};
     const rules=this.panel.querySelector('.rules-panel');
@@ -59,9 +60,9 @@ export class FixedHUD {
     const roomKey=this.root.querySelector('.room-code')?.textContent;
     if(this.roomKey!==roomKey||!form){this.lastMessage=null;this.messages=[];}
     this.roomKey=roomKey;
-    if(form)chat.append(form);
+    if(form){chat.append(form);const input=form.querySelector('input');input.title=input.placeholder;input.placeholder='Message the room';}
     else {
-      chat.innerHTML='<div class="chat-form"><label for="chat-message">Room chat</label><div class="chat-row"><input id="chat-message" disabled placeholder="Chat opens in a live room"><button class="secondary" disabled>Send</button></div></div>';
+      chat.append(element('p','chat-unavailable','Chat opens in a live room.'));
     }
     chat.querySelector('.small-note')?.remove();
     if(form){
@@ -81,7 +82,6 @@ export class FixedHUD {
       else{readout.classList.add('chat-empty');readout.textContent='Room messages appear here.';}
       history.append(readout);chat.prepend(history);this.chatHistory=history;this.chatScroll??={bottom:true};
       files.chat=this.messages.map(message=>{const entry=element('section','chat-record');entry.dataset.message=message.id;const body=element('p','',message.text);markSent(body,message,snapshot?.me?.id);entry.append(element('h3','',message.name),body);return entry;});
-      if(this.messages.length>1){const expand=button('History','file');expand.dataset.file='chat';expand.setAttribute('aria-label','Read full chat history');expand.setAttribute('aria-haspopup','dialog');form.querySelector('.chat-row').append(expand);}
     }
     collect('scores',snapshot?.result?[...this.root.querySelectorAll('.leaderboard-title,.result-person')]:[...this.root.querySelectorAll('.result-person'),...this.root.querySelectorAll('.roster .player')]);
     if(snapshot?.result)files.scores=[createResults(snapshot)];
@@ -150,8 +150,6 @@ export class FixedHUD {
     menuActions.append(button('Settings','settings'));roomMenu.append(menuActions);this.root.append(roomMenu);this.roomMenu=roomMenu;
     roomMenu.addEventListener('cancel',event=>{event.preventDefault();this.closeMenu();});
     if(this.menuOpen)roomMenu.showModal();
-    const notifications=element('section','notification-well');notifications.setAttribute('aria-label','Game notifications');
-    notifications.append(document.querySelector('#notice'));this.root.append(notifications);this.notifications=notifications;
     this.files=files;
     const archive=element('div','file-archive');archive.hidden=true;
     for(const nodes of Object.values(files))archive.append(...nodes);this.root.append(archive);
@@ -194,15 +192,48 @@ export class FixedHUD {
     inspector.innerHTML='<div class="file-heading"><h2 id="suspect-title"></h2></div><div class="suspect-history"></div><div class="suspect-ballot"></div>';
     inspector.querySelector('.file-heading').append(button('Close','suspect-close'));this.root.append(inspector);this.inspector=inspector;
     inspector.addEventListener('cancel',event=>{event.preventDefault();this.closeSuspect();});
-    this.observer.observe(this.board);this.observer.observe(this.panel);this.observer.observe(this.notifications);
+    // A shared play surface: status above the room, players and chat below it.
+    // Keep the real forms and controls so focus, drafts and event handlers survive.
+    this.root.classList.add('table-layout');
+    const stage=this.root.querySelector('.live-stage');
+    const evidence=this.board.closest('.evidence-board');
+    const scene=element('div','scene-window');scene.setAttribute('aria-hidden','true');
+    const lower=element('div','table-social');
+    const briefing=action.querySelector('.briefing');
+    if(briefing){
+      const copy=element('div','briefing-copy');
+      copy.append(...briefing.querySelectorAll(':scope>h3,:scope>p:not(.eyebrow):not(.lobby-wait)'));
+      briefing.prepend(copy);
+    }
+    if(roleCard)heading.insertBefore(roleCard,heading.querySelector('.clock-face')??menuButton);
+    chat.prepend(element('h3','table-section-title','Room chat'));
+    this.panel.replaceChildren(chat,dock);
+    lower.append(evidence,this.panel);
+    stage.replaceChildren(heading,scene,action,lower);
+    this.scene=scene;
+    if(snapshot?.phase==='results'&&snapshot.result)this.showResults();
+    for(const input of action.querySelectorAll('#clue,#practice-clue'))input.placeholder='Your clue — one word';
+    for(const card of this.cards){
+      const player=snapshot?.players.find(player=>player.id===card.dataset.player);
+      if(player){
+        const score=element('span','player-score');score.setAttribute('aria-label',`${player.score??0} points`);
+        score.append(element('strong','player-score-value',String(player.score??0)),element('span','player-score-unit','pts'));
+        card.querySelector('.suspect-id>div').append(score);
+      }
+      const turnTag=card.querySelector('.turn-tag');if(turnTag){turnTag.textContent='NOW';card.querySelector('.clue-owner').append(turnTag);}
+    }
+    this.observer.observe(this.board);this.observer.observe(this.panel);
     this.layout();
-    if(changed&&snapshot?.phase==='results')this.file='scores';
     if(this.file&&files[this.file]?.length)this.open(this.file,true);
     if(this.suspectKey)this.openSuspect(this.suspectKey,true);
   }
   open(name,restore=false){
     if(!this.files[name]?.length)return;
     this.closeMenu(false);
+    if(name==='scores'&&this.snapshot?.result){
+      this.dialog.close();this.file=this.snapshot.phase==='results'?null:'scores';
+      this.showResults();if(!restore)this.resultsPanel.focus({preventScroll:true});return;
+    }
     if(!restore){this.page=0;this.file=name;}
     const content=this.dialog.querySelector('.file-content'),save=this.dialog.querySelector('.file-save');
     content.replaceChildren();save.replaceChildren();
@@ -224,6 +255,17 @@ export class FixedHUD {
     const name=this.file;this.dialog?.close();this.file=null;
     const control=this.root.querySelector(`.case-tools [data-file="${name}"][data-hud],.console-chat [data-file="${name}"][data-hud]`);
     (control?.checkVisibility()?control:this.menuButton)?.focus({preventScroll:true});
+  }
+  showResults(){
+    if(this.resultsPanel)return;
+    const panel=element('section','inline-results results-file');panel.tabIndex=0;
+    panel.setAttribute('aria-labelledby','inline-results-title');
+    const title=element('h2','inline-results-title',this.snapshot.seriesComplete?'Final results':`Case ${this.snapshot.caseNumber} results`);
+    title.id='inline-results-title';panel.append(title,...this.files.scores);
+    for(const node of this.files.scores)node.hidden=false;
+    this.scene.removeAttribute('aria-hidden');this.scene.append(panel);
+    this.root.classList.add('showing-results');this.resultsPanel=panel;
+    panel.scrollTop=this.resultsScroll??0;
   }
   closeMenu(restore=true){this.roomMenu?.close();this.menuOpen=false;if(restore)this.menuButton?.focus({preventScroll:true});}
   focusSettings(){const gear=document.querySelector('#settings-open');(gear.checkVisibility()?gear:this.menuButton)?.focus({preventScroll:true});}
@@ -248,53 +290,61 @@ export class FixedHUD {
     this.layoutChat();
     const title=this.root.querySelector('#phase-title');
     if(title?.dataset.compactTitle){title.dataset.fullTitle??=title.textContent;title.textContent=matchMedia('(max-width:1100px), (pointer:coarse)').matches?title.dataset.compactTitle:title.dataset.fullTitle;}
-    this.layoutBoard();this.layoutToast();if(this.dialog?.open)this.layoutFile();
+    this.layoutBoard();if(this.dialog?.open)this.layoutFile();
   }
   captureChatScroll(){
+    if(this.resultsPanel?.isConnected)this.resultsScroll=this.resultsPanel.scrollTop;
+    if(this.board?.isConnected&&this.root.classList.contains('table-layout')){
+      this.consoleScroll=this.panel?.scrollTop??0;
+      if(this.board.clientHeight){
+        const top=this.board.getBoundingClientRect().top;
+        const anchor=this.cards.find(card=>card.getBoundingClientRect().bottom>top+1);
+        this.evidenceScroll={top:this.board.scrollTop,person:anchor?.dataset.person,offset:anchor?anchor.getBoundingClientRect().top-top:0};
+      }
+    }
     this.chatScroll=readChatScroll(this.chatHistory);
     this.chatFileScroll=this.dialog?.open&&this.file==='chat'?readChatScroll(this.dialog.querySelector('.file-content')):null;
   }
   layoutChat(){
     const history=this.chatHistory;if(!history?.isConnected)return;
     const position=this.chatScroll??readChatScroll(history);this.chatScroll=null;
+    // The bottom chat pane owns its height; retain the reader's position on updates.
+    if(this.root.classList.contains('table-layout')){
+      history.style.removeProperty('max-height');
+      history.tabIndex=this.messages.length?0:-1;
+      restoreChatScroll(history,position);return;
+    }
     // Reserve only the latest three messages' height; older entries stay scrollable.
     const height=[...history.children].slice(-3).reduce((sum,node)=>{
       const style=getComputedStyle(node);return sum+node.offsetHeight+parseFloat(style.marginTop)+parseFloat(style.marginBottom);
     },0);
-    history.style.maxHeight=`${Math.ceil(height)}px`;
+    history.style.maxHeight=`min(${Math.ceil(height)}px, clamp(60px, 18dvh, 132px))`;
     history.tabIndex=this.messages.length?0:-1;
     restoreChatScroll(history,position);
   }
-  layoutToast(){
-    if(!this.notifications?.isConnected||!this.board?.isConnected)return;
-    const keyboard=document.documentElement.dataset.keyboard==='open',area=(keyboard?this.panel:this.board).getBoundingClientRect();
-    const width=Math.max(0,Math.min(340,area.width-20));
-    this.notifications.style.width=`${width}px`;
-    this.notifications.dataset.dense='false';
-    let height=this.notifications.getBoundingClientRect().height;
-    let top;
-    if(keyboard)top=area.bottom-height-12;
-    else{
-      // Use the open space between evidence rows whenever the room has it.
-      const rows=this.cards.map(n=>n.getBoundingClientRect()).sort((a,b)=>a.top-b.top),gaps=[];
-      let edge=area.top+6;
-      for(const row of rows){if(row.top>edge)gaps.push({top:edge,height:row.top-edge});edge=Math.max(edge,row.bottom);}
-      if(area.bottom-6>edge)gaps.push({top:edge,height:area.bottom-6-edge});
-      let gap=gaps.find(space=>space.height>=height+4);
-      if(!gap){
-        this.notifications.dataset.dense='true';height=this.notifications.getBoundingClientRect().height;
-        gap=gaps.find(space=>space.height>=height+4);
-      }
-      // Keep desktop notices near the top of the clear play area, not at the
-      // center of a large room. Compact spacing also keeps small phone cards clear.
-      if(gap)top=gap.top+Math.min(12,(gap.height-height)/2);
-      else{const largest=gaps.sort((a,b)=>b.height-a.height)[0];top=largest?largest.top+(largest.height-height)/2:area.top+6;}
-    }
-    this.notifications.style.left=`${area.left+(area.width-width)/2}px`;
-    this.notifications.style.top=`${Math.max(area.top+6,Math.min(top,area.bottom-height-6))}px`;
-  }
   layoutBoard(){
     if(!this.board?.isConnected)return;
+    const mobile=matchMedia('(max-width:1100px), (pointer:coarse)').matches;
+    this.root.classList.toggle('mobile-evidence',mobile&&!this.root.classList.contains('table-layout'));
+    if(mobile||this.root.classList.contains('table-layout')){
+      // Natural card heights keep all rounds readable instead of hiding clues to fit a slot.
+      this.board.dataset.density='full';this.board.tabIndex=0;
+      this.board.setAttribute('role','region');this.board.setAttribute('aria-label','Players and all clues. Scroll for more players.');
+      for(const card of this.cards){
+        card.hidden=false;card.style.removeProperty('width');card.style.removeProperty('left');card.style.removeProperty('top');
+        card.querySelector('.suspect-open').hidden=true;
+        card.querySelectorAll('.evidence-slip').forEach(slip=>{slip.hidden=false;slip.classList.remove('preview-hidden');});
+      }
+      if(this.consoleScroll!==null&&this.consoleScroll!==undefined){this.panel.scrollTop=this.consoleScroll;this.consoleScroll=null;}
+      if(this.evidenceScroll&&this.board.clientHeight){
+        const saved=this.evidenceScroll,anchor=this.cards.find(card=>card.dataset.person===saved.person);
+        this.board.scrollTop=anchor?this.board.scrollTop+anchor.getBoundingClientRect().top-this.board.getBoundingClientRect().top-saved.offset:saved.top;
+        this.evidenceScroll=null;
+      }
+      return;
+    }
+    this.board.removeAttribute('tabindex');this.board.removeAttribute('role');this.board.removeAttribute('aria-label');
+    for(const card of this.cards)card.querySelector('.suspect-open').hidden=false;
     const width=this.board.clientWidth,height=this.board.clientHeight;
     if(!width||!height)return;
     const fallback=document.documentElement.dataset.scene==='unavailable',speech=this.root.querySelector('.speech-layer .chat-bubble[data-latest=true]');

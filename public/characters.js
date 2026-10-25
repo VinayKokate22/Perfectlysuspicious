@@ -19,10 +19,66 @@ const FINISHES = {
 };
 const finishes=new Map();
 const templates=new Map();
+const goldGeometry=new WeakMap();
+let goldEnvironment=null;
+
+// A small reflection studio gives chrome clear highlights without changing the room lighting.
+export function prepareGoldEnvironment(renderer){
+  if(goldEnvironment)return;
+  const studio=new T.Scene();studio.background=new T.Color('#78664a');
+  const panels=[];
+  for(const [color,width,height,x,y,z] of [
+    ['#fff9e7',5,8,-5,3,1],['#ffffff',3,9,4,2,-3],
+    ['#ffe6a9',8,4,0,7,0],['#b38542',8,3,0,-4,0]
+  ]){
+    const panel=new T.Mesh(new T.PlaneGeometry(width,height),new T.MeshBasicMaterial({color,side:T.DoubleSide}));
+    panel.position.set(x,y,z);panel.lookAt(0,1,0);studio.add(panel);panels.push(panel);
+  }
+  const generator=new T.PMREMGenerator(renderer);
+  goldEnvironment=generator.fromScene(studio,.03).texture;generator.dispose();
+  for(const panel of panels){panel.geometry.dispose();panel.material.dispose();}
+}
 function material(finish){
-  if(!finishes.has(finish))finishes.set(finish,new T.MeshStandardMaterial({vertexColors:true,...FINISHES[finish]}));
+  if(!finishes.has(finish)){
+    const value=new T.MeshStandardMaterial({vertexColors:true,...FINISHES[finish]});
+    value.userData.finish=finish;finishes.set(finish,value);
+  }
   return finishes.get(finish);
 }
+
+function gildedGeometry(source){
+  if(goldGeometry.has(source))return goldGeometry.get(source);
+  const geometry=source.clone(),original=source.attributes.color,colors=geometry.attributes.color;
+  const bronze=new T.Color('#b47a28'),gold=new T.Color('#ffe3a0'),tint=new T.Color();
+  for(let i=0;i<colors.count;i++){
+    const light=.2126*original.getX(i)+.7152*original.getY(i)+.0722*original.getZ(i);
+    tint.copy(bronze).lerp(gold,T.MathUtils.clamp(.2+Math.sqrt(light)*.8,0,1));
+    colors.setXYZ(i,tint.r,tint.g,tint.b);
+  }
+  geometry.userData.sharedAvatar=true;goldGeometry.set(source,geometry);return geometry;
+}
+
+export function setCharacterLeader(actor,leader,{celebrate=false}={}){
+  if(leader&&!actor.goldParts){
+    actor.goldMaterial=new T.MeshStandardMaterial({vertexColors:true,metalness:1,roughness:.13,envMap:goldEnvironment,envMapIntensity:1.15,emissive:'#e8aa39',emissiveIntensity:.015});
+    actor.goldParts=[];
+    actor.group.traverse(part=>{
+      if(!part.isMesh||part===actor.ring||!part.material.userData.finish)return;
+      for(let parent=part.parent;parent;parent=parent.parent)if(parent.name==='chair')return;
+      actor.goldParts.push({part,geometry:part.geometry,material:part.material});
+    });
+  }
+  if(actor.leader!==leader){
+    for(const original of actor.goldParts??[]){
+      original.part.geometry=leader?gildedGeometry(original.geometry):original.geometry;
+      original.part.material=leader?actor.goldMaterial:original.material;
+    }
+    actor.leader=leader;actor.leaderShimmer=null;
+  }
+  if(leader&&celebrate)actor.leaderShimmer=performance.now()/1000;
+}
+
+export function disposeCharacter(actor){actor.goldMaterial?.dispose();}
 
 export function roundedBox(w,h,d,r,detail=1){
   r=Math.min(r,w*.45,h*.45,d*.45);
@@ -133,7 +189,7 @@ function hair(head,style){
 
 function buildCharacter(number){
   const index=((number%STYLES.length)+STYLES.length)%STYLES.length,style=STYLES[index],group=new T.Group();
-  chair(group);
+  const seat=new T.Group();seat.name='chair';group.add(seat);chair(seat);
   const body=new T.Group();body.position.y=.9;group.add(body);
   // Seated thighs, separate shins, substantial soles and a contrasting welt.
   for(const side of [-1,1]){
@@ -243,6 +299,12 @@ export function createCharacter(number){
 }
 
 export function poseCharacter(actor,time,{still=false,active=false,speaking=false,turn=false,lookYaw=0,lookPitch=0}={}){
+  if(actor.goldMaterial){
+    const elapsed=actor.leaderShimmer===null?Infinity:time-actor.leaderShimmer;
+    const shimmer=!still&&actor.leader&&elapsed>=0&&elapsed<1.4?Math.sin(elapsed/1.4*Math.PI):0;
+    actor.goldMaterial.emissiveIntensity=.015+shimmer*.35;
+    if(still||elapsed>=1.4)actor.leaderShimmer=null;
+  }
   const t=still?0:time,phase=actor.index*.63;
   actor.lookBlend=still?Number(turn):(actor.lookBlend??0)+(Number(turn)-(actor.lookBlend??0))*.18;
   // A small torso turn and a bounded head turn keep the seated pose natural.

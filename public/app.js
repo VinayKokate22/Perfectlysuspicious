@@ -6,6 +6,7 @@ import { homeView, roomView, platformView, escape } from './views.js';
 import { GameAudio } from './audio.js';
 import { checkedInvite, localInvite, isComputerInvite, copyInviteText } from './invite.js';
 const main = document.querySelector('#main');
+const feedbackNode=document.querySelector('#notice');
 const hud = new FixedHUD(main);
 let viewportWidth=innerWidth,roomHeight=innerHeight;
 function fitVisibleViewport(){
@@ -29,10 +30,12 @@ const read = key => { try { return sessionStorage.getItem(key); } catch { return
 const save = (key, value) => { try { value === null ? sessionStorage.removeItem(key) : sessionStorage.setItem(key, value); } catch {} };
 const audio = new GameAudio({enabled:read('sound') !== 'off',onChange:updateSoundControl});
 let snapshot = null, socket = null, opening = null, practice = false, connected = false, replaced = false;
-let screen = '', fingerprint = '', draft = '', chatDraft = '', offset = 0, noticeTimer, noticeAnimation, reconnectTimer, retryCount = 0;
+let screen = '', fingerprint = '', draft = '', chatDraft = '', offset = 0, reconnectTimer, retryCount = 0;
+let feedbackContext='general';
 let rulesDraft=null;
 let entryPending=false,entryFeedback='',entryFailed=false;
 let closedRoomMessage=read('closed-room-message')??'';
+let landscapeDismissed=read('landscape-dismissed')==='true';
 const initialRoute=readRoute(location.href);
 let roomHidden=location.hash==='#/';
 let restoring=Boolean(read('session')),resuming=null;
@@ -110,8 +113,8 @@ function platformGate() {
   return platform.settings.disableChat ? 'restricted' : null;
 }
 function suspendPlatformPlay() {
-  clearTimeout(reconnectTimer); clearTimeout(noticeTimer); noticeAnimation?.cancel(); noticeAnimation=null;
-  document.querySelector('#notice').textContent = '';
+  clearTimeout(reconnectTimer);
+  feedbackNode.textContent = '';
   save('session', null); restoring=false; snapshot = null; seatRoom = null; fingerprint = ''; draft = ''; practice = false; entryMode = null;
   connected = false; socket?.close();
 }
@@ -141,14 +144,19 @@ function queuePlatformEntry(entry) {
   return entryQueue;
 }
 
-function notice(message) {
-  clearTimeout(noticeTimer);noticeAnimation?.cancel();noticeAnimation=null;
-  const node=document.querySelector('#notice');node.textContent=message;
-  const reduced=document.documentElement.dataset.motion==='reduce'||(document.documentElement.dataset.motion==='system'&&matchMedia('(prefers-reduced-motion: reduce)').matches);
-  if(message&&matchMedia('(max-width:1100px), (pointer:coarse)').matches&&!reduced){
-    noticeAnimation=node.animate([{opacity:0,offset:0},{opacity:1,offset:.04},{opacity:1,offset:.9},{opacity:0,offset:1}],{duration:6000,easing:'linear',fill:'forwards'});
-  }
-  noticeTimer=setTimeout(()=>{node.textContent='';noticeAnimation?.cancel();noticeAnimation=null;},6000);
+function notice(message,context='general') {
+  feedbackContext=context;
+  feedbackNode.textContent=message;
+  placeFeedback();
+}
+function placeFeedback(){
+  const node=feedbackNode;
+  node.className='inline-feedback';
+  const dialog=main.querySelector('dialog[open]');
+  const targets={chat:'.console-chat .chat-form',clue:'#clue-form,#practice-form',rules:'.case-file[open] .file-save'};
+  const host=dialog?.querySelector('#entry,.file-save,.room-menu-actions')??dialog??
+    (targets[feedbackContext]?main.querySelector(targets[feedbackContext]):null)??main.querySelector('.console-action,.title-content')??main;
+  if(node.parentElement!==host)host.append(node);
 }
 function announce(message) { document.querySelector('#announcer').textContent = message; }
 function render() {
@@ -167,7 +175,7 @@ function render() {
   main.dataset.transition = String(changed);
   // Preserve the shared controls before replacing the current screen.
   hud.captureChatScroll();
-  document.body.append(document.querySelector('#notice'),document.querySelector('#settings-open'));
+  document.body.append(feedbackNode,document.querySelector('#settings-open'));
   main.innerHTML = gate ? platformView(gate) : practice ? practiceView(escape) : visibleRoom ? roomView({s:snapshot,connected,replaced,draft,chatDraft,rulesDraft,computerInvite}) : homeView({playerName,inviteCode,entryMode:restoring||snapshot?null:entryMode,activeRoom:snapshot?.room,restoring,closedRoomMessage,publicMatchmaking:window.GAME_CONFIG.publicMatchmaking===true});
   hud.attach({changed,round:practice?Math.min(practiceStep(),1):Math.max(0,(snapshot?.round??1)-1),snapshot:practice?null:visibleRoom});
   if (inviteDialog.open && (gate || practice || snapshot?.room !== inviteDialog.dataset.room)) inviteDialog.close();
@@ -191,7 +199,9 @@ function render() {
   else if (selector) { const next = main.querySelector(selector); next?.focus({ preventScroll: true }); if (selection && next?.setSelectionRange) next.setSelectionRange(...selection); }
 }
 function updateTimer() {
+  placeFeedback();
   updateIdleWarning();
+  updateLandscapeSuggestion();
   for(const bubble of main.querySelectorAll('.chat-bubble')){
     const remaining=Number(bubble.dataset.expires)-Date.now()-offset;
     bubble.style.opacity=String(document.documentElement.dataset.motion==='reduce'?(remaining>0?1:0):Math.max(0,Math.min(1,remaining/2000)));
@@ -207,6 +217,17 @@ function updateTimer() {
     face.style.setProperty('--time-left',`${Math.min(1,remaining/duration)*360}deg`);
     face.style.setProperty('--time-fraction',String(Math.min(1,remaining/duration)));
   }
+}
+function updateLandscapeSuggestion(){
+  const board=main.classList.contains('mobile-evidence')?main.querySelector('.evidence-board'):null;
+  const show=board&&!landscapeDismissed&&matchMedia('(max-width:900px) and (orientation:portrait) and (pointer:coarse)').matches&&document.documentElement.dataset.keyboard!=='open';
+  let suggestion=main.querySelector('#landscape-suggestion');
+  if(!show){suggestion?.remove();return;}
+  if(suggestion)return;
+  suggestion=document.createElement('aside');suggestion.id='landscape-suggestion';suggestion.className='landscape-suggestion';
+  suggestion.setAttribute('aria-label','Display suggestion');
+  suggestion.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="15" height="10" rx="2"/><path d="M17 10v4M3 7V3h4M3 3l4 4"/></svg><p>Turn your phone sideways for a wider view of everyone’s clues.</p><button type="button" data-action="dismiss-landscape">Continue in portrait</button>';
+  board.prepend(suggestion);
 }
 function updateIdleWarning(){
   const remaining=snapshot?.idleExpiresAt?Math.max(0,Math.ceil((snapshot.idleExpiresAt-Date.now()-offset)/1000)):null;
@@ -320,7 +341,7 @@ main.addEventListener('change',event=>{
 main.addEventListener('submit', async event => {
   event.preventDefault();
   if (platformGate()) return;
-  if (practice) { const accepted=practiceAction('submit', main.querySelector('#practice-clue')?.value);rememberPractice(); render(); notice(main.querySelector('.submission-state')?.textContent??''); if(accepted)audio.cue('sealed'); return; }
+  if (practice) { const accepted=practiceAction('submit', main.querySelector('#practice-clue')?.value);rememberPractice(); render(); notice(main.querySelector('.submission-state')?.textContent??'','clue'); if(accepted)audio.cue('sealed'); return; }
   const entering=event.target.id==='entry';
   if(entering&&(entryPending||restoring||snapshot))return;
   let entryWait;
@@ -332,12 +353,12 @@ main.addEventListener('submit', async event => {
     let ack;
     if(event.target.id==='rules-form'){
       ack=await request('configure',{settings:rulesDraft??snapshot.settings});
-      if(ack.ok){rulesDraft=null;render();}notice(ack.message);return;
+      if(ack.ok){rulesDraft=null;render();}notice(ack.message,'rules');return;
     }
     if(event.target.id==='chat-form'){
       ack=await request('chat',{value:chatDraft});
-      if(ack.ok){chatDraft='';const field=main.querySelector('#chat-message');if(field)field.value='';audio.cue('chat');}
-      else notice(ack.message);
+      if(ack.ok){chatDraft='';const field=main.querySelector('#chat-message');if(field)field.value='';audio.cue('chat');notice('');}
+      else notice(ack.message,'chat');
       return;
     }
     if (event.target.id === 'entry') {
@@ -346,8 +367,8 @@ main.addEventListener('submit', async event => {
       if (type === 'join' && !/^[a-f0-9]{6}$/i.test(inviteCode.trim())) { updateEntryFeedback('Enter a room code with 6 letters or numbers.',true); return; }
       roomHidden=false;ack = await request(type, { name: playerName, code: inviteCode });
     } else if (event.target.id === 'clue-form') ack = await request('clue', { value: draft, matchId: snapshot.matchId, phase: snapshot.phase });
-    if (ack) { if(entering)updateEntryFeedback(ack.ok?'':ack.message,!ack.ok);else notice(ack.message); if(ack.ok&&event.target.id==='clue-form')audio.cue('sealed'); }
-  } catch (error) { if(entering)updateEntryFeedback(error.message,true);else notice(error.message); }
+    if (ack) { if(entering)updateEntryFeedback(ack.ok?'':ack.message,!ack.ok);else notice(ack.message,'clue'); if(ack.ok&&event.target.id==='clue-form')audio.cue('sealed'); }
+  } catch (error) { if(entering)updateEntryFeedback(error.message,true);else notice(error.message,event.target.id==='chat-form'?'chat':event.target.id==='rules-form'?'rules':'clue'); }
   finally {if(entering){clearTimeout(entryWait);entryPending=false;updateEntryFeedback();}}
 });
 main.addEventListener('click', async event => {
@@ -356,6 +377,7 @@ main.addEventListener('click', async event => {
   if (action === 'platform-reload') { location.reload(); return; }
   if (platformGate()) return;
   if (action === 'dismiss-closed') {closedRoomMessage='';save('closed-room-message',null);render();return;}
+  if (action === 'dismiss-landscape') {landscapeDismissed=true;save('landscape-dismissed','true');updateLandscapeSuggestion();main.querySelector('.clue-grid')?.focus({preventScroll:true});return;}
   if (action === 'enter') {if(snapshot||restoring)return;if(!entryPending){entryFeedback='';entryFailed=false;}entryMode = button.dataset.mode;navigation?.go(`/${entryMode}`);render(); main.querySelector('#name')?.focus(); return; }
   if (action === 'return-room') {roomHidden=false;navigation?.go(roomRoute());render();return;}
   if (action === 'cancel-entry') {cancelEntry();return;}
@@ -387,7 +409,7 @@ main.addEventListener('click', async event => {
   } catch (error) { notice(error.message); }
 });
 function showInviteRecovery({room,value,codeOnly=false}) {
-  clearTimeout(noticeTimer); noticeAnimation?.cancel(); noticeAnimation=null; document.querySelector('#notice').textContent = '';
+  notice('');
   inviteDialog.dataset.room = room;
   inviteDialog.dataset.codeOnly = String(codeOnly);
   document.querySelector('#invite-label').textContent = codeOnly ? 'Room code' : 'Invite link';

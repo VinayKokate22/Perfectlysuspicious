@@ -35,6 +35,8 @@ function board(s,connected) {
   const lobby=s.phase==='lobby';
   const voting=s.phase==='voting';
   const people=['lobby','results','aborted','exhausted'].includes(s.phase)?s.players:s.roster;
+  const topScore=Math.max(0,...s.players.map(player=>player.score));
+  const leaders=new Set(s.players.filter(player=>topScore>0&&player.score===topScore).map(player=>player.id));
   let cards=people.map((p,i)=>{
     const me=p.id===s.me.id, selected=s.me.vote===p.id, spy=s.result?.spy===p.id;
     const speech=(s.chat??[]).find(message=>message.player===p.id);
@@ -44,6 +46,8 @@ function board(s,connected) {
       return `<div data-clue-round="${index}" class="evidence-slip ${visible?'unsealed':'sealed'}"><span class="slip-label">CLUE ${index+1}</span><p class="clue-word ${visible&&!round[p.id]?'empty':''}">${visible?escape(round[p.id]||'No clue'):'Waiting'}</p></div>`;
     }).join('')}</div>`}${voting&&s.me.participant&&p.active&&!me?`<button class="vote-button" data-action="vote" data-target="${escape(p.id)}" aria-label="Vote for ${escape(p.name)}" aria-pressed="${selected}" ${!connected?'disabled':''}>${selected?'Accused':'Accuse'}</button>`:''}</article>`;
   }).join('');
+  // Public cumulative scores drive the cosmetic reward; roles never affect it.
+  cards=cards.replace(/<article data-player="([^"]+)"/g,(tag,id)=>`${tag} data-leader="${leaders.has(id)}"${leaders.has(id)?` aria-label="${escape(people.find(player=>player.id===id)?.name)} — ${leaders.size>1?'Joint leaderboard leader':'Leaderboard leader'}, ${topScore} points"`:''}`);
   if(lobby) for(let i=people.length;i<8;i++)cards+=`<div class="empty-seat" aria-label="Open seat"><span class="empty-portrait" aria-hidden="true"></span><span>Open seat</span><small>Awaiting a suspect</small></div>`;
   return `<section class="evidence-board" aria-label="${lobby?'Suspect lineup':'Revealed clues'}"><div class="board-label"><span>${lobby?'THE LINEUP':'EVIDENCE BOARD'}</span><span>${people.length} SUSPECTS</span></div><div class="clue-grid">${cards}</div></section>`;
 }

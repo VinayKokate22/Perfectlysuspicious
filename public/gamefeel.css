@@ -1,4 +1,5 @@
 @font-face{font-family:Bungee;src:url('./Bungee-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:DynaPuff;src:url('./DynaPuff.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
 @font-face{font-family:Barlow;src:url('./Barlow-Medium.ttf') format('truetype');font-weight:400 500;font-display:swap}
 @font-face{font-family:Barlow;src:url('./Barlow-Bold.ttf') format('truetype');font-weight:600 900;font-display:swap}
 :root{--night:#152638;--panel:#20394b;--raised:#2b5060;--paper:#f2e5c5;--ink:#263746;--muted:#c4d5d3;--gold:#f0be70;--red:#f6aa99;--focus:#fff0b5;--display:Bungee,sans-serif;font-family:Barlow,sans-serif}
